@@ -1,50 +1,57 @@
-<!-- Die Haupt-Landing-Page für github.io/gh-pages. Kann die Vision und Links enthalten. -->
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global VIP Card - Willkommen</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-</head>
-<body class="bg-gray-900 text-white font-sans">
-    <div class="container mx-auto p-8 text-center">
-        <h1 class="text-4xl font-bold mb-4">Willkommen zur Global VIP Card</h1>
-        <p class="text-lg mb-8">Eine Vision für revolutionäre Geschäftsmodelle.</p>
-        <a href="./global-vip-card.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
-            Zur App
-        </a>
-    </div>
-</body>
-</html>
+<!-- /index.html -->
+<!-- Die Haupt-Landing-Page für die GitHub Pages.
+     Diese Seite stellt die Vision vor und dient als Eintrittspunkt zur App. -->
 
-<!-- /global-vip-card.html -->
-<!-- Die Hauptdatei deiner App. Enthält das Grundgerüst und das App-Routing. -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global VIP Card App</title>
+    <title>Global VIP Card - RFOF-NETWORK</title>
+    <!-- Tailwind CSS für schnelles und responsives Styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="./css/style.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* Dunkler Hintergrund passend zum GitHub-Style */
+            color: #c9d1d9; /* Heller Text für Kontrast */
+        }
+        .container {
+            max-width: 800px;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 flex flex-col min-h-screen">
-    <header class="bg-blue-600 text-white p-4 shadow-md">
-        <h1 class="text-xl font-semibold">Global VIP Card App</h1>
-        <nav class="mt-2">
-            <a href="#home" class="text-gray-200 hover:text-white mr-4">Startseite</a>
-            <a href="#profile" class="text-gray-200 hover:text-white mr-4">Profil</a>
-            <a href="#settings" class="text-gray-200 hover:text-white">Einstellungen</a>
-        </nav>
-    </header>
-    <main id="app-container" class="flex-grow p-4">
-        <!-- App-Inhalt wird hier geladen -->
+<body class="flex flex-col min-h-screen items-center justify-center p-4">
+    <main class="container mx-auto text-center p-8 bg-[#161b22] rounded-3xl shadow-2xl border border-[#30363d]">
+
+        <!-- Haupttitel -->
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#58a6ff]">
+            Willkommen zur Global VIP Card
+        </h1>
+        <p class="text-lg md:text-xl text-[#8b949e] mb-8">
+            Eine Vision für revolutionäre Existenzmodelle.
+        </p>
+
+        <!-- Beschreibung der Vision -->
+        <div class="text-left leading-relaxed text-[#c9d1d9] mb-8">
+            <p class="mb-4">
+                Die Global VIP Card ist mehr als nur eine digitale Identität. Sie ist das Tor zu einem umfassenden Ökosystem, das Abonnementdienste, Identifikationsfunktionen und vieles mehr integriert. Als Teil des InterBOxSpider@Web.NET-Frameworks ermöglicht sie eine nahtlose Interoperabilität in einer digitalisierten Welt.
+            </p>
+            <p>
+                Diese Plattform, entwickelt unter der PZqQET-Axiometix, nutzt Yggdrasil, die Codesprache aller Codesprachen, um eine sichere, effiziente und zukunftsfähige Infrastruktur zu schaffen.
+            </p>
+        </div>
+
+        <!-- Call-to-Action-Button zur App -->
+        <a href="./global-vip-card.html#home" class="inline-block bg-[#238636] hover:bg-[#2ea043] text-white font-bold py-3 px-6 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+            App starten
+        </a>
     </main>
-    <footer class="bg-blue-600 text-white text-center p-2 mt-auto shadow-inner">
+
+    <!-- Fußzeile -->
+    <footer class="mt-8 text-sm text-[#8b949e]">
         &copy; 2025 RFOF-NETWORK. Alle Rechte vorbehalten.
     </footer>
-    <script src="./js/app.js"></script>
 </body>
 </html>
-
