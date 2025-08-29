@@ -1,0 +1,37 @@
+<!-- Inhalt für die Seite zum Erstellen der Global VIP Card.
+     Dieser Code wird in das Haupt-Div in global-vip-card.html geladen.
+     Es enthält ein Canvas-Element zum Zeichnen der Karte und ein Formular für die Eingabe. -->
+
+<div class="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
+    <h2 class="text-2xl font-bold mb-4 text-center">Global VIP Card Generator</h2>
+    <p class="text-center text-gray-600 mb-6">Wähle dein Land und gib deine Daten ein, um deine digitale VIP Card zu erstellen.</p>
+
+    <!-- Eingabeformular -->
+    <div class="w-full max-w-sm mb-6">
+        <label for="country-select" class="block text-gray-700 font-bold mb-2">Land auswählen:</label>
+        <select id="country-select" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4">
+            <option value="de">Deutschland</option>
+            <option value="at">Österreich</option>
+            <option value="ch">Schweiz</option>
+            <option value="fr">Frankreich</option>
+            <option value="es">Spanien</option>
+            <option value="it">Italien</option>
+            <option value="pl">Polen</option>
+        </select>
+
+        <label for="name-input" class="block text-gray-700 font-bold mb-2">Name:</label>
+        <input type="text" id="name-input" placeholder="Max Mustermann" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4">
+
+        <label for="id-input" class="block text-gray-700 font-bold mb-2">ID-Nummer:</label>
+        <input type="text" id="id-input" placeholder="1234 5678" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-6">
+    </div>
+
+    <!-- Canvas zum Zeichnen der Karte -->
+    <canvas id="vip-card-canvas" width="400" height="250" class="bg-gray-200 rounded-xl shadow-xl border-4 border-gray-300"></canvas>
+
+    <!-- Button zum Speichern -->
+    <button id="save-button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg mt-6 transition duration-300">
+        Karte speichern
+    </button>
+</div>
+
