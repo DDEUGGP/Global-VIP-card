@@ -23,3 +23,13 @@ plugins {
   id("com.google.gms.google-services") version "4.4.3" apply false
 
 }
+plugins {
+  id("com.android.application")
+  // ...
+
+  // Make sure that you have the Google services Gradle plugin
+  id("com.google.gms.google-services")
+
+  // Add the Crashlytics Gradle plugin
+  id("com.google.firebase.crashlytics")
+}
