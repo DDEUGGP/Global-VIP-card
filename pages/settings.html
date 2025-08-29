@@ -1,0 +1,94 @@
+<!-- /pages/settings.html -->
+<div class="main-content p-6 flex flex-col items-center">
+    <h2 class="main-heading text-2xl font-bold mb-4">Einstellungen</h2>
+    <p class="text-center text-[#8b949e] mb-6">Passe die App-Einstellungen nach deinen Wünschen an.</p>
+    
+    <div class="w-full max-w-lg space-y-4">
+        <!-- Einstellungsoption 1 -->
+        <div class="flex items-center justify-between p-4 bg-[#0d1117] rounded-lg shadow-inner border border-[#30363d]">
+            <span class="text-[#c9d1d9] font-medium">Dark Mode aktivieren</span>
+            <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <!-- Einstellungsoption 2 -->
+        <div class="flex items-center justify-between p-4 bg-[#0d1117] rounded-lg shadow-inner border border-[#30363d]">
+            <span class="text-[#c9d1d9] font-medium">Benachrichtigungen erlauben</span>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <!-- Einstellungsoption 3 -->
+        <div class="flex items-center justify-between p-4 bg-[#0d1117] rounded-lg shadow-inner border border-[#30363d]">
+            <span class="text-[#c9d1d9] font-medium">Sprache wählen</span>
+            <select class="bg-[#161b22] text-[#c9d1d9] p-2 rounded border border-[#30363d]">
+                <option value="de">Deutsch</option>
+                <option value="en">Englisch</option>
+                <option value="fr">Französisch</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<style>
+/* CSS für den Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #555;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* Abgerundete Ecken für den Schieberegler */
+.slider.round {
+  border-radius: 28px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
