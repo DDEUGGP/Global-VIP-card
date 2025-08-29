@@ -1,0 +1,12 @@
+# Verzeichnis- und Systemdateien ignorieren
+.DS_Store
+.vscode/
+
+# Node.js
+/node_modules
+
+# Firebase
+/firebase-debug.log
+/firebase-debug.*.log
+.env
+.local
