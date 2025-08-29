@@ -1,0 +1,4 @@
+/assets/images/logo.png: Dein Projekt-Logo.Anleitung: Erstelle ein quadratisches Bild (z.B. 512x512 Pixel). Der Hintergrund sollte transparent sein. Zeichne in der Mitte einen Kreis. Innerhalb des Kreises platzierst du die stilisierten Buchstaben 'R' und 'F', die für "RFOF-NETWORK" stehen. Speichere das Ergebnis als logo.png im Ordner /assets/images/./assets/icons/icon.svg: Dein App-Icon.Anleitung: Da es sich um eine SVG-Datei handelt, ist sie reiner Text-Code. Du kannst den folgenden Code kopieren und als icon.svg im Ordner /assets/icons/ speichern. Es stellt ein stilisiertes, schild-ähnliches VIP-Abzeichen dar.<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 2.5L95 25V75L50 97.5L5 75V25L50 2.5Z" fill="#161b22" stroke="#58a6ff" stroke-width="4"/>
+    <text x="50" y="62" font-family="Inter, sans-serif" font-size="24" fill="#c9d1d9" text-anchor="middle" font-weight="bold">VIP</text>
+</svg>

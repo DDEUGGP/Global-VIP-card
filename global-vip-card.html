@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global VIP Card App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="./css/style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <header class="bg-blue-600 text-white p-4 shadow-md">
+        <h1 class="text-xl font-semibold">Global VIP Card App</h1>
+        <nav class="mt-2">
+            <!-- Navigations-Links für das interne Routing -->
+            <a href="#home" class="text-gray-200 hover:text-white mr-4">Startseite</a>
+            <a href="#profile" class="text-gray-200 hover:text-white mr-4">Profil</a>
+            <a href="#settings" class="text-gray-200 hover:text-white">Einstellungen</a>
+            <a href="#card-generator" class="text-gray-200 hover:text-white">Karte erstellen</a>
+        </nav>
+    </header>
+    <main id="app-container" class="flex-grow p-4">
+        <!-- App-Inhalt wird hier dynamisch geladen -->
+    </main>
+    <footer class="bg-blue-600 text-white text-center p-2 mt-auto shadow-inner">
+        &copy; 2025 RFOF-NETWORK. Alle Rechte vorbehalten.
+    </footer>
+    <script src="./js/app.js"></script>
+</body>
+</html>
