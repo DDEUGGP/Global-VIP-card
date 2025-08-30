@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "925099710551",
+    "project_id": "global-vip-card",
+    "storage_bucket": "global-vip-card.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925099710551:android:16ac984fb54976e0006b12",
+        "android_client_info": {
+          "package_name": "ddeuggp.github.io"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJM6whoJMuOQblsS-rcX6WeE6Ep3sR5nM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
