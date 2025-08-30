@@ -3,3 +3,15 @@
     <h2 class="text-2xl font-bold mb-4">Startseite</h2>
     <p>Willkommen in der App. Hier findest du eine Übersicht über deine Global VIP Card.</p>
 </div>
+<div id="dynamic-content" class="vip-frame">
+  <window.addEventListener('hashchange', () => {
+  const route = location.hash.slice(1); // z. B. #rf-web → "rf-web"
+  if (route === 'rf-web') {
+    fetch('https://network.github.io') // Holt die HTML-Seite
+      .then(res => res.text())         // Wandelt sie in Text um
+      .then(html => {
+        document.getElementById('main-view').innerHTML = html; // Zeigt sie im Container
+      });
+  }
+});    
+</div>
