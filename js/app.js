@@ -41,6 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Trigger-Logik für die Komponenten
             if (pageName === 'card-generator') initCardGenerator();
             if (pageName === 'home') initHomeLayers();
+            if (pageName === 'auth') {
+                if (typeof initAuthLogic === "function") initAuthLogic();
+            }
             if (pageName === 'profile') {
                 initProfileChains();
                 if (typeof initCurrencySystem === "function") initCurrencySystem();
@@ -171,7 +174,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 
-                // BRÜCKEN-LOGIK: Extraktion des Inhalts & Entfernung des störenden Buttons
                 const mainContent = doc.querySelector('main') || doc.body;
                 const oldButtons = mainContent.querySelectorAll('button');
                 oldButtons.forEach(btn => {
