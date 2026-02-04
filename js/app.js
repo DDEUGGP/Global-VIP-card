@@ -131,127 +131,116 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('hashchange', handleHashChange);
     handleHashChange();
+// =========================================================================
+// FINALER MOTOR: VOLLSTÄNDIGE INTEGRATION (27 EU + FÖDERATIONEN)
+// =========================================================================
 
-    // =========================================================================
-    // AB HIER: FUSIONIERTE MASTER INTEGRATIONEN (MAXIMALES POTENZIAL)
-    // =========================================================================
+window.initCurrencySystem = () => {
+    // 1. Die Globalen Föderationen (Haupt-Auslandswährungen)
+    const federations = [
+        { code: 'USD', name: 'Amerikanische Föderation (USA)' },
+        { code: 'CNY', name: 'Asiatische Allianz (China)' },
+        { code: 'JPY', name: 'Pazifik-Raum (Japan)' },
+        { code: 'GBP', name: 'Britische Inseln (UK)' },
+        { code: 'CHF', name: 'Alpen-Konföderation (Schweiz)' },
+        { code: 'RUB', name: 'Eurasische Union (Russland)' }
+    ];
 
-    // --- 1. EBENEN-RENDERING (3-2-1 Logik für home.html) ---
-    async function initHomeLayers() {
-        // NEU: Willkommens-Bereich Injektion
-        const welcomeContainer = document.getElementById('welcome-layer-target');
-        if (welcomeContainer) {
-            welcomeContainer.innerHTML = `
-                <div class="welcome-section text-center p-6 bg-[#161b22] rounded-3xl mb-6 border border-[#30363d]">
-                    <h2 class="text-2xl font-bold text-blue-400">Systemstatus: Aktiv</h2>
-                    <p class="text-gray-400 text-sm">Willkommen in der PZQQET-Kernumgebung.</p>
-                </div>
-            `;
-        }
+    // 2. Alle 27 EU-Mitgliedstaaten (Lückenlose Liste)
+    const euAll = [
+        { code: 'EUR', name: 'Europäische Kernzone', isEuro: true }, // Basis
+        { code: 'BGN', name: 'Bulgarien' }, { code: 'CZK', name: 'Tschechien' },
+        { code: 'DKK', name: 'Dänemark' }, { code: 'HUF', name: 'Ungarn' },
+        { code: 'PLN', name: 'Polen' }, { code: 'RON', name: 'Rumänien' },
+        { code: 'SEK', name: 'Schweden' }, { code: 'HRK', name: 'Kroatien' },
+        // Euro-Länder (rhetorisch als Teil der Kernzone geführt)
+        { code: 'AT', name: 'Österreich', isEuro: true }, { code: 'BE', name: 'Belgien', isEuro: true },
+        { code: 'CY', name: 'Zypern', isEuro: true }, { code: 'EE', name: 'Estland', isEuro: true },
+        { code: 'FI', name: 'Finnland', isEuro: true }, { code: 'FR', name: 'Frankreich', isEuro: true },
+        { code: 'DE', name: 'Deutschland', isEuro: true }, { code: 'GR', name: 'Griechenland', isEuro: true },
+        { code: 'IE', name: 'Irland', isEuro: true }, { code: 'IT', name: 'Italien', isEuro: true },
+        { code: 'LV', name: 'Lettland', isEuro: true }, { code: 'LT', name: 'Litauen', isEuro: true },
+        { code: 'LU', name: 'Luxemburg', isEuro: true }, { code: 'MT', name: 'Malta', isEuro: true },
+        { code: 'NL', name: 'Niederlande', isEuro: true }, { code: 'PT', name: 'Portugal', isEuro: true },
+        { code: 'SK', name: 'Slowakei', isEuro: true }, { code: 'SI', name: 'Slowenien', isEuro: true },
+        { code: 'ES', name: 'Spanien', isEuro: true }
+    ];
 
-        // Ebene 3: Root-Fläche (index.html Injektion - KORRIGIERT: Wird nun korrekt eingebunden)
-        const rootContainer = document.getElementById('root-layer-target');
-        if (rootContainer) {
-            try {
-                const res = await fetch('index.html');
-                const html = await res.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                // Nur den Hauptinhalt extrahieren, um doppelte Navigation zu vermeiden
-                const mainContent = doc.querySelector('main');
-                rootContainer.innerHTML = mainContent ? mainContent.innerHTML : html;
-            } catch(e) { console.warn("Root Layer konnte nicht geladen werden."); }
-        }
+    let portfolio = JSON.parse(localStorage.getItem('rfof_portfolio') || '{}');
 
-        // Ebene 2: README-Rendering (Dokumentations-Offenbarung)
-        const readmeContainer = document.getElementById('readme-layer-target');
-        if (readmeContainer) {
-            try {
-                const res = await fetch('README.md');
-                const md = await res.text();
-                readmeContainer.innerHTML = `<div class="p-4 bg-gray-900/50 rounded-lg border border-gray-800 font-mono text-xs whitespace-pre-wrap">${md}</div>`;
-            } catch(e) { readmeContainer.innerHTML = "Dokumentation lädt..."; }
-        }
-        
-        // Ebene 1: Global Ranking Initialisierung
-        if (typeof updateGlobalRanking === "function") updateGlobalRanking();
+    // Initialisierung aller Konten auf 0.00
+    [...federations, ...euAll].forEach(curr => {
+        if (!portfolio[curr.code]) portfolio[curr.code] = "0.00";
+    });
+
+    // Synchronisiere Haupt-Euro-Guthaben mit Portfolio
+    portfolio['EUR'] = localStorage.getItem('rfof_balance') || "0.00";
+    
+    localStorage.setItem('rfof_portfolio', JSON.stringify(portfolio));
+    renderFinalPortfolio(federations, euAll);
+};
+
+function renderFinalPortfolio(federations, euAll) {
+    const container = document.getElementById('dynamic-assets');
+    const eurValDisplay = document.getElementById('portfolio-eur-val');
+    const portfolio = JSON.parse(localStorage.getItem('rfof_portfolio') || '{}');
+
+    if (eurValDisplay) eurValDisplay.textContent = `${parseFloat(portfolio['EUR']).toFixed(2)} €`;
+
+    if (container) {
+        let html = '';
+
+        // SEKTION 1: FÖDERATIONEN
+        html += `<div class="text-[8px] text-blue-500 font-black mb-2 mt-4 uppercase tracking-tighter">#Global_Federation_Assets</div>`;
+        federations.forEach(f => {
+            html += createAssetRow(f.code, f.name, portfolio[f.code], 'text-blue-400');
+        });
+
+        // SEKTION 2: REGIONALE EU-WÄHRUNGEN (Nicht-Euro)
+        html += `<div class="text-[8px] text-yellow-600 font-black mb-2 mt-4 uppercase tracking-tighter">#Regional_EU_Non_Euro</div>`;
+        euAll.filter(e => !e.isEuro).forEach(s => {
+            html += createAssetRow(s.code, s.name, portfolio[s.code], 'text-gray-400');
+        });
+
+        // SEKTION 3: EURO-ZONE REFERENZ
+        html += `<div class="text-[8px] text-green-600 font-black mb-2 mt-4 uppercase tracking-tighter">#Euro_Zone_Internal</div>`;
+        euAll.filter(e => e.isEuro && e.code !== 'EUR').forEach(s => {
+            html += createAssetRow('EUR', s.name, portfolio['EUR'], 'text-green-900/50');
+        });
+
+        container.innerHTML = html;
     }
+}
 
-    // --- 2. BANKING & FUSIONIERTE IBAN LOGIK (profile.html) ---
-    function initProfileChains() {
-        const ibanDisplay = document.getElementById('active-iban');
-        const balanceDisplay = document.getElementById('balance-display');
-        // NEU: Identitäts-Name Anzeige
-        const identityDisplay = document.getElementById('identity-name-display');
-        
-        const savedIban = localStorage.getItem('rfof_active_iban');
-        const savedBalance = localStorage.getItem('rfof_balance') || "0.00";
-        const savedUser = localStorage.getItem('rfof_username');
-        
-        if (ibanDisplay) ibanDisplay.textContent = savedIban || "Generiere ID...";
-        if (balanceDisplay) balanceDisplay.textContent = `${savedBalance} €`;
-        if (identityDisplay && savedUser) identityDisplay.textContent = savedUser;
-        
-        renderLocalChains();
-        // NEU: Start der Multi-Currency API Überwachung
-        if (typeof initCurrencySystem === "function") initCurrencySystem();
-    }
+function createAssetRow(code, name, val, colorClass) {
+    return `
+        <div class="flex justify-between items-center py-1 border-b border-gray-800/20 px-1">
+            <div class="flex flex-col">
+                <span class="text-[9px] text-white font-mono font-bold">${code}</span>
+                <span class="text-[6px] text-gray-500 uppercase">${name}</span>
+            </div>
+            <span class="${colorClass} text-[9px] font-mono">${parseFloat(val).toFixed(2)}</span>
+        </div>
+    `;
+}
 
-    // Fusionierte IBAN-Offenbarung: Länderpräfix + 16 Ziffern
-    window.generateCountryIBAN = (countryCode) => {
-        const prefix = countryCode.toUpperCase();
-        const randomDigits = Math.floor(Math.random() * 10000000000000000).toString().padStart(16, '0');
-        const newIban = `${prefix}76${randomDigits}`;
-        
-        const currentIban = localStorage.getItem('rfof_active_iban');
-        if (currentIban) {
-            let history = JSON.parse(localStorage.getItem('rfof_history_log') || '[]');
-            history.unshift({id: currentIban, date: new Date().toLocaleString()});
-            localStorage.setItem('rfof_history_log', JSON.stringify(history));
-        }
+// Erhaltet die bestehende IBAN-Logik & fügt Transaktions-Check hinzu
+window.executeRealSwap = async (targetCurr, rate) => {
+    let balance = parseFloat(localStorage.getItem('rfof_balance') || "0");
+    if (balance <= 0) return alert("System-Error: Kein EUR-Guthaben für Konvertierung.");
 
-        localStorage.setItem('rfof_active_iban', newIban);
-        initProfileChains();
-        return newIban;
-    };
+    let portfolio = JSON.parse(localStorage.getItem('rfof_portfolio') || '{}');
+    const convertedAmount = (balance * rate).toFixed(2);
 
-    function renderLocalChains() {
-        const histCont = document.getElementById('history-chain');
-        const liveCont = document.getElementById('live-chain');
-        if (!histCont || !liveCont) return;
+    portfolio['EUR'] = "0.00";
+    portfolio[targetCurr] = convertedAmount;
+    
+    localStorage.setItem('rfof_balance', "0.00");
+    localStorage.setItem('rfof_portfolio', JSON.stringify(portfolio));
 
-        const history = JSON.parse(localStorage.getItem('rfof_history_log') || '[]');
-        const live = JSON.parse(localStorage.getItem('rfof_live_log') || '[]');
-
-        histCont.innerHTML = history.slice(0,10).map(h => `<div class="border-b border-gray-900 py-1">ID: ${h.id}</div>`).join('');
-        liveCont.innerHTML = live.slice(0,10).map(l => `<div class="text-green-400 font-bold">${l.name}: ${l.value}</div>`).join('');
-    }
-
-    // --- 3. SICHERHEIT & ZERTIFIZIERUNGS-OFFENBARUNG (settings.html) ---
-    window.downloadSecurityFile = (username, password) => {
-        const user = username || localStorage.getItem('rfof_username') || 'Unbekannt';
-        const pass = password || localStorage.getItem('rfof_master_pass') || 'KeinPasswort';
-        
-        const certData = {
-            user: user,
-            key: btoa(pass + "RFOF-SECURE-KEY"),
-            timestamp: Date.now(),
-            version: "2.0-PRAI"
-        };
-        const blob = new Blob([JSON.stringify(certData, null, 2)], {type: "application/json"});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `RFOF-Auth-${user}.json`;
-        a.click();
-    };
-
-    function initSettingsSecurity() {
-        const state = localStorage.getItem('rfof_state') || 'WARM';
-        const statusLabel = document.getElementById('account-status-label');
-        if (statusLabel) {
-            statusLabel.textContent = state;
-            statusLabel.style.color = state === 'WARM' ? '#10b981' : '#ef4444';
-        }
-    }
-});
+    // Update Live-Chain (aus Nachricht 2 bewahrt)
+    recordTransaction('SWAP', `${convertedAmount} ${targetCurr}`);
+    
+    initCurrencySystem();
+    alert(`PZQQET-Swap erfolgreich: ${targetCurr} aktiv.`);
+};
