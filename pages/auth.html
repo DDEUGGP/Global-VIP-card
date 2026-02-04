@@ -31,8 +31,8 @@
 </div>
 
 <script>
-// Wir nutzen einen EventListener statt "onclick" im HTML, um Kollisionen zu vermeiden
-document.getElementById('finalize-btn')?.addEventListener('click', () => {
+// Funktion zum Verankern der Identität
+function finalizePZQQETIdentity() {
     const user = document.getElementById('reg-user').value.trim();
     const pass = document.getElementById('reg-pass').value.trim();
     
@@ -41,32 +41,32 @@ document.getElementById('finalize-btn')?.addEventListener('click', () => {
         return;
     }
 
-    // 1. Daten-Injektion in den LocalStorage
+    // 1. Daten-Injektion
     localStorage.setItem('rfof_username', user);
-    localStorage.setItem('rfof_password', pass);
+    localStorage.setItem('rfof_master_pass', pass); // Konsistent mit settings.html
     localStorage.setItem('rfof_state', 'WARM'); 
-    localStorage.setItem('rfof_balance', '50.00'); // Startbonus für System-Parity
+    localStorage.setItem('rfof_balance', '50.00');
     
     const randomIban = "DE" + Math.floor(Math.random() * 10**18).toString().padStart(18, '0');
     localStorage.setItem('rfof_active_iban', randomIban);
 
-    // 2. Transaktion protokollieren (damit das Log nicht leer ist)
+    // Initiales Log
     const initialLog = [{ name: 'SYSTEM_INIT', value: '50.00 €', time: new Date().toLocaleTimeString() }];
     localStorage.setItem('rfof_live_log', JSON.stringify(initialLog));
 
-    alert("Identität verankert. Weiterleitung zum Profil...");
+    alert("Identität verankert.");
 
-    // 3. Sicherer Redirect
+    // 2. Umleitung und HARTER RELOAD
+    // Der Reload ist nötig, damit app.js den localStorage neu liest und den Header ändert.
     window.location.hash = '#profile';
-    
-    // Kleiner Delay, damit der Hash-Wechsel vom Browser verarbeitet wird, bevor der Reload alles killt
-    setTimeout(() => {
-        location.reload();
-    }, 150);
-});
+    window.location.reload(); 
+}
 
-// Die Prüf-Logik muss sofort laufen
-(function initAuth() {
+// Event Listener binden
+document.getElementById('finalize-btn')?.addEventListener('click', finalizePZQQETIdentity);
+
+// Prüf-Logik für bereits angemeldete User
+(function initAuthUI() {
     const currentUser = localStorage.getItem('rfof_username');
     const wrapper = document.getElementById('auth-content-wrapper');
     if (currentUser && wrapper) {
