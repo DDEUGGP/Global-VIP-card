@@ -1,42 +1,52 @@
-<div class="bg-white p-6 rounded-lg shadow-lg mb-6 border-l-4 border-blue-600">
-    <h2 class="text-2xl font-bold mb-2">Mein Profil</h2>
-    <p class="text-gray-600 text-sm italic">Verwalte deine PZQQET-Axiome und das globale Portfolio (2029 Ready).</p>
+<div class="bg-white p-6 rounded-[2rem] shadow-xl mb-6 border-l-8 border-blue-600">
+    <h2 class="text-3xl font-black italic uppercase tracking-tighter text-gray-900">Mein Profil</h2>
+    <p class="text-gray-500 text-[10px] font-mono tracking-widest uppercase">Verwalte deine PZQQET-Axiome und das globale Portfolio (2029 Ready).</p>
 </div>
 
 <div class="prai-profile-core space-y-6">
-    <div class="bg-[#0d1117] text-white p-6 rounded-3xl border border-gray-800 shadow-2xl">
-        <div class="flex flex-col md:flex-row justify-between gap-6">
+    
+    <div class="bg-[#0d1117] text-white p-8 rounded-[2.5rem] border border-gray-800 shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-4 opacity-10">
+            <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        
+        <div class="flex flex-col md:flex-row justify-between gap-8 relative z-10">
             <div class="flex-1">
-                <label class="text-[10px] text-blue-400 font-black uppercase tracking-widest">#System_Identity</label>
-                <div id="display-system-name" class="text-xl font-mono text-gray-300 mt-1 font-black tracking-tighter italic">
+                <label class="text-[9px] text-blue-400 font-black uppercase tracking-[0.3em]">#System_Identity</label>
+                <div id="display-system-name" class="text-2xl font-mono text-gray-100 mt-2 font-black italic tracking-tighter">
                     LADE KNOTEN...
                 </div>
-                <button onclick="location.hash='auth'" class="mt-4 bg-blue-600 hover:bg-blue-500 text-[9px] px-4 py-2 rounded-full font-bold uppercase transition-all shadow-lg shadow-blue-900/20">
+                <button onclick="location.hash='auth'; location.reload();" class="mt-6 bg-blue-600 hover:bg-blue-500 text-[9px] px-6 py-2 rounded-full font-black uppercase transition-all shadow-lg shadow-blue-900/40 active:scale-95">
                     Knoten wechseln / Login
                 </button>
             </div>
 
-            <div class="flex-1 bg-blue-900/20 p-4 rounded-2xl border border-blue-500/30">
-                <label class="text-[10px] text-blue-300 font-bold uppercase">#Active_Finance_ID (IBAN)</label>
-                <div id="active-iban" class="text-lg font-mono text-blue-400 mt-1 break-all">
+            <div class="flex-1 bg-blue-900/10 p-5 rounded-3xl border border-blue-500/20 backdrop-blur-sm">
+                <label class="text-[9px] text-blue-300 font-black uppercase tracking-widest">#Active_Finance_ID (IBAN)</label>
+                <div id="active-iban" class="text-md font-mono text-blue-400 mt-2 break-all font-bold">
                     <script>document.write(localStorage.getItem('rfof_active_iban') || 'DE-PZQQET-CORE-INIT');</script>
                 </div>
-                <button onclick="generateNewIBAN()" class="mt-2 bg-gray-800 hover:bg-gray-700 text-[8px] px-3 py-1 rounded-full font-bold uppercase transition-all border border-gray-600">#ID_Swap</button>
+                <button onclick="generateNewIBAN()" class="mt-4 bg-gray-800 hover:bg-gray-700 text-[8px] px-4 py-1.5 rounded-full font-black uppercase transition-all border border-gray-600 tracking-tighter">
+                    #ID_Swap (Generieren)
+                </button>
             </div>
         </div>
     </div>
 
-    <div class="bg-white p-8 rounded-3xl border-2 border-gray-100 shadow-lg text-center">
-        <h3 class="text-xs font-bold text-gray-400 uppercase mb-4 tracking-widest">#Financial_Core</h3>
+    <div class="bg-white p-10 rounded-[3rem] border-2 border-gray-50 shadow-2xl text-center relative">
+        <h3 class="text-[11px] font-black text-gray-400 uppercase mb-6 tracking-[0.4em]">#Financial_Core</h3>
+        
         <div class="py-4">
-            <div id="balance-display" class="text-5xl font-black text-black cursor-pointer hover:scale-105 transition-transform">0,00 €</div>
+            <div id="balance-display" class="text-6xl font-black text-black cursor-pointer hover:scale-105 transition-transform duration-300">
+                0,00 €
+            </div>
             <div id="secondary-balance-display" class="mt-2 text-blue-500 font-mono text-sm hidden"></div>
             
-            <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-2xl border border-gray-200">
-                <span class="text-[10px] font-black uppercase text-gray-400">Master-Vergleich:</span> 
-                <span id="alt-currency-val" class="font-mono text-sm font-bold text-gray-700">--.--</span>
-                <select id="currency-selector" class="bg-transparent font-bold text-sm cursor-pointer outline-none border-l pl-2 border-gray-300" onchange="updateLiveRates()">
-                    <optgroup label="Föderationen">
+            <div class="mt-10 inline-flex items-center gap-4 px-6 py-3 bg-gray-50 rounded-[1.5rem] border border-gray-100 shadow-inner">
+                <span class="text-[10px] font-black uppercase text-gray-400 border-r pr-4 border-gray-200">Master-Vergleich</span> 
+                <span id="alt-currency-val" class="font-mono text-lg font-black text-blue-600">--.--</span>
+                <select id="currency-selector" class="bg-transparent font-black text-sm cursor-pointer outline-none text-gray-800" onchange="updateLiveRates()">
+                    <optgroup label="Global Föderationen">
                         <option value="USD">USD (USA)</option>
                         <option value="CNY">CNY (Asien)</option>
                         <option value="JPY">JPY (Pazifik)</option>
@@ -53,63 +63,108 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-3 mt-8">
-            <button onclick="requestFunds()" class="bg-green-600 text-white py-4 rounded-2xl text-[10px] font-black uppercase hover:bg-green-700 transition-all shadow-md active:scale-95">Anfordern</button>
-            <button onclick="recordTransaction('SEND', '10.00')" class="bg-blue-600 text-white py-4 rounded-2xl text-[10px] font-black uppercase hover:bg-blue-700 transition-all shadow-md active:scale-95">Überweisen</button>
-            <button id="swap-logic-btn" onclick="executeSwap()" class="bg-black text-white py-4 rounded-2xl text-[10px] font-black uppercase hover:bg-gray-800 transition-all shadow-md active:scale-95">Swap</button>
+        <div class="grid grid-cols-3 gap-4 mt-10">
+            <button onclick="requestFunds()" class="bg-green-600 text-white py-5 rounded-2xl text-[10px] font-black uppercase hover:bg-green-500 transition-all shadow-lg shadow-green-900/20 active:scale-95">Anfordern</button>
+            <button onclick="recordTransaction('SEND', '10.00')" class="bg-blue-600 text-white py-5 rounded-2xl text-[10px] font-black uppercase hover:bg-blue-500 transition-all shadow-lg shadow-blue-900/20 active:scale-95">Überweisen</button>
+            <button id="swap-logic-btn" onclick="executeSwap()" class="bg-black text-white py-5 rounded-2xl text-[10px] font-black uppercase hover:bg-gray-800 transition-all shadow-lg active:scale-95">Swap</button>
         </div>
     </div>
 
-    <div class="bg-[#161b22] p-6 rounded-3xl border border-[#30363d] shadow-inner">
-        <h3 class="text-xs font-bold text-gray-500 uppercase mb-4 tracking-widest">#Global_Portfolio_Sync</h3>
+    <div class="bg-[#161b22] p-8 rounded-[2.5rem] border border-[#30363d] shadow-inner">
+        <h3 class="text-[10px] font-black text-gray-500 uppercase mb-6 tracking-[0.3em]">#Global_Portfolio_Sync</h3>
         <div id="portfolio-list" class="space-y-4">
-            <div class="flex justify-between items-center bg-green-900/10 p-3 rounded-xl border border-green-500/20">
-                <span class="text-gray-400 font-mono text-xs">MAIN_RESERVE (EUR)</span>
-                <span class="text-green-400 font-bold text-lg" id="portfolio-eur-val">0.00 €</span>
+            <div class="flex justify-between items-center bg-green-900/10 p-4 rounded-2xl border border-green-500/20">
+                <span class="text-gray-400 font-mono text-[10px] font-bold">MAIN_RESERVE (EUR)</span>
+                <span class="text-green-400 font-black text-xl" id="portfolio-eur-val">0.00 €</span>
             </div>
             
-            <div id="dynamic-assets" class="grid grid-cols-1 gap-2">
+            <div id="dynamic-assets" class="grid grid-cols-1 gap-3">
                 <p class="text-[9px] text-gray-600 animate-pulse">Synchronisiere globale Märkte...</p>
             </div>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="bg-gray-900/50 p-4 rounded-2xl border border-gray-800">
-            <h4 class="text-[9px] font-bold uppercase mb-3 text-gray-600">#History_Chain</h4>
-            <div id="history-chain" class="space-y-2 h-32 overflow-y-auto text-[10px] font-mono scrollbar-hide"></div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-gray-900/50 p-6 rounded-[2rem] border border-gray-800">
+            <h4 class="text-[9px] font-black uppercase mb-4 text-gray-500 tracking-widest">#History_Chain</h4>
+            <div id="history-chain" class="space-y-2 h-32 overflow-y-auto text-[9px] font-mono text-gray-400 scrollbar-hide">
+                <div class="border-l-2 border-gray-700 pl-2">INIT_NODE_STABILIZED...</div>
+            </div>
         </div>
-        <div class="bg-black p-4 rounded-2xl border border-green-900/20">
-            <h4 class="text-[9px] font-bold uppercase mb-3 text-green-900">#Live_Chain</h4>
-            <div id="live-chain" class="space-y-2 h-32 overflow-y-auto text-[10px] font-mono text-green-500 scrollbar-hide"></div>
+        <div class="bg-black p-6 rounded-[2rem] border border-green-900/20">
+            <h4 class="text-[9px] font-black uppercase mb-4 text-green-800 tracking-widest">#Live_Chain</h4>
+            <div id="live-chain" class="space-y-2 h-32 overflow-y-auto text-[9px] font-mono text-green-500 scrollbar-hide">
+                <div class="animate-pulse">> Syncing with PRAI-Neurons...</div>
+            </div>
         </div>
     </div>
 </div>
 
 <style>
-    #display-system-name { text-shadow: 0 0 12px rgba(59, 130, 246, 0.4); }
+    #display-system-name { text-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
     .scrollbar-hide::-webkit-scrollbar { display: none; }
-    #active-iban { letter-spacing: 0.5px; opacity: 0.8; }
+    #active-iban { letter-spacing: 1px; }
 </style>
 
 <script>
-    // Lokale Steuerung für sofortiges Feedback
+    /**
+     * Kern-Initialisierung (Fusion der alten und neuen Logik)
+     */
+    function initProfile() {
+        const user = localStorage.getItem('rfof_username') || "ANONYMOUS_NODE";
+        const balance = localStorage.getItem('rfof_balance') || "0.00";
+        const iban = localStorage.getItem('rfof_active_iban') || "DE-INIT-NULL";
+
+        document.getElementById('display-system-name').textContent = user;
+        document.getElementById('balance-display').textContent = parseFloat(balance).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+        document.getElementById('portfolio-eur-val').textContent = parseFloat(balance).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+        
+        if(typeof initProfileChains === "function") initProfileChains();
+        updateLiveRates();
+    }
+
     function generateNewIBAN() {
         const newIban = "DE" + Math.floor(Math.random() * 10**18).toString().padStart(18, '0');
         localStorage.setItem('rfof_active_iban', newIban);
-        if(document.getElementById('active-iban')) document.getElementById('active-iban').textContent = newIban;
+        document.getElementById('active-iban').textContent = newIban;
+        recordTransaction('SYSTEM', 'IBAN_GEN');
     }
-    
+
     function updateLiveRates() {
         const selector = document.getElementById('currency-selector');
         const display = document.getElementById('alt-currency-val');
         const balance = parseFloat(localStorage.getItem('rfof_balance') || 0);
-        const rates = { USD: 1.09, CNY: 7.82, JPY: 162.40, GBP: 0.85, CHF: 0.96, CZK: 25.30, PLN: 4.30, SEK: 11.20, HUF: 395.00 };
-        if(display) display.textContent = (balance * (rates[selector.value] || 1)).toFixed(2) + " " + selector.value;
+        
+        // Vollständiges Währungssystem ohne Abkürzungen
+        const rates = { 
+            USD: 1.09, CNY: 7.82, JPY: 162.40, GBP: 0.85, CHF: 0.96, 
+            CZK: 25.30, PLN: 4.30, SEK: 11.20, HUF: 395.00 
+        };
+        
+        if(display) {
+            const val = (balance * (rates[selector.value] || 1)).toFixed(2);
+            display.textContent = val + " " + selector.value;
+        }
     }
 
-    // Initialisierungs-Trigger für app.js Logic
-    if(typeof initProfileChains === "function") initProfileChains();
-    if(typeof initCurrencySystem === "function") initCurrencySystem();
-    updateLiveRates();
+    function recordTransaction(type, amount) {
+        const chain = document.getElementById('history-chain');
+        const entry = document.createElement('div');
+        entry.className = "border-l-2 border-blue-500 pl-2 text-blue-400 mb-1";
+        entry.textContent = `[${new Date().toLocaleTimeString()}] ${type}: ${amount}`;
+        chain.prepend(entry);
+    }
+
+    function executeSwap() {
+        alert("PZQQET Swap-Logik initiiert. Märkte werden abgeglichen...");
+        recordTransaction('SWAP', 'ZONE_SYNC');
+    }
+
+    function requestFunds() {
+        alert('Anforderung an PZQQET-Netzwerk gesendet...');
+        recordTransaction('REQ', 'PENDING');
+    }
+
+    // Trigger Initialisierung
+    initProfile();
 </script>

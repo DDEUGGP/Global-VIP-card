@@ -44,6 +44,7 @@
             opacity: 0.95;
         }
 
+        /* Die Home-Hub Area wird nur im Home-View geladen */
         .home-hub-bg {
             background: var(--hub-bg);
             color: var(--hub-text);
@@ -69,14 +70,6 @@
         }
         .mobile-home-bar:hover { width: 180px; background: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
 
-        .vision-layer {
-            background: #010409;
-            color: #7ee787;
-            border-radius: 2.5rem;
-            border: 1px solid #30363d;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
         .custom-scroll::-webkit-scrollbar { width: 3px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
     </style>
@@ -84,9 +77,13 @@
 <body class="flex flex-col">
 
     <header class="w-full glass-nav sticky top-0 z-[100] flex justify-between items-center p-4 px-6">
-        <div class="flex items-center">
+        <div class="flex items-center gap-3">
             <button onclick="window.location.hash='#home'" class="bg-blue-600 text-white text-[10px] uppercase font-black px-6 py-3 rounded-xl flex items-center gap-2 hover:bg-blue-500 transition-all shadow-lg shadow-blue-500/20">
                 <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span> Home_Hub
+            </button>
+            
+            <button onclick="window.location.hash='#auth'" class="bg-[#30363d] text-white text-[10px] uppercase font-black px-6 py-3 rounded-xl flex items-center gap-2 hover:bg-gray-600 transition-all border border-gray-500/30">
+                Profile_Node
             </button>
         </div>
 
@@ -97,48 +94,7 @@
         </div>
     </header>
 
-    <main id="app-container" class="w-full">
-        <div id="home-wrapper" class="home-hub-bg p-8 md:p-12">
-            
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-16">
-                    <h1 class="text-5xl font-black tracking-tighter mb-3 italic">GLOBAL VIP CARD HUB</h1>
-                    <p class="text-[10px] font-mono text-blue-600 uppercase tracking-[0.4em] font-bold">
-                        PRAI STATUS: @RFOF-NETWORK Global Parity Activity with @DDEUGGP
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-                    <div class="space-y-3">
-                        <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 border-b border-gray-200 pb-2">Region Nord/West</h3>
-                        <div id="group-nw" class="grid grid-cols-1 gap-2"></div>
-                    </div>
-                    <div class="space-y-3">
-                        <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 border-b border-gray-200 pb-2">Region Süd</h3>
-                        <div id="group-s" class="grid grid-cols-1 gap-2"></div>
-                    </div>
-                    <div class="space-y-3">
-                        <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 border-b border-gray-200 pb-2">Region Ost</h3>
-                        <div id="group-o" class="grid grid-cols-1 gap-2"></div>
-                    </div>
-                </div>
-
-                <div class="vision-layer p-10 shadow-2xl relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-6 opacity-10 text-[40px] font-black select-none">@DDEUGGP</div>
-                    <h2 class="text-blue-400 text-sm font-bold mb-6 flex items-center gap-3 font-sans">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                        Vision_Protocol_Layer (README.md)
-                    </h2>
-                    <div id="prai-readme" class="max-h-80 overflow-y-auto custom-scroll text-xs leading-relaxed pr-4">
-                        <div class="flex items-center gap-2">
-                            <span class="w-1 h-1 bg-green-500 rounded-full animate-ping"></span>
-                            Synchronisiere mit GitHub @DDEUGGP...
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+    <main id="app-container" class="w-full flex-grow"></main>
 
     <div onclick="window.location.hash='#home'" class="mobile-home-bar" title="Back to Hub"></div>
 
@@ -162,57 +118,39 @@
             }
         }
 
-        // KNOTEN DATEN
-        const euNodes = [
-            { code: 'at', name: 'Österreich', region: 's' }, { code: 'be', name: 'Belgien', region: 'nw' },
-            { code: 'bg', name: 'Bulgarien', region: 'o' }, { code: 'hr', name: 'Kroatien', region: 's' },
-            { code: 'cy', name: 'Zypern', region: 's' }, { code: 'cz', name: 'Tschechien', region: 'o' },
-            { code: 'dk', name: 'Dänemark', region: 'nw' }, { code: 'ee', name: 'Estland', region: 'nw' },
-            { code: 'fi', name: 'Finnland', region: 'nw' }, { code: 'fr', name: 'Frankreich', region: 'nw' },
-            { code: 'de', name: 'Deutschland', region: 'nw' }, { code: 'gr', name: 'Griechenland', region: 's' },
-            { code: 'hu', name: 'Ungarn', region: 'o' }, { code: 'ie', name: 'Irland', region: 'nw' },
-            { code: 'it', name: 'Italien', region: 's' }, { code: 'lv', name: 'Lettland', region: 'o' },
-            { code: 'lt', name: 'Litauen', region: 'o' }, { code: 'lu', name: 'Luxemburg', region: 'nw' },
-            { code: 'mt', name: 'Malta', region: 's' }, { code: 'nl', name: 'Niederlande', region: 'nw' },
-            { code: 'pl', name: 'Polen', region: 'o' }, { code: 'pt', name: 'Portugal', region: 's' },
-            { code: 'ro', name: 'Rumänien', region: 'o' }, { code: 'sk', name: 'Slowakei', region: 'o' },
-            { code: 'si', name: 'Slowenien', region: 's' }, { code: 'es', name: 'Spanien', region: 's' },
-            { code: 'se', name: 'Schweden', region: 'o' }
-        ];
+        // PZQQET ROUTER - Verarbeitet die Navigation zwischen den Seiten
+        const AppRouter = {
+            async render() {
+                const container = document.getElementById('app-container');
+                const hash = window.location.hash.slice(1) || 'home';
+                const route = hash.split('?')[0];
 
-        const nwGrid = document.getElementById('group-nw');
-        const sGrid = document.getElementById('group-s');
-        const oGrid = document.getElementById('group-o');
+                try {
+                    // Laden der entsprechenden HTML Datei (home.html, auth.html, etc.)
+                    const response = await fetch(`${route}.html`);
+                    if (!response.ok) throw new Error();
+                    const content = await response.text();
+                    container.innerHTML = content;
 
-        euNodes.forEach(c => {
-            const btn = document.createElement('button');
-            btn.onclick = () => window.location.hash = `#card-generator?node=${c.code}`;
-            btn.className = 'w-full text-left p-4 bg-white border border-[#d0d7de] rounded-2xl hover:border-blue-500 hover:shadow-lg transition-all group mb-2';
-            btn.innerHTML = `
-                <div class="flex justify-between items-center">
-                    <span class="text-xs font-bold text-gray-700">${c.name}</span>
-                    <span class="text-[9px] font-mono text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity">GEN_CARD</span>
-                </div>
-            `;
-            if(c.region === 'nw') nwGrid.appendChild(btn);
-            else if(c.region === 's') sGrid.appendChild(btn);
-            else oGrid.appendChild(btn);
-        });
-
-        // GITHUB README FETCH
-        async function fetchReadme() {
-            const container = document.getElementById('prai-readme');
-            try {
-                const response = await fetch('https://raw.githubusercontent.com/DDEUGGP/Global-VIP-card/main/README.md');
-                if (!response.ok) throw new Error();
-                const text = await response.text();
-                container.innerHTML = `<pre class="whitespace-pre-wrap font-mono">${text}</pre>`;
-            } catch (err) {
-                container.innerHTML = `<p class="text-red-400 uppercase text-[10px]">Verbindung zum GitHub-Layer fehlgeschlagen. Axiome lokal geladen.</p>`;
+                    // Scripte in geladenen Inhalten manuell ausführen
+                    const scripts = container.querySelectorAll('script');
+                    scripts.forEach(oldScript => {
+                        const newScript = document.createElement('script');
+                        newScript.text = oldScript.text;
+                        document.body.appendChild(newScript).parentNode.removeChild(newScript);
+                    });
+                } catch (err) {
+                    container.innerHTML = `<div class="p-20 text-center font-mono opacity-50 text-xs uppercase">Knoten [${route}] nicht erreichbar.</div>`;
+                }
+            },
+            init() {
+                window.addEventListener('hashchange', () => this.render());
+                this.render();
             }
-        }
-        
-        fetchReadme();
+        };
+
+        // Start des Systems
+        AppRouter.init();
     </script>
 </body>
 </html>

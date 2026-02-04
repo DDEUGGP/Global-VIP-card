@@ -1,53 +1,52 @@
-<div id="auth-content-wrapper" class="container mx-auto max-w-md p-8 bg-[#161b22] rounded-3xl shadow-2xl border border-[#30363d] text-center relative overflow-hidden">
+<div id="auth-content-wrapper" class="container mx-auto max-w-md p-8 bg-[#161b22] rounded-[2.5rem] shadow-2xl border border-[#30363d] text-center relative overflow-hidden">
     
-    <div class="flex justify-between mb-10 gap-4">
-        <button onclick="switchAuthMode('reg')" id="mode-btn-reg" class="flex-1 text-[9px] font-black uppercase tracking-tighter px-3 py-3 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 hover:bg-green-500/20 transition-all z-10">
+    <div class="flex justify-between mb-10 gap-4 relative z-10">
+        <button onclick="switchAuthMode('reg')" id="mode-btn-reg" class="flex-1 text-[10px] font-black uppercase tracking-tighter px-4 py-3 bg-green-500/10 border border-green-500/20 rounded-2xl text-green-400 hover:bg-green-500/20 transition-all">
             #Neu_Registrieren
         </button>
-        
-        <button onclick="switchAuthMode('login')" id="mode-btn-login" class="flex-1 text-[9px] font-black uppercase tracking-tighter px-3 py-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400 hover:bg-blue-500/20 transition-all z-10">
+        <button onclick="switchAuthMode('login')" id="mode-btn-login" class="flex-1 text-[10px] font-black uppercase tracking-tighter px-4 py-3 bg-blue-500/10 border border-blue-500/20 rounded-2xl text-blue-400 hover:bg-blue-500/20 transition-all">
             #Existierender_Login
         </button>
     </div>
 
-    <div id="auth-dynamic-form" class="mt-4">
-        <div class="mb-6">
-            <div id="auth-icon-container" class="inline-block p-3 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4 transition-all">
-                <svg id="auth-svg" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#58a6ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div id="auth-dynamic-form" class="mt-4 transition-all duration-500">
+        <div class="mb-8">
+            <div id="auth-icon-container" class="inline-block p-4 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4 transition-all shadow-[0_0_20px_rgba(88,166,255,0.1)]">
+                <svg id="auth-svg" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-[#58a6ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A10.003 10.003 0 0012 3c1.268 0 2.39.234 3.414.658m1.11 1.764c.733.733 1.298 1.588 1.628 2.506m1.037 4.044a10.004 10.004 0 01-5.694 8.761" />
                 </svg>
             </div>
-            <h2 id="auth-title" class="text-2xl font-bold text-[#58a6ff] tracking-tighter uppercase">Identität wählen</h2>
-            <p id="auth-subtitle" class="text-[10px] text-gray-500 font-mono mt-1">CORE SYSTEM: @DDEUGGP-IDENTITY-LOCK</p>
+            <h2 id="auth-title" class="text-3xl font-black text-[#58a6ff] tracking-tighter uppercase italic">Identität wählen</h2>
+            <p id="auth-subtitle" class="text-[10px] text-gray-500 font-mono mt-2 tracking-[0.2em]">CORE SYSTEM: @DDEUGGP-IDENTITY-LOCK</p>
         </div>
 
-        <div class="space-y-4">
-            <div>
-                <label class="block text-left text-[9px] text-gray-500 uppercase ml-2 mb-1">Globaler Nutzername</label>
-                <input id="reg-user" type="text" placeholder="Nutzerkennung eingeben..." 
-                    class="w-full bg-[#0d1117] border border-[#30363d] p-4 rounded-2xl text-white text-sm focus:border-blue-500 outline-none transition-all">
+        <div class="space-y-5">
+            <div class="text-left">
+                <label class="block text-[9px] text-gray-500 uppercase ml-4 mb-2 font-black">Globaler Nutzername</label>
+                <input id="reg-user" type="text" placeholder="Nutzerkennung..." 
+                    class="w-full bg-[#0d1117] border border-[#30363d] p-5 rounded-[1.5rem] text-white text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 outline-none transition-all shadow-inner">
             </div>
-            <div>
-                <label class="block text-left text-[9px] text-gray-500 uppercase ml-2 mb-1">Master-Passwort</label>
+            <div class="text-left">
+                <label class="block text-[9px] text-gray-500 uppercase ml-4 mb-2 font-black">Master-Passwort</label>
                 <input id="reg-pass" type="password" placeholder="••••••••" 
-                    class="w-full bg-[#0d1117] border border-[#30363d] p-4 rounded-2xl text-white text-sm focus:border-blue-500 outline-none transition-all">
+                    class="w-full bg-[#0d1117] border border-[#30363d] p-5 rounded-[1.5rem] text-white text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 outline-none transition-all shadow-inner">
             </div>
         </div>
 
-        <div class="mt-8">
-            <button id="main-auth-execute" onclick="executePZQQETAuth()" class="w-full py-5 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl shadow-lg shadow-blue-500/20 transition-all uppercase text-[10px] tracking-[0.2em]">
+        <div class="mt-10">
+            <button id="main-auth-execute" onclick="executePZQQETAuth()" class="w-full py-5 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-[1.5rem] shadow-xl shadow-blue-900/40 transition-all uppercase text-xs tracking-[0.2em] active:scale-95">
                 System_Koppeln (Login)
             </button>
         </div>
 
-        <div class="mt-10 pt-6 border-t border-[#30363d]">
-            <p class="text-[8px] text-gray-600 uppercase font-black tracking-widest mb-4">#Third_Party_Node_Access</p>
+        <div class="mt-12 pt-8 border-t border-[#30363d]">
+            <p class="text-[9px] text-gray-600 uppercase font-black tracking-[0.3em] mb-6">#Third_Party_Node_Access</p>
             <div class="flex justify-center gap-10">
-                <button onclick="socialGate('Google')" class="hover:scale-110 transition-all opacity-50 hover:opacity-100">
-                    <img src="https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png" class="w-7 h-7 grayscale hover:grayscale-0">
+                <button onclick="socialGate('Google')" class="hover:scale-125 transition-all opacity-40 hover:opacity-100 group">
+                    <img src="https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png" class="w-8 h-8 grayscale group-hover:grayscale-0">
                 </button>
-                <button onclick="socialGate('GitHub')" class="text-gray-500 hover:text-white hover:scale-110 transition-all opacity-50 hover:opacity-100">
-                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                <button onclick="socialGate('GitHub')" class="text-gray-500 hover:text-white hover:scale-125 transition-all opacity-40 hover:opacity-100">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                 </button>
             </div>
         </div>
@@ -57,42 +56,33 @@
 <script>
 let currentMode = 'login';
 
-/**
- * Wechselt den Modus und korrigiert den Textstring des Buttons
- */
 function switchAuthMode(mode) {
     currentMode = mode;
     const executeBtn = document.getElementById('main-auth-execute');
     const btnReg = document.getElementById('mode-btn-reg');
     const btnLogin = document.getElementById('mode-btn-login');
     const title = document.getElementById('auth-title');
+    const iconContainer = document.getElementById('auth-icon-container');
 
     if (mode === 'reg') {
-        // Update Button Text & Style
         executeBtn.innerText = "Identität_Verankern (Registrieren)";
-        executeBtn.className = "w-full py-5 bg-green-600 hover:bg-green-500 text-white font-black rounded-2xl shadow-lg shadow-green-500/20 transition-all uppercase text-[10px] tracking-[0.2em]";
-        
-        // Tab UI Update
-        btnReg.classList.add('border-green-500', 'bg-green-500/30');
-        btnLogin.classList.remove('border-blue-500', 'bg-blue-500/30');
-        title.innerText = "Neu Registrieren";
-        title.classList.replace('text-[#58a6ff]', 'text-green-400');
+        executeBtn.className = "w-full py-5 bg-green-600 hover:bg-green-500 text-white font-black rounded-[1.5rem] shadow-xl shadow-green-900/40 transition-all uppercase text-xs tracking-[0.2em] active:scale-95";
+        btnReg.classList.add('bg-green-500/30', 'border-green-500');
+        btnLogin.classList.remove('bg-blue-500/30', 'border-blue-500');
+        title.innerText = "Knoten erschaffen";
+        title.className = "text-3xl font-black text-green-400 tracking-tighter uppercase italic";
+        iconContainer.className = "inline-block p-4 rounded-full bg-green-500/10 border border-green-500/20 mb-4 transition-all";
     } else {
-        // Update Button Text & Style
         executeBtn.innerText = "System_Koppeln (Login)";
-        executeBtn.className = "w-full py-5 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl shadow-lg shadow-blue-500/20 transition-all uppercase text-[10px] tracking-[0.2em]";
-        
-        // Tab UI Update
-        btnLogin.classList.add('border-blue-500', 'bg-blue-500/30');
-        btnReg.classList.remove('border-green-500', 'bg-green-500/30');
+        executeBtn.className = "w-full py-5 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-[1.5rem] shadow-xl shadow-blue-900/40 transition-all uppercase text-xs tracking-[0.2em] active:scale-95";
+        btnLogin.classList.add('bg-blue-500/30', 'border-blue-500');
+        btnReg.classList.remove('bg-green-500/30', 'border-green-500');
         title.innerText = "Identität wählen";
-        title.classList.replace('text-green-400', 'text-[#58a6ff]');
+        title.className = "text-3xl font-black text-[#58a6ff] tracking-tighter uppercase italic";
+        iconContainer.className = "inline-block p-4 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4 transition-all";
     }
 }
 
-/**
- * PZQQET-Auth Ausführung
- */
 function executePZQQETAuth() {
     const user = document.getElementById('reg-user').value.trim();
     const pass = document.getElementById('reg-pass').value.trim();
@@ -103,15 +93,22 @@ function executePZQQETAuth() {
     }
 
     if(currentMode === 'reg') {
+        // PRAI-NEURONEN BEFÜLLEN
         localStorage.setItem('rfof_username', user);
         localStorage.setItem('rfof_master_pass', pass);
         localStorage.setItem('rfof_state', 'WARM'); 
-        localStorage.setItem('rfof_balance', '50.00');
+        localStorage.setItem('rfof_balance', '50.00'); // Euro-Startguthaben
         const randomIban = "DE" + Math.floor(Math.random() * 10**18).toString().padStart(18, '0');
         localStorage.setItem('rfof_active_iban', randomIban);
         alert("Identität erfolgreich in @DDEUGGP verankert.");
     } else {
         const storedPass = localStorage.getItem('rfof_master_pass');
+        const storedUser = localStorage.getItem('rfof_username');
+        
+        if(storedUser && user !== storedUser) {
+             alert("PZQQET-Fehler: Knoten-ID unbekannt.");
+             return;
+        }
         if(storedPass && pass !== storedPass) {
             alert("PZQQET-Fehler: Passwort-Abgleich fehlgeschlagen.");
             return;
@@ -127,32 +124,34 @@ function executePZQQETAuth() {
 
 function socialGate(provider) {
     if(confirm(`${provider}-Verifizierung starten?`)) {
-        const fakeUser = provider + "_User_" + Math.floor(Math.random()*9999);
+        const fakeUser = provider + "_" + Math.floor(Math.random()*999);
         localStorage.setItem('rfof_username', fakeUser);
         localStorage.setItem('rfof_state', 'WARM');
-        localStorage.setItem('rfof_balance', '100.00');
+        localStorage.setItem('rfof_balance', '100.00'); // Bonus für Node-Access
+        localStorage.setItem('rfof_active_iban', "DE" + Math.floor(Math.random() * 10**18).toString().padStart(18, '0'));
         alert(`Erfolgreich über ${provider} verankert.`);
         window.location.hash = '#profile';
         setTimeout(() => { location.reload(); }, 150);
     }
 }
 
-// Initialisierung
 (function init() {
-    switchAuthMode('login');
     const active = localStorage.getItem('rfof_username');
     if(active) {
         document.getElementById('auth-dynamic-form').innerHTML = `
             <div class="py-12">
-                <p class="text-green-400 font-mono text-sm uppercase tracking-widest animate-pulse">● Knoten Aktiv: ${active}</p>
-                <div class="mt-8">
+                <p class="text-green-400 font-mono text-sm uppercase tracking-[0.3em] animate-pulse">● Knoten Aktiv: ${active}</p>
+                <div class="mt-10 space-y-4">
+                    <button onclick="window.location.hash='#profile'; location.reload();" class="w-full py-4 bg-blue-600 text-white text-[10px] font-black uppercase rounded-2xl shadow-lg">Terminal öffnen</button>
                     <button onclick="localStorage.removeItem('rfof_username'); location.reload();" 
-                        class="px-8 py-4 border border-red-500/50 text-red-500 text-[10px] uppercase rounded-2xl hover:bg-red-500/10 transition-all font-black">
+                        class="w-full py-3 border border-red-500/50 text-red-500 text-[9px] uppercase rounded-2xl hover:bg-red-500/10 transition-all font-black">
                         Identität entkoppeln
                     </button>
                 </div>
             </div>
         `;
+    } else {
+        switchAuthMode('login');
     }
 })();
 </script>
