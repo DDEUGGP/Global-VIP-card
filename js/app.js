@@ -7,18 +7,19 @@
 document.addEventListener('DOMContentLoaded', () => {
     const appContainer = document.getElementById('app-container');
 
-    // --- 1. ROUTING LOGIK (PAGES-PFAD BEWAHRT) ---
+    // --- 1. ROUTING LOGIK (PAGES-PFAD BEWAHRT MIT STRIKTEM GATEKEEPER) ---
     async function loadPage(pageName) {
         const currentUser = localStorage.getItem('rfof_username');
 
-        // PZQQET GATEKEEPER: Zugriff auf sensible Bereiche nur mit Identität
-        if (pageName === 'settings' && !currentUser) {
+        // PZQQET GATEKEEPER: Zugriff auf Profil UND Einstellungen nur mit Identität
+        // Wenn nicht angemeldet, wird der User zur Auth-Seite (Identität erstellen) umgeleitet
+        if ((pageName === 'profile' || pageName === 'settings') && !currentUser) {
             window.location.hash = '#auth';
             return;
         }
 
         // DYNAMISCHE BUTTON-PARITY: Header-Links an Identitätsstatus anpassen
-        const authLink = document.querySelector('a[href*="#profile"]');
+        const authLink = document.querySelector('a[href*="#profile"], a[href*="#auth"]');
         if (authLink) {
             if (currentUser) {
                 authLink.textContent = `Profil: ${currentUser}`;
