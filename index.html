@@ -19,28 +19,23 @@
 </head>
 <body class="flex flex-col min-h-screen items-center p-4">
 
-    <!-- Navigation Bar mit Dropdown-Menü -->
     <header class="w-full flex justify-between items-center p-4 mb-8">
-        <!-- Links für Einstellungen und Profil -->
         <nav class="flex items-center space-x-4">
             <a href="./global-vip-card.html#settings" class="text-[#58a6ff] hover:text-[#79c0ff] transition-colors duration-200">Einstellungen</a>
         </nav>
 
-        <!-- Registrierung/Login-Mitte -->
         <div class="flex-grow text-center">
             <a href="./global-vip-card.html#profile" class="inline-block bg-[#1f6feb] hover:bg-[#388bfd] text-white font-bold py-2 px-4 rounded-full transition-colors duration-200">
                 Profil / Anmelden
             </a>
         </div>
         
-        <!-- Dropdown-Menü für die EU-Karten -->
         <div class="relative">
             <button id="eu-dropdown-button" class="bg-[#238636] hover:bg-[#2ea043] text-white font-bold py-2 px-4 rounded-full transition-colors duration-200">
                 EU-Karten
             </button>
             <div id="eu-dropdown-menu" class="absolute right-0 mt-2 w-48 bg-[#161b22] border border-[#30363d] rounded-md shadow-lg hidden z-10">
-                <!-- Dynamisch durch JavaScript gefüllt -->
-            </div>
+                </div>
         </div>
     </header>
 
@@ -100,23 +95,25 @@
         const dropdownMenu = document.getElementById('eu-dropdown-menu');
 
         // Befülle das Dropdown-Menü dynamisch
-        euCountries.forEach(country => {
-            const link = document.createElement('a');
-            link.href = `./global-vip-card.html#card-generator?country=${country.code}`;
-            link.className = 'block px-4 py-2 text-sm text-[#c9d1d9] hover:bg-[#2d333b]';
-            link.textContent = country.name;
-            dropdownMenu.appendChild(link);
-        });
+        if (dropdownMenu) {
+            euCountries.forEach(country => {
+                const link = document.createElement('a');
+                link.href = `./global-vip-card.html#card-generator?country=${country.code}`;
+                link.className = 'block px-4 py-2 text-sm text-[#c9d1d9] hover:bg-[#2d333b]';
+                link.textContent = country.name;
+                dropdownMenu.appendChild(link);
+            });
+        }
 
         // Toggle-Funktionalität für das Dropdown-Menü
-        dropdownButton.addEventListener('click', (event) => {
+        dropdownButton?.addEventListener('click', (event) => {
             event.stopPropagation();
             dropdownMenu.classList.toggle('hidden');
         });
 
         // Schließe das Dropdown, wenn außerhalb geklickt wird
         window.addEventListener('click', (event) => {
-            if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+            if (dropdownButton && !dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
                 dropdownMenu.classList.add('hidden');
             }
         });
