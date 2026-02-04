@@ -1,11 +1,11 @@
 <div id="auth-content-wrapper" class="container mx-auto max-w-md p-8 bg-[#161b22] rounded-3xl shadow-2xl border border-[#30363d] text-center relative overflow-hidden">
     
     <div class="flex justify-between mb-10 gap-4">
-        <button onclick="switchAuthMode('reg')" id="mode-btn-reg" class="flex-1 text-[9px] font-black uppercase tracking-tighter px-3 py-2 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 hover:bg-green-500/20 transition-all z-10">
+        <button onclick="switchAuthMode('reg')" id="mode-btn-reg" class="flex-1 text-[9px] font-black uppercase tracking-tighter px-3 py-3 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 hover:bg-green-500/20 transition-all z-10">
             #Neu_Registrieren
         </button>
         
-        <button onclick="switchAuthMode('login')" id="mode-btn-login" class="flex-1 text-[9px] font-black uppercase tracking-tighter px-3 py-2 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400 hover:bg-blue-500/20 transition-all z-10">
+        <button onclick="switchAuthMode('login')" id="mode-btn-login" class="flex-1 text-[9px] font-black uppercase tracking-tighter px-3 py-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400 hover:bg-blue-500/20 transition-all z-10">
             #Existierender_Login
         </button>
     </div>
@@ -35,14 +35,14 @@
         </div>
 
         <div class="mt-8">
-            <button id="main-auth-execute" onclick="executePZQQETAuth()" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl shadow-lg shadow-blue-500/20 transition-all uppercase text-xs tracking-widest">
+            <button id="main-auth-execute" onclick="executePZQQETAuth()" class="w-full py-5 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl shadow-lg shadow-blue-500/20 transition-all uppercase text-[10px] tracking-[0.2em]">
                 System_Koppeln (Login)
             </button>
         </div>
 
         <div class="mt-10 pt-6 border-t border-[#30363d]">
             <p class="text-[8px] text-gray-600 uppercase font-black tracking-widest mb-4">#Third_Party_Node_Access</p>
-            <div class="flex justify-center gap-8">
+            <div class="flex justify-center gap-10">
                 <button onclick="socialGate('Google')" class="hover:scale-110 transition-all opacity-50 hover:opacity-100">
                     <img src="https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png" class="w-7 h-7 grayscale hover:grayscale-0">
                 </button>
@@ -55,31 +55,38 @@
 </div>
 
 <script>
-let currentMode = 'login'; // Standard-Modus
+let currentMode = 'login';
 
 /**
- * Wechselt den Modus und passt den Haupt-Button an
+ * Wechselt den Modus und korrigiert den Textstring des Buttons
  */
 function switchAuthMode(mode) {
     currentMode = mode;
     const executeBtn = document.getElementById('main-auth-execute');
     const btnReg = document.getElementById('mode-btn-reg');
     const btnLogin = document.getElementById('mode-btn-login');
+    const title = document.getElementById('auth-title');
 
     if (mode === 'reg') {
+        // Update Button Text & Style
         executeBtn.innerText = "Identität_Verankern (Registrieren)";
-        executeBtn.classList.replace('bg-blue-600', 'bg-green-600');
-        executeBtn.classList.replace('hover:bg-blue-500', 'hover:bg-green-500');
+        executeBtn.className = "w-full py-5 bg-green-600 hover:bg-green-500 text-white font-black rounded-2xl shadow-lg shadow-green-500/20 transition-all uppercase text-[10px] tracking-[0.2em]";
         
+        // Tab UI Update
         btnReg.classList.add('border-green-500', 'bg-green-500/30');
         btnLogin.classList.remove('border-blue-500', 'bg-blue-500/30');
+        title.innerText = "Neu Registrieren";
+        title.classList.replace('text-[#58a6ff]', 'text-green-400');
     } else {
+        // Update Button Text & Style
         executeBtn.innerText = "System_Koppeln (Login)";
-        executeBtn.classList.replace('bg-green-600', 'bg-blue-600');
-        executeBtn.classList.replace('hover:bg-green-500', 'hover:bg-blue-500');
+        executeBtn.className = "w-full py-5 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl shadow-lg shadow-blue-500/20 transition-all uppercase text-[10px] tracking-[0.2em]";
         
+        // Tab UI Update
         btnLogin.classList.add('border-blue-500', 'bg-blue-500/30');
         btnReg.classList.remove('border-green-500', 'bg-green-500/30');
+        title.innerText = "Identität wählen";
+        title.classList.replace('text-green-400', 'text-[#58a6ff]');
     }
 }
 
@@ -132,7 +139,7 @@ function socialGate(provider) {
 
 // Initialisierung
 (function init() {
-    switchAuthMode('login'); // Starte standardmäßig im Login-Modus
+    switchAuthMode('login');
     const active = localStorage.getItem('rfof_username');
     if(active) {
         document.getElementById('auth-dynamic-form').innerHTML = `
@@ -140,7 +147,7 @@ function socialGate(provider) {
                 <p class="text-green-400 font-mono text-sm uppercase tracking-widest animate-pulse">● Knoten Aktiv: ${active}</p>
                 <div class="mt-8">
                     <button onclick="localStorage.removeItem('rfof_username'); location.reload();" 
-                        class="px-8 py-3 border border-red-500/50 text-red-500 text-[10px] uppercase rounded-2xl hover:bg-red-500/10 transition-all font-black">
+                        class="px-8 py-4 border border-red-500/50 text-red-500 text-[10px] uppercase rounded-2xl hover:bg-red-500/10 transition-all font-black">
                         Identität entkoppeln
                     </button>
                 </div>

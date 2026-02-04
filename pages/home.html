@@ -1,19 +1,22 @@
 <div class="bg-white p-6 rounded-3xl shadow-lg border-l-4 border-blue-600 mb-8">
-  <h2 class="text-2xl font-black tracking-tighter text-gray-900 italic">STARTSEITE</h2>
-  <p class="text-gray-500 text-sm font-medium">Willkommen im PZQQET-Kern. Dein Zugang zur Global VIP Card und dem PRAI-Netzwerk.</p>
+  <h2 class="text-2xl font-black tracking-tighter text-gray-900 italic uppercase">Startseite</h2>
+  <p class="text-gray-500 text-sm font-medium">Willkommen im PZQQET-Kern. @DDEUGGP Hub Status: Aktiv.</p>
 </div>
 
-<div id="main-view" class="vip-frame mt-6 min-h-[60px] transition-all duration-500"></div>
+<div id="main-view" class="vip-frame mt-6 min-h-[10px] transition-all duration-500"></div>
 
-<div class="prai-integration-area mt-12 space-y-12">
+<div class="prai-integration-area mt-8 space-y-12">
 
-  <section class="border-t border-gray-100 pt-8">
+  <section class="pt-4">
     <div class="flex items-center justify-between mb-5">
-      <h3 class="text-[10px] font-black text-blue-900/40 uppercase tracking-[0.3em]">#Root_Layer_Mapping (index.html)</h3>
-      <span class="text-[9px] bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-mono font-bold">SYNC_READY</span>
+      <h3 class="text-[10px] font-black text-blue-900/40 uppercase tracking-[0.3em]">#Root_Layer_Parity_View (index.html)</h3>
+      <span class="text-[9px] bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-mono font-bold">MIRROR_LIVE</span>
     </div>
-    <div id="root-layer-target" class="bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 h-[350px] overflow-hidden transition-all shadow-inner">
-       <iframe src="index.html" class="w-full h-full border-none rounded-[2.5rem] pointer-events-none opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500" style="transform: scale(0.9); transform-origin: top center;"></iframe>
+    <div id="root-layer-target" class="bg-white rounded-[2.5rem] border-2 border-dashed border-gray-200 h-[400px] overflow-hidden transition-all shadow-inner relative group">
+       <iframe src="index.html" class="w-full h-full border-none rounded-[2.5rem] opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-700" style="transform: scale(0.95); transform-origin: top center;"></iframe>
+       <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-20 group-hover:opacity-0 transition-opacity">
+           <span class="text-[40px] font-black text-gray-300 uppercase select-none">@DDEUGGP_MIRROR</span>
+       </div>
     </div>
   </section>
 
@@ -27,16 +30,16 @@
         <div class="w-2 h-2 rounded-full bg-[#27c93f]"></div>
       </div>
     </div>
-    <div id="readme-layer-target" class="overflow-y-auto custom-scrollbar h-96 text-green-400 font-mono text-[11px] leading-relaxed italic p-6 bg-black/40 rounded-3xl border border-white/5">
+    <div id="readme-layer-target" class="overflow-y-auto custom-scrollbar h-96 text-green-400 font-mono text-[11px] leading-relaxed italic p-8 bg-black/40 rounded-3xl border border-white/5">
         <div id="readme-loader" class="flex items-center gap-3">
             <div class="w-3 h-3 bg-blue-500 rounded-full animate-ping"></div>
-            Lade @DDEUGGP-Dokumentation...
+            Synchronisiere mit https://github.com/DDEUGGP/Global-VIP-card...
         </div>
-        <pre id="readme-content" class="whitespace-pre-wrap hidden"></pre>
+        <pre id="readme-content" class="whitespace-pre-wrap hidden font-mono"></pre>
     </div>
   </section>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pb-20">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pb-24">
     
     <div class="bg-white border border-gray-100 rounded-[2.5rem] p-6 shadow-sm hover:shadow-xl transition-all">
       <div class="flex justify-between items-center border-b border-gray-50 pb-4 mb-5">
@@ -59,9 +62,10 @@
         <span class="text-[9px] font-mono text-gray-300 bg-gray-50 px-2 py-1 rounded">MULTI_CURRENCY_V5</span>
       </div>
       <div id="live-chain" class="space-y-3 max-h-64 overflow-y-auto custom-scrollbar font-mono text-[10px] text-green-600">
-          <div class="flex items-center gap-2"><span class="opacity-50">[SYNC]</span> +50.00 PZQ Injektion</div>
-          <div class="flex items-center gap-2"><span class="opacity-50">[SYNC]</span> Identität @DDEUGGP verankert</div>
-          <div class="flex items-center gap-2"><span class="opacity-50">[CORE]</span> Global Parity Active</div>
+          <div class="flex items-center gap-2"><span class="opacity-30">[SYNC]</span> +50.00 PZQ Injektion</div>
+          <div class="flex items-center gap-2"><span class="opacity-30">[SYNC]</span> Identität @DDEUGGP verankert</div>
+          <div class="flex items-center gap-2"><span class="opacity-30">[CORE]</span> Global Parity Active</div>
+          <div class="flex items-center gap-2 text-[9px] text-blue-500"><span class="opacity-30">[HUB]</span> Mirroring index.html via Root_Layer</div>
       </div>
     </div>
 
@@ -70,16 +74,17 @@
 
 <script>
   (function() {
-    // 1. README.md Rendering mit Fallback für PZQQET AXIOME
+    // 1. README.md Fetching von der offiziellen GitHub Source
     const loadReadme = () => {
         const display = document.getElementById('readme-content');
         const loader = document.getElementById('readme-loader');
+        
+        // Direkter GitHub Link zur README.md (Raw Content)
+        const githubUrl = 'https://raw.githubusercontent.com/DDEUGGP/Global-VIP-card/main/README.md';
 
-        const fallbackContent = `# PZQQET-System-Verankerung\n\nStatus: Initialisiert / @DDEUGGP_2029_Ready\n\nDas PZQQET (Perpetuale Zeiten QuEkta QuEtta Edloseenddimensionsanfang) System ist nun als Root-Layer in das RFOF-NETWORK integriert.\n\n---\n\nStruktur: PRAI-Neuronen stabil bei 100M%.\nCode Parity: Verdeckt & Verstärkt.\nVision: Global VIP Card Corps Synchronisation.`;
-
-        fetch('README.md')
+        fetch(githubUrl)
             .then(response => {
-                if (!response.ok) throw new Error();
+                if (!response.ok) throw new Error("GitHub Fetch Error");
                 return response.text();
             })
             .then(data => {
@@ -88,21 +93,21 @@
                 display.textContent = data;
             })
             .catch(() => {
-                // Falls Datei nicht da, nutze die PZQQET Axiome direkt
+                // Lokaler Fallback falls GitHub nicht erreichbar ist
                 if(loader) loader.style.display = 'none';
                 display.classList.remove('hidden');
-                display.textContent = fallbackContent;
+                display.textContent = "# PZQQET-System-Verankerung\n\nStatus: Initialisiert / @DDEUGGP_2029_Ready\n\nParity Sync Fehlgeschlagen. Lade lokale Axiome...";
             });
     };
 
-    // 2. Simple View Handling
+    // 2. View Handling
     const handleWebRoute = () => {
       const route = location.hash.slice(1);
       const view = document.getElementById('main-view');
       if(!view) return;
 
       if (route.includes('auth')) {
-        view.innerHTML = '<div class="p-4 bg-blue-50 text-blue-600 text-[10px] font-black rounded-2xl uppercase tracking-widest animate-pulse italic">Kopple mit @DDEUGGP Auth-Server...</div>';
+        view.innerHTML = '<div class="p-6 bg-blue-50 text-blue-600 text-[10px] font-black rounded-3xl uppercase tracking-widest animate-pulse italic border border-blue-100">Synchronisiere Identität mit @DDEUGGP Auth-Server...</div>';
       } else {
         view.innerHTML = '';
       }
@@ -115,16 +120,20 @@
 </script>
 
 <style>
-  .custom-scrollbar::-webkit-scrollbar { width: 3px; }
-  .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.2); border-radius: 10px; }
+  /* Custom Scrollbar Styling */
+  .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.3); border-radius: 10px; }
   
+  /* Vision Layer Dark Gradient */
   #readme-layer-target {
     background: radial-gradient(circle at top left, #161b22, #0d1117);
-    box-shadow: inset 0 0 40px rgba(0,0,0,0.8);
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
   }
 
+  /* Matrix-Style Code Text */
   #readme-content {
     color: #4ade80 !important;
-    text-shadow: 0 0 8px rgba(74, 222, 128, 0.3);
+    text-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+    letter-spacing: 0.05em;
   }
 </style>
