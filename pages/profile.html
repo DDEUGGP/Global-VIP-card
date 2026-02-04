@@ -4,3 +4,73 @@
     <p>Hier kannst du deine persönlichen Daten und deine VIP-Karte verwalten. </p>
     <p>Hier wird später die Anmeldelogik integriert.</p>
 </div>
+
+<div class="bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-bold mb-4">Mein Profil</h2>
+    <p>Hier kannst du deine persönlichen Daten und deine VIP-Karte verwalten. </p>
+    <p>Hier wird später die Anmeldelogik integriert.</p>
+</div>
+
+<div class="prai-profile-core mt-8 space-y-6">
+
+  <div class="bg-[#0d1117] text-white p-6 rounded-3xl border border-gray-800 shadow-2xl">
+    <div class="flex flex-col md:flex-row justify-between gap-6">
+      
+      <div class="flex-1">
+        <label class="text-[10px] text-blue-400 font-black uppercase tracking-widest">#System_Identity</label>
+        <div id="display-username" class="text-xl font-mono text-gray-300 mt-1">
+          <script>document.write(localStorage.getItem('rfof_username') || 'Gast_User');</script>
+        </div>
+        <p class="text-[9px] text-gray-500 mt-2 italic">Dieser Name ist permanent im Global Ranking (Ebene 1) verankert.</p>
+      </div>
+
+      <div class="flex-1 bg-blue-900/20 p-4 rounded-2xl border border-blue-500/30">
+        <label class="text-[10px] text-blue-300 font-bold uppercase">#Active_Finance_ID (IBAN)</label>
+        <div id="active-iban" class="text-lg font-mono text-blue-400 mt-1">Lade ID...</div>
+        <div class="flex justify-between items-center mt-3">
+          <span id="balance-display" class="text-2xl font-bold text-green-400">0.00 €</span>
+          <button onclick="generateCountryIBAN('de')" class="bg-blue-600 hover:bg-blue-500 text-[9px] px-3 py-1 rounded-full font-bold uppercase transition-all">#ID_Swap</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-gray-50 p-6 rounded-3xl border-2 border-gray-100">
+    <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">#Anonymity_Protocol_Control</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="text-[10px] font-bold text-gray-500 uppercase">Akronym für Live-Log (Anonym)</label>
+        <input type="text" id="trans-name-input" placeholder="Z.B. Agent_42" 
+               class="w-full mt-1 bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+      </div>
+      <div class="flex items-end gap-2">
+        <button onclick="recordTransaction('SEND', '10.00')" class="flex-1 bg-black text-white py-2 rounded-xl text-[10px] font-bold uppercase hover:bg-gray-800">Überweisen</button>
+        <button onclick="recordTransaction('RECEIVE', '10.00')" class="flex-1 border-2 border-black py-2 rounded-xl text-[10px] font-bold uppercase hover:bg-gray-100">Anfordern</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    
+    <div class="bg-gray-900 text-gray-500 p-4 rounded-2xl">
+      <h4 class="text-[9px] font-bold uppercase mb-3 text-gray-600">#History_Chain (Archiv)</h4>
+      <div id="history-chain" class="space-y-2 h-40 overflow-y-auto text-[10px] font-mono scrollbar-hide">
+        </div>
+    </div>
+
+    <div class="bg-black text-green-500 p-4 rounded-2xl border border-green-900/30">
+      <h4 class="text-[9px] font-bold uppercase mb-3 text-green-900">#Live_Chain (Echtzeit)</h4>
+      <div id="live-chain" class="space-y-2 h-40 overflow-y-auto text-[10px] font-mono scrollbar-hide">
+        </div>
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+  #display-username { text-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  #active-iban { letter-spacing: 2px; }
+</style>
