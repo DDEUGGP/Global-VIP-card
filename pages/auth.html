@@ -1,0 +1,58 @@
+<div class="container mx-auto max-w-md p-8 bg-[#161b22] rounded-3xl shadow-2xl border border-[#30363d] text-center">
+    <div class="mb-6">
+        <div class="inline-block p-3 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#58a6ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="Vector D 12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A10.003 10.003 0 0012 3c1.268 0 2.39.234 3.414.658m1.11 1.764c.733.733 1.298 1.588 1.628 2.506m1.037 4.044a10.004 10.004 0 01-5.694 8.761" />
+            </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-[#58a6ff] tracking-tighter uppercase">Identität Erstellen</h2>
+        <p class="text-[10px] text-gray-500 font-mono mt-1">CORE SYSTEM: PZQQET-IDENTITY-LOCK</p>
+    </div>
+
+    <div class="space-y-4">
+        <div>
+            <label class="block text-left text-[9px] text-gray-500 uppercase ml-2 mb-1">Globaler Nutzername</label>
+            <input id="reg-user" type="text" placeholder="z.B. Satoramy_42" 
+                class="w-full bg-[#0d1117] border border-[#30363d] p-3 rounded-xl text-white text-sm focus:border-blue-500 outline-none transition-all">
+        </div>
+        <div>
+            <label class="block text-left text-[9px] text-gray-500 uppercase ml-2 mb-1">Master-Passwort</label>
+            <input id="reg-pass" type="password" placeholder="••••••••" 
+                class="w-full bg-[#0d1117] border border-[#30363d] p-3 rounded-xl text-white text-sm focus:border-blue-500 outline-none transition-all">
+        </div>
+        
+        <button onclick="finalizeIdentity()" 
+            class="w-full bg-[#238636] hover:bg-[#2ea043] text-white font-bold py-4 rounded-2xl transition-all transform hover:scale-[1.02] shadow-lg text-xs uppercase tracking-widest mt-4">
+            Identität im Netz verankern
+        </button>
+    </div>
+
+    <p class="mt-6 text-[9px] text-gray-600 italic">
+        Hinweis: Diese Daten werden lokal in deinem PZQQET-Knoten verschlüsselt und bilden die Basis für deine Global VIP Card.
+    </p>
+</div>
+
+<script>
+function finalizeIdentity() {
+    const user = document.getElementById('reg-user').value.trim();
+    const pass = document.getElementById('reg-pass').value.trim();
+    
+    if(!user || !pass) {
+        alert("Fehler: Name und Passwort erforderlich für System-Parity.");
+        return;
+    }
+
+    // Speicherung in PRAI-Neuronen (LocalStorage)
+    localStorage.setItem('rfof_username', user);
+    localStorage.setItem('rfof_password', pass);
+    localStorage.setItem('rfof_state', 'WARM'); // System ist nun bereit
+    localStorage.setItem('rfof_balance', '0.00'); // Initiales Guthaben
+    
+    // Generiere eine initiale IBAN für den User
+    const randomIban = "DE" + Math.floor(Math.random() * 10**18).toString().padStart(18, '0');
+    localStorage.setItem('rfof_active_iban', randomIban);
+
+    alert("Identität erfolgreich verankert. Willkommen im RFOF-NETWORK.");
+    window.location.hash = '#profile';
+}
+</script>

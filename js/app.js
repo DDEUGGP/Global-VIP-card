@@ -9,6 +9,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. ROUTING LOGIK (PAGES-PFAD BEWAHRT) ---
     async function loadPage(pageName) {
+        const currentUser = localStorage.getItem('rfof_username');
+
+        // PZQQET GATEKEEPER: Zugriff auf sensible Bereiche nur mit Identität
+        if (pageName === 'settings' && !currentUser) {
+            window.location.hash = '#auth';
+            return;
+        }
+
+        // DYNAMISCHE BUTTON-PARITY: Header-Links an Identitätsstatus anpassen
+        const authLink = document.querySelector('a[href*="#profile"]');
+        if (authLink) {
+            if (currentUser) {
+                authLink.textContent = `Profil: ${currentUser}`;
+                authLink.href = "#profile";
+            } else {
+                authLink.textContent = "Profil / Anmelden";
+                authLink.href = "#auth";
+            }
+        }
+
         try {
             const response = await fetch(`./pages/${pageName}.html`);
             if (!response.ok) {
