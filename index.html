@@ -7,13 +7,27 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0d1117;
             color: #c9d1d9;
         }
+
         .container {
             max-width: 800px;
+        }
+
+        /* PZQQET BRÜCKEN-LOGIK: Versteckt Rahmen wenn injeziert */
+        #root-layer-target:not(:empty) {
+            border: none;
+            background: transparent;
+            padding: 0;
+        }
+
+        /* Verhindert doppelte Scrollbars bei Injektion */
+        main.container {
+            transition: all 0.3s ease-in-out;
         }
     </style>
 </head>
@@ -21,17 +35,17 @@
 
     <header class="w-full flex justify-between items-center p-4 mb-8">
         <nav class="flex items-center space-x-4">
-            <a href="./global-vip-card.html#settings" class="text-[#58a6ff] hover:text-[#79c0ff] transition-colors duration-200">Einstellungen</a>
+            <a href="./global-vip-card.html#settings" class="text-[#58a6ff] hover:text-[#79c0ff] transition-colors duration-200 text-xs uppercase font-bold tracking-tighter">Einstellungen</a>
         </nav>
 
         <div class="flex-grow text-center">
-            <a href="./global-vip-card.html#profile" class="inline-block bg-[#1f6feb] hover:bg-[#388bfd] text-white font-bold py-2 px-4 rounded-full transition-colors duration-200">
+            <a href="./global-vip-card.html#profile" class="inline-block bg-[#1f6feb] hover:bg-[#388bfd] text-white font-bold py-2 px-4 rounded-full transition-colors duration-200 text-xs uppercase shadow-lg shadow-blue-500/20">
                 Profil / Anmelden
             </a>
         </div>
         
         <div class="relative">
-            <button id="eu-dropdown-button" class="bg-[#238636] hover:bg-[#2ea043] text-white font-bold py-2 px-4 rounded-full transition-colors duration-200">
+            <button id="eu-dropdown-button" class="bg-[#238636] hover:bg-[#2ea043] text-white font-bold py-2 px-4 rounded-full transition-colors duration-200 text-xs uppercase shadow-lg shadow-green-500/20">
                 EU-Karten
             </button>
             <div id="eu-dropdown-menu" class="absolute right-0 mt-2 w-48 bg-[#161b22] border border-[#30363d] rounded-md shadow-lg hidden z-10">
@@ -40,82 +54,62 @@
     </header>
 
     <main class="container mx-auto text-center p-8 bg-[#161b22] rounded-3xl shadow-2xl border border-[#30363d]">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#58a6ff]">Global VIP Card</h1>
-        <p class="text-lg md:text-xl text-[#8b949e] mb-8">Eine Vision für revolutionäre Existenzmodelle.</p>
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#58a6ff] tracking-tighter">Global VIP Card</h1>
+        <p class="text-lg md:text-xl text-[#8b949e] mb-8 font-light">Eine Vision für revolutionäre Existenzmodelle.</p>
+        
         <div class="text-left leading-relaxed text-[#c9d1d9] mb-8">
             <p class="mb-4">
                 Die Global VIP Card ist mehr als nur eine digitale Identität. Sie ist das Tor zu einem umfassenden Ökosystem, das Abonnementdienste, Identifikationsfunktionen und vieles mehr integriert. Als Teil des InterBOxSpider@Web.NET-Frameworks ermöglicht sie eine nahtlose Interoperabilität in einer digitalisierten Welt.
             </p>
             <p>
-                Diese Plattform, entwickelt unter der PZqQET-Axiometix, nutzt Yggdrasil, die Codesprache aller Codesprachen, um eine sichere, effiziente und zukunftsfähige Infrastruktur zu schaffen.
+                Diese Plattform, entwickelt unter der **PZQQET-Axiometix**, nutzt Yggdrasil, die Codesprache aller Codesprachen, um eine sichere, effiziente und zukunftsfähige Infrastruktur zu schaffen.
             </p>
         </div>
-        <a href="./global-vip-card.html#home" class="inline-block bg-[#238636] hover:bg-[#2ea043] text-white font-bold py-3 px-6 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
-            App starten
-        </a>
-    </main>
 
-    <footer class="mt-8 text-sm text-[#8b949e]">
-        &copy; 2025 RFOF-NETWORK. Alle Rechte vorbehalten.
+        </main>
+
+    <footer class="mt-8 text-[10px] text-[#8b949e] font-mono tracking-widest uppercase opacity-50">
+        &copy; 2025 RFOF-NETWORK // PZQQET CORE SYSTEM
     </footer>
     
     <script>
-        // JavaScript für das Dropdown-Menü und die dynamische URL-Erzeugung
         const euCountries = [
-            { code: 'at', name: 'Österreich' },
-            { code: 'be', name: 'Belgien' },
-            { code: 'bg', name: 'Bulgarien' },
-            { code: 'hr', name: 'Kroatien' },
-            { code: 'cy', name: 'Zypern' },
-            { code: 'cz', name: 'Tschechische Republik' },
-            { code: 'dk', name: 'Dänemark' },
-            { code: 'ee', name: 'Estland' },
-            { code: 'fi', name: 'Finnland' },
-            { code: 'fr', name: 'Frankreich' },
-            { code: 'de', name: 'Deutschland' },
-            { code: 'gr', name: 'Griechenland' },
-            { code: 'hu', name: 'Ungarn' },
-            { code: 'ie', name: 'Irland' },
-            { code: 'it', name: 'Italien' },
-            { code: 'lv', name: 'Lettland' },
-            { code: 'lt', name: 'Litauen' },
-            { code: 'lu', name: 'Luxemburg' },
-            { code: 'mt', name: 'Malta' },
-            { code: 'nl', name: 'Niederlande' },
-            { code: 'pl', name: 'Polen' },
-            { code: 'pt', name: 'Portugal' },
-            { code: 'ro', name: 'Rumänien' },
-            { code: 'sk', name: 'Slowakei' },
-            { code: 'si', name: 'Slowenien' },
-            { code: 'es', name: 'Spanien' },
+            { code: 'at', name: 'Österreich' }, { code: 'be', name: 'Belgien' },
+            { code: 'bg', name: 'Bulgarien' }, { code: 'hr', name: 'Kroatien' },
+            { code: 'cy', name: 'Zypern' }, { code: 'cz', name: 'Tschechische Republik' },
+            { code: 'dk', name: 'Dänemark' }, { code: 'ee', name: 'Estland' },
+            { code: 'fi', name: 'Finnland' }, { code: 'fr', name: 'Frankreich' },
+            { code: 'de', name: 'Deutschland' }, { code: 'gr', name: 'Griechenland' },
+            { code: 'hu', name: 'Ungarn' }, { code: 'ie', name: 'Irland' },
+            { code: 'it', name: 'Italien' }, { code: 'lv', name: 'Lettland' },
+            { code: 'lt', name: 'Litauen' }, { code: 'lu', name: 'Luxemburg' },
+            { code: 'mt', name: 'Malta' }, { code: 'nl', name: 'Niederlande' },
+            { code: 'pl', name: 'Polen' }, { code: 'pt', name: 'Portugal' },
+            { code: 'ro', name: 'Rumänien' }, { code: 'sk', name: 'Slowakei' },
+            { code: 'si', name: 'Slowenien' }, { code: 'es', name: 'Spanien' },
             { code: 'se', name: 'Schweden' }
         ];
 
         const dropdownButton = document.getElementById('eu-dropdown-button');
         const dropdownMenu = document.getElementById('eu-dropdown-menu');
 
-        // Befülle das Dropdown-Menü dynamisch
         if (dropdownMenu) {
             euCountries.forEach(country => {
                 const link = document.createElement('a');
                 link.href = `./global-vip-card.html#card-generator?country=${country.code}`;
-                link.className = 'block px-4 py-2 text-sm text-[#c9d1d9] hover:bg-[#2d333b]';
+                link.className = 'block px-4 py-2 text-sm text-[#c9d1d9] hover:bg-[#2d333b] transition-all';
                 link.textContent = country.name;
                 dropdownMenu.appendChild(link);
             });
         }
 
-        // Toggle-Funktionalität für das Dropdown-Menü
-        dropdownButton?.addEventListener('click', (event) => {
-            event.stopPropagation();
+        dropdownButton?.addEventListener('click', (e) => {
+            e.stopPropagation();
             dropdownMenu.classList.toggle('hidden');
         });
 
-        // Schließe das Dropdown, wenn außerhalb geklickt wird
-        window.addEventListener('click', (event) => {
-            if (dropdownButton && !dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.classList.add('hidden');
-            }
+        window.addEventListener('click', () => {
+            dropdownMenu?.classList.add('hidden');
         });
     </script>
 </body>
