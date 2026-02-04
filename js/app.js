@@ -1,6 +1,6 @@
 /**
- * @file app.js (Teil 1)
- * @description Dieses zentrale Skript verwaltet das clientseitige Routing.
+ * @file app.js
+ * @description Zentrales Skript für Routing, Banking und PZQQET-Brücken-Injektion.
  * @author Satoramy-PRAI & PRAI (Gemini)
  */
 
@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 1. ROUTING LOGIK (PAGES-PFAD BEWAHRT) ---
     async function loadPage(pageName) {
         try {
-            // Pfad bleibt ./pages/ wie im Original gefordert
             const response = await fetch(`./pages/${pageName}.html`);
             if (!response.ok) {
                 throw new Error(`Seite "${pageName}" konnte nicht geladen werden.`);
@@ -42,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('hashchange', handleHashChange);
     handleHashChange();
 
-    // --- 2. GLOBAL VIP CARD GENERATOR (ORIGINAL TITEL & LOGIK) ---
+    // --- 2. GLOBAL VIP CARD GENERATOR ---
     function initCardGenerator() {
         const canvas = document.getElementById('vip-card-canvas');
         if (!canvas) return;
@@ -127,24 +126,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (countryCode) countrySelect.value = countryCode;
         drawCard();
     }
+
     // =========================================================================
-    // AB HIER: FUSIONIERTE MASTER INTEGRATIONEN (MAXIMALES POTENZIAL)
+    // AB HIER: FUSIONIERTE MASTER INTEGRATIONEN (PZQQET VIRTUELLE BRÜCKE)
     // =========================================================================
 
-    // --- 1. EBENEN-RENDERING (3-2-1 Logik für home.html) ---
+    // --- 1. EBENEN-RENDERING & BRÜCKEN-ENTITÄT ---
     async function initHomeLayers() {
-        // Willkommens-Bereich Injektion
         const welcomeContainer = document.getElementById('welcome-layer-target');
         if (welcomeContainer) {
             welcomeContainer.innerHTML = `
                 <div class="welcome-section text-center p-6 bg-[#161b22] rounded-3xl mb-6 border border-[#30363d]">
                     <h2 class="text-2xl font-bold text-blue-400">Systemstatus: Aktiv</h2>
                     <p class="text-gray-400 text-sm">Willkommen in der PZQQET-Kernumgebung.</p>
-                </div>
-            `;
+                </div>`;
         }
 
-        // Ebene 3: Root-Fläche (index.html Injektion)
         const rootContainer = document.getElementById('root-layer-target');
         if (rootContainer) {
             try {
@@ -152,29 +149,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 const html = await res.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
-                const mainContent = doc.querySelector('main');
-                rootContainer.innerHTML = mainContent ? mainContent.innerHTML : html;
+                
+                // BRÜCKEN-LOGIK: Extraktion des Inhalts & Entfernung des störenden Buttons
+                const mainContent = doc.querySelector('main') || doc.body;
+                const oldButtons = mainContent.querySelectorAll('button');
+                oldButtons.forEach(btn => {
+                    if(btn.textContent.includes('App starten')) btn.remove();
+                });
+
+                rootContainer.innerHTML = ''; 
+                rootContainer.appendChild(mainContent);
+                
+                const statusLabel = document.querySelector('[status-label]');
+                if(statusLabel) statusLabel.textContent = "BRIDGE_ACTIVE";
+                console.log("PZQQET: Virtuelle Brücke erfolgreich injeziert.");
             } catch(e) { 
-                console.warn("Root Layer konnte nicht geladen werden."); 
+                rootContainer.innerHTML = `<div class="text-red-500 text-[10px]">BRÜCKEN-FEHLER: Injektion unterbrochen.</div>`;
             }
         }
 
-        // Ebene 2: README-Rendering (Dokumentations-Offenbarung)
         const readmeContainer = document.getElementById('readme-layer-target');
         if (readmeContainer) {
             try {
                 const res = await fetch('README.md');
                 const md = await res.text();
                 readmeContainer.innerHTML = `<div class="p-4 bg-gray-900/50 rounded-lg border border-gray-800 font-mono text-[10px] whitespace-pre-wrap">${md}</div>`;
-            } catch(e) { 
-                readmeContainer.innerHTML = "Dokumentation lädt..."; 
-            }
+            } catch(e) { readmeContainer.innerHTML = "Dokumentation lädt..."; }
         }
         
         if (typeof updateGlobalRanking === "function") updateGlobalRanking();
     }
 
-    // --- 2. MULTI-CURRENCY MOTOR (27 EU-Staaten + Föderationen) ---
+    // --- 2. MULTI-CURRENCY MOTOR ---
     window.initCurrencySystem = () => {
         const federations = [
             { code: 'USD', name: 'Amerikanische Föderation (USA)' },
@@ -210,97 +216,70 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('dynamic-assets');
         if (container) {
             let html = '<div class="text-[8px] text-blue-500 font-black mb-2 mt-4 uppercase tracking-tighter">#Global_Federation_Assets</div>';
-            
             federations.forEach(f => {
                 const val = parseFloat(portfolio[f.code] || 0).toFixed(2);
-                html += `
-                    <div class="flex justify-between items-center py-1 border-b border-gray-800/20 px-1">
-                        <div class="flex flex-col">
-                            <span class="text-[9px] text-white font-mono font-bold">${f.code}</span>
-                            <span class="text-[6px] text-gray-500 uppercase">${f.name}</span>
-                        </div>
-                        <span class="text-[9px] font-mono text-blue-400">${val}</span>
-                    </div>`;
+                html += `<div class="flex justify-between items-center py-1 border-b border-gray-800/20 px-1">
+                            <div class="flex flex-col">
+                                <span class="text-[9px] text-white font-mono font-bold">${f.code}</span>
+                                <span class="text-[6px] text-gray-500 uppercase">${f.name}</span>
+                            </div>
+                            <span class="text-[9px] font-mono text-blue-400">${val}</span>
+                        </div>`;
             });
-
             html += '<div class="text-[8px] text-yellow-600 font-black mb-2 mt-4 uppercase tracking-tighter">#EU_Regional_Parity</div>';
-            
             euAll.forEach(curr => {
                 const val = parseFloat(portfolio[curr.code] || (curr.isEuro ? portfolio['EUR'] : 0)).toFixed(2);
-                html += `
-                    <div class="flex justify-between items-center py-1 border-b border-gray-800/20 px-1">
-                        <div class="flex flex-col">
-                            <span class="text-[9px] text-white font-mono font-bold">${curr.code}</span>
-                            <span class="text-[6px] text-gray-500 uppercase">${curr.name}</span>
-                        </div>
-                        <span class="text-[9px] font-mono ${curr.isEuro ? 'text-green-500' : 'text-gray-400'}">${val}</span>
-                    </div>`;
+                html += `<div class="flex justify-between items-center py-1 border-b border-gray-800/20 px-1">
+                            <div class="flex flex-col">
+                                <span class="text-[9px] text-white font-mono font-bold">${curr.code}</span>
+                                <span class="text-[6px] text-gray-500 uppercase">${curr.name}</span>
+                            </div>
+                            <span class="text-[9px] font-mono ${curr.isEuro ? 'text-green-500' : 'text-gray-400'}">${val}</span>
+                        </div>`;
             });
             container.innerHTML = html;
         }
     };
 
-    // --- 3. QR-BANKING & ANFORDERN ENGINE ---
+    // --- 3. QR-BANKING ---
     window.requestFunds = () => {
         const amount = prompt("Betrag in Euro zum Anfordern:", "50.00");
         if (!amount || isNaN(amount)) return;
-
         const iban = localStorage.getItem('rfof_active_iban') || "DE760000000000000000";
         const name = localStorage.getItem('rfof_username') || "VIP-USER";
-        
         const qrData = `BCD\n001\n1\nSCT\n\n${name}\n${iban}\nEUR${amount}\n\nPZQQET-TRANSACTION`;
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrData)}`;
 
-        let overlay = document.getElementById('qr-overlay');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.id = 'qr-overlay';
-            overlay.className = 'fixed inset-0 bg-black/95 z-[100] flex flex-col items-center justify-center p-6';
-            document.body.appendChild(overlay);
-        }
+        let overlay = document.getElementById('qr-overlay') || Object.assign(document.createElement('div'), {id: 'qr-overlay', className: 'fixed inset-0 bg-black/95 z-[100] flex flex-col items-center justify-center p-6'});
+        if (!document.getElementById('qr-overlay')) document.body.appendChild(overlay);
 
-        overlay.innerHTML = `
-            <div class="bg-white p-6 rounded-3xl text-center shadow-2xl">
+        overlay.innerHTML = `<div class="bg-white p-6 rounded-3xl text-center shadow-2xl">
                 <h3 class="text-black font-black text-[10px] mb-4 uppercase">#Scan_to_Transfer_EUR</h3>
                 <img src="${qrUrl}" class="w-48 h-48 mx-auto border border-gray-100" />
                 <p class="mt-4 text-[9px] font-mono text-gray-500">${iban}</p>
                 <button onclick="this.parentElement.parentElement.remove()" class="mt-6 w-full bg-black text-white py-3 rounded-xl text-[10px] font-bold uppercase">Abbrechen</button>
-            </div>
-            <p class="text-white text-[8px] mt-4 opacity-50 italic">Simulation: Eingang erfolgt nach Scan automatisch (8s)...</p>
-        `;
+            </div><p class="text-white text-[8px] mt-4 opacity-50 italic">Simulation: Eingang nach 8s...</p>`;
 
         setTimeout(() => {
             if (document.getElementById('qr-overlay')) {
                 let current = parseFloat(localStorage.getItem('rfof_balance') || "0");
-                let newBalance = (current + parseFloat(amount)).toFixed(2);
-                localStorage.setItem('rfof_balance', newBalance);
-                
+                localStorage.setItem('rfof_balance', (current + parseFloat(amount)).toFixed(2));
                 recordTransaction('RECEIVE', `${amount} €`);
-                
-                if (window.location.hash.includes('profile')) {
-                    initProfileChains();
-                    initCurrencySystem();
-                }
+                if (window.location.hash.includes('profile')) { initProfileChains(); initCurrencySystem(); }
                 document.getElementById('qr-overlay').remove();
-                alert(`ERFOLG: ${amount} € wurden gutgeschrieben.`);
+                alert(`ERFOLG: ${amount} € gutgeschrieben.`);
             }
         }, 8000);
     };
 
-    // --- 4. BEWAHRTE IBAN & CHAIN LOGIK ---
+    // --- 4. PROFILE & SECURITY ---
     function initProfileChains() {
         const ibanDisplay = document.getElementById('active-iban');
         const balanceDisplay = document.getElementById('balance-display');
         const identityDisplay = document.getElementById('identity-name-display');
-        
-        const savedIban = localStorage.getItem('rfof_active_iban');
-        const savedBalance = localStorage.getItem('rfof_balance') || "0.00";
-        const savedUser = localStorage.getItem('rfof_username');
-        
-        if (ibanDisplay) ibanDisplay.textContent = savedIban || "Generiere ID...";
-        if (balanceDisplay) balanceDisplay.textContent = `${savedBalance} €`;
-        if (identityDisplay && savedUser) identityDisplay.textContent = savedUser;
-        
+        if (ibanDisplay) ibanDisplay.textContent = localStorage.getItem('rfof_active_iban') || "Generiere ID...";
+        if (balanceDisplay) balanceDisplay.textContent = `${localStorage.getItem('rfof_balance') || "0.00"} €`;
+        if (identityDisplay) identityDisplay.textContent = localStorage.getItem('rfof_username') || "VIP-USER";
         renderLocalChains();
     }
 
@@ -314,18 +293,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const histCont = document.getElementById('history-chain');
         const liveCont = document.getElementById('live-chain');
         if (!histCont || !liveCont) return;
-
         const history = JSON.parse(localStorage.getItem('rfof_history_log') || '[]');
         const live = JSON.parse(localStorage.getItem('rfof_live_log') || '[]');
-
         histCont.innerHTML = history.slice(0,10).map(h => `<div class="border-b border-gray-900 py-1 text-[7px]">ID: ${h.id}</div>`).join('');
         liveCont.innerHTML = live.slice(0,10).map(l => `<div class="text-green-400 font-bold text-[7px]">${l.name}: ${l.value}</div>`).join('');
     }
 
     function initSettingsSecurity() {
-        const state = localStorage.getItem('rfof_state') || 'WARM';
         const statusLabel = document.getElementById('account-status-label');
         if (statusLabel) {
+            const state = localStorage.getItem('rfof_state') || 'WARM';
             statusLabel.textContent = state;
             statusLabel.style.color = state === 'WARM' ? '#10b981' : '#ef4444';
         }
