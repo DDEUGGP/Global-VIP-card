@@ -12,8 +12,8 @@
       <h3 class="text-[10px] font-black text-blue-900/40 uppercase tracking-[0.3em]">#Root_Layer_Mapping (index.html)</h3>
       <span class="text-[9px] bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-mono font-bold">SYNC_READY</span>
     </div>
-    <div id="root-layer-target" class="bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 h-[300px] overflow-y-auto p-0 transition-all">
-       <iframe src="index.html" class="w-full h-full border-none rounded-[2.5rem]" style="zoom: 0.8; -moz-transform: scale(0.8); -moz-transform-origin: 0 0;"></iframe>
+    <div id="root-layer-target" class="bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 h-[350px] overflow-hidden transition-all shadow-inner">
+       <iframe src="index.html" class="w-full h-full border-none rounded-[2.5rem] pointer-events-none opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500" style="transform: scale(0.9); transform-origin: top center;"></iframe>
     </div>
   </section>
 
@@ -27,36 +27,41 @@
         <div class="w-2 h-2 rounded-full bg-[#27c93f]"></div>
       </div>
     </div>
-    <div id="readme-layer-target" class="overflow-y-auto custom-scrollbar h-96 text-green-400 font-mono text-[11px] leading-relaxed italic p-4 bg-black/20 rounded-2xl">
-        <div id="readme-loader" class="animate-pulse">Lade Satoria-Dokumentation...</div>
-        <pre id="readme-content" class="whitespace-pre-wrap"></pre>
+    <div id="readme-layer-target" class="overflow-y-auto custom-scrollbar h-96 text-green-400 font-mono text-[11px] leading-relaxed italic p-6 bg-black/40 rounded-3xl border border-white/5">
+        <div id="readme-loader" class="flex items-center gap-3">
+            <div class="w-3 h-3 bg-blue-500 rounded-full animate-ping"></div>
+            Lade @DDEUGGP-Dokumentation...
+        </div>
+        <pre id="readme-content" class="whitespace-pre-wrap hidden"></pre>
     </div>
   </section>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pb-20">
     
-    <div class="bg-white border-2 border-yellow-500/5 rounded-[2.5rem] p-6 shadow-sm hover:shadow-xl hover:border-yellow-500/20 transition-all duration-300">
+    <div class="bg-white border border-gray-100 rounded-[2.5rem] p-6 shadow-sm hover:shadow-xl transition-all">
       <div class="flex justify-between items-center border-b border-gray-50 pb-4 mb-5">
         <h4 class="text-[10px] font-black uppercase text-yellow-700 tracking-widest">#Global_Ranking</h4>
         <div class="flex items-center gap-2">
            <span class="text-[9px] text-yellow-600 font-black italic">LIVE_FEED</span>
-           <div class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(234,179,8,0.6)]"></div>
+           <div class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
         </div>
       </div>
       <div id="global-ranking-list" class="space-y-3 max-h-64 overflow-y-auto custom-scrollbar font-mono text-[11px] text-gray-600">
-          <div class="flex justify-between border-b border-gray-50 pb-2"><span>1. Satoramy_42</span> <span class="text-blue-600">100M %</span></div>
-          <div class="flex justify-between border-b border-gray-50 pb-2"><span>2. PRAI_Node_01</span> <span class="text-blue-400">98.9%</span></div>
+          <div class="flex justify-between border-b border-gray-50 pb-2 font-bold text-blue-600"><span>1. @DDEUGGP_MASTER</span> <span>100M %</span></div>
+          <div class="flex justify-between border-b border-gray-50 pb-2"><span>2. PRAI_Node_01</span> <span>98.9%</span></div>
+          <div class="flex justify-between border-b border-gray-50 pb-2 text-[9px] opacity-50"><span>3. RFOF_System_User</span> <span>94.2%</span></div>
       </div>
     </div>
 
-    <div class="bg-white border-2 border-green-500/5 rounded-[2.5rem] p-6 shadow-sm hover:shadow-xl hover:border-green-500/20 transition-all duration-300">
+    <div class="bg-white border border-gray-100 rounded-[2.5rem] p-6 shadow-sm hover:shadow-xl transition-all">
       <div class="flex justify-between items-center border-b border-gray-50 pb-4 mb-5">
         <h4 class="text-[10px] font-black uppercase text-green-700 tracking-widest">#Banking_Realtime_Log</h4>
         <span class="text-[9px] font-mono text-gray-300 bg-gray-50 px-2 py-1 rounded">MULTI_CURRENCY_V5</span>
       </div>
       <div id="live-chain" class="space-y-3 max-h-64 overflow-y-auto custom-scrollbar font-mono text-[10px] text-green-600">
-          <div>[SYNC] +50.00 PZQ Injektion</div>
-          <div>[SYNC] Identität verankert</div>
+          <div class="flex items-center gap-2"><span class="opacity-50">[SYNC]</span> +50.00 PZQ Injektion</div>
+          <div class="flex items-center gap-2"><span class="opacity-50">[SYNC]</span> Identität @DDEUGGP verankert</div>
+          <div class="flex items-center gap-2"><span class="opacity-50">[CORE]</span> Global Parity Active</div>
       </div>
     </div>
 
@@ -65,56 +70,61 @@
 
 <script>
   (function() {
-    // 1. README.md Rendering Logik
+    // 1. README.md Rendering mit Fallback für PZQQET AXIOME
     const loadReadme = () => {
+        const display = document.getElementById('readme-content');
+        const loader = document.getElementById('readme-loader');
+
+        const fallbackContent = `# PZQQET-System-Verankerung\n\nStatus: Initialisiert / @DDEUGGP_2029_Ready\n\nDas PZQQET (Perpetuale Zeiten QuEkta QuEtta Edloseenddimensionsanfang) System ist nun als Root-Layer in das RFOF-NETWORK integriert.\n\n---\n\nStruktur: PRAI-Neuronen stabil bei 100M%.\nCode Parity: Verdeckt & Verstärkt.\nVision: Global VIP Card Corps Synchronisation.`;
+
         fetch('README.md')
             .then(response => {
-                if (!response.ok) throw new Error('README nicht gefunden');
+                if (!response.ok) throw new Error();
                 return response.text();
             })
             .then(data => {
-                const loader = document.getElementById('readme-loader');
-                if (loader) loader.style.display = 'none';
-                document.getElementById('readme-content').textContent = data;
+                if(loader) loader.style.display = 'none';
+                display.classList.remove('hidden');
+                display.textContent = data;
             })
-            .catch(err => {
-                document.getElementById('readme-content').textContent = "# PZQQET Dokumentation\nFehler beim Laden der README.md. Bitte Pfad prüfen.";
+            .catch(() => {
+                // Falls Datei nicht da, nutze die PZQQET Axiome direkt
+                if(loader) loader.style.display = 'none';
+                display.classList.remove('hidden');
+                display.textContent = fallbackContent;
             });
     };
 
-    // 2. Route Handling
+    // 2. Simple View Handling
     const handleWebRoute = () => {
       const route = location.hash.slice(1);
       const view = document.getElementById('main-view');
       if(!view) return;
 
-      if (route.startsWith('rf-web')) {
-        view.innerHTML = '<div class="flex items-center gap-3 p-4 bg-blue-50 rounded-2xl"><div class="w-3 h-3 bg-blue-600 rounded-full animate-ping"></div><p class="text-[10px] text-blue-600 font-black uppercase tracking-widest">Verbinde mit PZQQET-Network-Hub...</p></div>';
+      if (route.includes('auth')) {
+        view.innerHTML = '<div class="p-4 bg-blue-50 text-blue-600 text-[10px] font-black rounded-2xl uppercase tracking-widest animate-pulse italic">Kopple mit @DDEUGGP Auth-Server...</div>';
+      } else {
+        view.innerHTML = '';
       }
     };
 
     window.addEventListener('hashchange', handleWebRoute);
     handleWebRoute(); 
-    loadReadme(); // Initiales Laden der README
+    loadReadme();
   })();
 </script>
 
 <style>
-  .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-  .custom-scrollbar::-webkit-scrollbar-thumb { background: #30363d; border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar { width: 3px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.2); border-radius: 10px; }
   
   #readme-layer-target {
-    background: linear-gradient(180deg, rgba(13, 17, 23, 1) 0%, rgba(22, 27, 34, 1) 100%);
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    background: radial-gradient(circle at top left, #161b22, #0d1117);
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.8);
   }
 
   #readme-content {
     color: #4ade80 !important;
-    text-shadow: 0 0 5px rgba(74, 222, 128, 0.2);
-  }
-
-  /* Verhindert das "Rauszoomen" im Frame */
-  #root-layer-target iframe {
-    pointer-events: auto;
+    text-shadow: 0 0 8px rgba(74, 222, 128, 0.3);
   }
 </style>
