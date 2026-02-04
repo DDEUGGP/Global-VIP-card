@@ -11,3 +11,32 @@ The consistent emphasis that every new development aims to innovatively address 
 
  Global VIP Card - RFOF-NETWORKWillkommen im Repository der Global VIP Card, einem Projekt, das Teil des InterBOxSpider@Web.NET-Frameworks ist.Dieses Projekt nutzt die PZqQET-Axiometix und die Codesprache Yggdrasil, um eine universelle, digitale Identität zu schaffen. Die App ermöglicht die Erstellung von virtuellen VIP-Karten für alle 28 EU-Mitgliedsstaaten und plant die Integration von Authentifizierungslösungen (Microsoft, Google, GitHub, RFOF-Account).FeaturesDynamische Kartengenerierung: Erstellen Sie digitale VIP-Karten für EU-Länder.Client-Side-Routing: Nahtlose Navigation zwischen den Seiten der App.Anpassungsfähiges Design: Vollständig responsive Benutzeroberfläche.Geplante Integration: Anbindung an Firebase für Benutzerkonten und Wallets.Verwendete TechnologienHTML5 & CSS3JavaScript (Vanilla)Tailwind CSSGitHub PagesLokale EntwicklungKlonen Sie das Repository:git clone https://github.com/DDEUGGP/Global-VIP-Card.git
 Öffnen Sie die index.html in Ihrem Browser.Autoren@Satoramy-PRAI@RFOF-NETWORK
+
+```
+Global-VIP-Karte/
+├── .gitignore
+├── LICENSE.rfof
+├── README.md
+├── build.gradle.kts
+├── global-vip-card.html
+├── google-services.json
+├── index.html
+├── index.zip
+├── yarn.lock
+├── CSS/
+│   └── styles.css
+├── App-Modul/
+│   └── build.gradle.kts
+├── Assets/
+│   └── Bilder/
+│       └── Symbole/
+├── js/
+│   ├── app.js
+│   └── components.js
+├── Seiten/
+│   ├── card-generator.html
+│   ├── home.html
+│   ├── profile.html
+│   └── settings.html
+
+```
