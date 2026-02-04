@@ -1,4 +1,4 @@
-<div class="bg-white p-6 rounded-3xl shadow-lg border-l-4 border-blue-600 mb-8">
+<div class="bg-white p-6 rounded-3xl shadow-lg border-l-4 border-blue-600 mb-8 animate-in slide-in-from-top duration-700">
   <h2 class="text-2xl font-black tracking-tighter text-gray-900 italic">STARTSEITE</h2>
   <p class="text-gray-500 text-sm font-medium">Willkommen im PZQQET-Kern. Dein Zugang zur Global VIP Card und dem PRAI-Netzwerk.</p>
 </div>
@@ -10,12 +10,12 @@
   <section class="border-t border-gray-100 pt-8">
     <div class="flex items-center justify-between mb-5">
       <h3 class="text-[10px] font-black text-blue-900/40 uppercase tracking-[0.3em]">#Root_Layer_Mapping</h3>
-      <span class="text-[9px] bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-mono font-bold">SYNC_READY</span>
+      <span id="sync-status" class="text-[9px] bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-mono font-bold">WAITING_FOR_PRAI</span>
     </div>
     <div id="root-layer-target" class="bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 min-h-[180px] flex items-center justify-center p-6 transition-all">
       <div class="text-center">
         <div class="animate-spin h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full mx-auto mb-3"></div>
-        <span class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Warte auf PZQQET-Root-Injektion...</span>
+        <span class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Initialisiere PZQQET-Axiome...</span>
       </div>
     </div>
   </section>
@@ -31,21 +31,19 @@
       </div>
     </div>
     <div id="readme-layer-target" class="overflow-x-auto custom-scrollbar max-h-96 text-green-400 font-mono text-[11px] leading-relaxed italic">
-      </div>
+        </div>
   </section>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-    
     <div class="bg-white border-2 border-yellow-500/5 rounded-[2.5rem] p-6 shadow-sm hover:shadow-xl hover:border-yellow-500/20 transition-all duration-300">
       <div class="flex justify-between items-center border-b border-gray-50 pb-4 mb-5">
         <h4 class="text-[10px] font-black uppercase text-yellow-700 tracking-widest">#Global_Ranking</h4>
         <div class="flex items-center gap-2">
            <span class="text-[9px] text-yellow-600 font-black italic">LIVE_FEED</span>
-           <div class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(234,179,8,0.6)]"></div>
+           <div class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
         </div>
       </div>
-      <div id="global-ranking-list" class="space-y-3 max-h-64 overflow-y-auto custom-scrollbar font-mono text-[11px] text-gray-600">
-        </div>
+      <div id="global-ranking-list" class="space-y-3 max-h-64 overflow-y-auto custom-scrollbar font-mono text-[11px] text-gray-600"></div>
     </div>
 
     <div class="bg-white border-2 border-green-500/5 rounded-[2.5rem] p-6 shadow-sm hover:shadow-xl hover:border-green-500/20 transition-all duration-300">
@@ -53,48 +51,45 @@
         <h4 class="text-[10px] font-black uppercase text-green-700 tracking-widest">#Banking_Realtime_Log</h4>
         <span class="text-[9px] font-mono text-gray-300 bg-gray-50 px-2 py-1 rounded">MULTI_CURRENCY_V5</span>
       </div>
-      <div id="live-chain" class="space-y-3 max-h-64 overflow-y-auto custom-scrollbar font-mono text-[10px] text-green-600">
-        </div>
+      <div id="live-chain" class="space-y-3 max-h-64 overflow-y-auto custom-scrollbar font-mono text-[10px] text-green-600"></div>
     </div>
-
   </div>
 </div>
 
 <script>
+  /**
+   * FUSION CONTROL SCRIPT
+   * Koppelt das UI an die PZQQET-Logic Engine
+   */
   (function() {
-    const handleWebRoute = () => {
-      const route = location.hash.slice(1);
-      if (route.startsWith('rf-web')) {
-        const view = document.getElementById('main-view');
-        if(!view) return;
-        view.innerHTML = '<div class="flex items-center gap-3 p-4 bg-blue-50 rounded-2xl"><div class="w-3 h-3 bg-blue-600 rounded-full animate-ping"></div><p class="text-[10px] text-blue-600 font-black uppercase tracking-widest">Verbinde mit PZQQET-Network-Hub...</p></div>';
-        
-        // Optimierter Fetch-Check
-        fetch('https://network.github.io')
-          .then(res => res.text())
-          .then(html => {
-              view.innerHTML = `<div class="border-2 border-blue-500/10 rounded-3xl p-4 bg-[#fcfdfe] shadow-inner animate-in fade-in duration-700">${html}</div>`;
-          })
-          .catch(err => {
-              view.innerHTML = '<div class="p-4 bg-red-50 border border-red-100 rounded-2xl text-red-500 text-[9px] font-bold uppercase">Netzwerk-Verbindung fehlgeschlagen. Offline-Modus aktiv.</div>';
-          });
-      }
+    const runFusion = () => {
+        // 1. Initialisiere Dashboard-Daten aus der Logic-Engine
+        if (window.Components && window.Components.injectDashboardLogic) {
+            window.Components.injectDashboardLogic();
+            const status = document.getElementById('sync-status');
+            if(status) {
+                status.textContent = 'SYNC_COMPLETE';
+                status.className = 'text-[9px] bg-green-50 text-green-600 px-3 py-1 rounded-full font-mono font-bold';
+            }
+        }
+
+        // 2. Web-Route Handler (PZQQET-Hub)
+        const route = location.hash.slice(1);
+        if (route.startsWith('rf-web')) {
+            const view = document.getElementById('main-view');
+            if(!view) return;
+            view.innerHTML = '<div class="flex items-center gap-3 p-4 bg-blue-50 rounded-2xl animate-pulse"><p class="text-[10px] text-blue-600 font-black uppercase tracking-widest">Synchronisiere PRAI-Neuronen...</p></div>';
+            
+            fetch('https://network.github.io').then(res => res.text()).then(html => {
+                view.innerHTML = `<div class="border-2 border-blue-500/10 rounded-3xl p-4 bg-white shadow-inner animate-in fade-in duration-700">${html}</div>`;
+            }).catch(() => {
+                view.innerHTML = '<div class="p-4 bg-gray-50 rounded-2xl text-gray-400 text-[9px] font-bold uppercase tracking-widest">PZQQET Hub: Offline-Mirror aktiv.</div>';
+            });
+        }
     };
 
-    window.addEventListener('hashchange', handleWebRoute);
-    handleWebRoute(); 
+    window.addEventListener('hashchange', runFusion);
+    // Verzögerter Start für cineastischen Effekt der PRAI-Injektion
+    setTimeout(runFusion, 800);
   })();
 </script>
-
-<style>
-  .custom-scrollbar::-webkit-scrollbar { width: 3px; height: 3px; }
-  .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-  #readme-layer-target pre { 
-    background: transparent !important; 
-    color: #4ade80 !important; 
-    padding: 0 !important;
-    white-space: pre-wrap;
-    word-break: break-all;
-  }
-  .vip-frame { transform-origin: top; }
-</style>
