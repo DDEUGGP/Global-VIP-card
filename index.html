@@ -3,36 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PZQQET CORE - RFOF-NETWORK</title>
+    <title>PZQQET CORE - @RFOF-NETWORK</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@500&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #0d1117; color: #c9d1d9; overflow-x: hidden; }
-        
-        /* SMOOTH PAGE INJECTION FX */
         #app-container { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); min-height: 75vh; }
-        .glass-nav { background: rgba(13, 17, 23, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid #30363d; }
-        
-        /* NAVIGATION STYLES */
+        .glass-nav { background: rgba(13, 17, 23, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid #30363d; }
         .nav-tool { font-family: 'JetBrains Mono', monospace; letter-spacing: -0.5px; transition: all 0.2s; }
-        .nav-tool:hover { transform: translateY(-1px); filter: brightness(1.2); }
         
-        /* DROPDOWN OPTIMIZATION */
+        /* EU-DROPDOWN OPTIMIERUNG */
         #eu-dropdown-menu { 
             max-height: 450px; 
             overflow-y: auto; 
             scrollbar-width: thin; 
-            scrollbar-color: #3b82f6 transparent; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            scrollbar-color: #238636 transparent; 
         }
         #eu-dropdown-menu::-webkit-scrollbar { width: 3px; }
-        #eu-dropdown-menu::-webkit-scrollbar-thumb { background: #1f6feb; border-radius: 10px; }
+        #eu-dropdown-menu::-webkit-scrollbar-thumb { background: #238636; border-radius: 10px; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
     <header class="w-full glass-nav sticky top-0 z-[100] flex justify-between items-center p-4 px-6">
-        
         <div class="flex items-center">
             <a href="#settings" class="nav-tool text-[#58a6ff] text-[10px] uppercase font-black border border-blue-900/40 px-4 py-2 rounded-xl bg-blue-900/10 flex items-center gap-2">
                 <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span> #Settings
@@ -40,16 +33,16 @@
         </div>
 
         <div class="flex-grow text-center">
-            <a href="#auth" id="main-auth-btn" class="auth-trigger inline-block bg-[#1f6feb] hover:bg-[#388bfd] text-white font-black py-2.5 px-10 rounded-full transition-all text-[10px] uppercase shadow-lg shadow-blue-500/10 tracking-[0.2em]">
+            <a href="#auth" class="inline-block bg-[#1f6feb] hover:bg-[#388bfd] text-white font-black py-2.5 px-10 rounded-full transition-all text-[10px] uppercase shadow-lg shadow-blue-500/10 tracking-[0.2em]">
                 System_Koppeln
             </a>
         </div>
         
         <div class="relative">
             <button id="eu-dropdown-button" class="nav-tool bg-[#238636] hover:bg-[#2ea043] text-white font-black py-2.5 px-6 rounded-xl transition-all text-[10px] uppercase shadow-lg shadow-green-500/10 flex items-center gap-3">
-                EU-Karten <span class="text-green-900">▼</span>
+                EU-Karten <span class="text-green-900 opacity-50">▼</span>
             </button>
-            <div id="eu-dropdown-menu" class="absolute right-0 mt-4 w-60 bg-[#161b22] border border-[#30363d] rounded-2xl hidden z-[110] py-3 animate-in fade-in slide-in-from-top-2 duration-200">
+            <div id="eu-dropdown-menu" class="absolute right-0 mt-4 w-60 bg-[#161b22] border border-[#30363d] rounded-2xl hidden z-[110] py-3">
                 </div>
         </div>
     </header>
@@ -62,20 +55,17 @@
             </div>
             <div class="mt-8 flex flex-col items-center gap-2">
                 <span class="font-mono text-[10px] uppercase tracking-[0.5em] text-blue-500/50">Establishing_Core_Parity</span>
-                <span class="font-mono text-[8px] uppercase tracking-[0.2em] text-gray-700">PZQQET_V5_STABLE</span>
+                <span class="font-mono text-[8px] uppercase tracking-[0.2em] text-gray-700">@RFOF-NETWORK // PZQQET_V5</span>
             </div>
         </div>
     </main>
 
     <footer class="mt-auto py-12 border-t border-[#30363d]/30 text-[9px] text-[#484f58] font-mono tracking-[0.5em] uppercase text-center">
-        RFOF-NETWORK // <span class="text-blue-800">Satoria_2029_Protocol</span> // PRAI-AXIOM
+        @RFOF-NETWORK // <span class="text-blue-800">PRAI_2029_Protocol</span> // PRAI-AXIOM
     </footer>
     
-    <script src="js/components.js"></script>
-    <script src="js/app.js"></script>
-
     <script>
-        // EU-DROPDOWN-LOGIK: 27 LÄNDER PARITÄT
+        // DIE ABSOLUTEN 27 LÄNDER (Mathematisch geprüft)
         const euCountries = [
             { code: 'at', name: 'Österreich' }, { code: 'be', name: 'Belgien' },
             { code: 'bg', name: 'Bulgarien' }, { code: 'hr', name: 'Kroatien' },
@@ -100,7 +90,7 @@
             euCountries.forEach(c => {
                 const a = document.createElement('a');
                 a.href = `#card-generator?country=${c.code}`;
-                a.className = 'block px-6 py-3 text-[10px] text-[#8b949e] hover:text-white hover:bg-[#1f6feb]/10 transition-all border-l-2 border-transparent hover:border-blue-500 font-mono uppercase tracking-tighter';
+                a.className = 'block px-6 py-3 text-[10px] text-[#8b949e] hover:text-white hover:bg-[#238636]/10 transition-all border-l-2 border-transparent hover:border-green-500 font-mono uppercase tracking-tighter';
                 a.innerHTML = `<span class="opacity-30 mr-2">${c.code.toUpperCase()}</span> ${c.name}`;
                 dropdownCtx.appendChild(a);
             });
