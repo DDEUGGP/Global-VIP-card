@@ -1,4 +1,3 @@
-// /js/app.js
 /**
  * @file app.js
  * @description Dieses zentrale Skript verwaltet das clientseitige Routing,
@@ -26,6 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pageName === 'card-generator') {
                 initCardGenerator();
             }
+
+            // --- NEU: TRIGGER FÜR WEITERE SEITEN ---
+            if (pageName === 'home') initHomeLayers();
+            if (pageName === 'profile') initProfileChains();
+            if (pageName === 'settings') initSettingsSecurity();
+            // --- ENDE NEU ---
+
         } catch (error) {
             console.error(error);
             appContainer.innerHTML = `<h2 class="text-red-500">Fehler beim Laden der Seite.</h2><p>Die angeforderte Seite konnte nicht gefunden werden.</p>`;
@@ -140,4 +146,109 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Lade die erste Seite beim Initialisieren
     handleHashChange();
+
+    // =========================================================================
+    // AB HIER: FUSIONIERTE MASTER INTEGRATIONEN (MAXIMALES POTENZIAL)
+    // =========================================================================
+
+    // --- 1. EBENEN-RENDERING (3-2-1 Logik für home.html) ---
+    async function initHomeLayers() {
+        // Ebene 3: Root-Fläche (index.html Injektion)
+        const rootContainer = document.getElementById('root-layer-target');
+        if (rootContainer) {
+            try {
+                const res = await fetch('index.html');
+                const html = await res.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                rootContainer.innerHTML = (doc.querySelector('main') || doc.body).innerHTML;
+            } catch(e) { console.warn("Root Layer konnte nicht geladen werden."); }
+        }
+
+        // Ebene 2: README-Rendering (Dokumentations-Offenbarung)
+        const readmeContainer = document.getElementById('readme-layer-target');
+        if (readmeContainer) {
+            try {
+                const res = await fetch('README.md');
+                const md = await res.text();
+                readmeContainer.innerHTML = `<div class="p-4 bg-gray-900/50 rounded-lg border border-gray-800 font-mono text-xs whitespace-pre-wrap">${md}</div>`;
+            } catch(e) { readmeContainer.innerHTML = "Dokumentation lädt..."; }
+        }
+        
+        // Ebene 1: Global Ranking Initialisierung
+        if (typeof updateGlobalRanking === "function") updateGlobalRanking();
+    }
+
+    // --- 2. BANKING & FUSIONIERTE IBAN LOGIK (profile.html) ---
+    function initProfileChains() {
+        const ibanDisplay = document.getElementById('active-iban');
+        const balanceDisplay = document.getElementById('balance-display');
+        
+        const savedIban = localStorage.getItem('rfof_active_iban');
+        const savedBalance = localStorage.getItem('rfof_balance') || "0.00";
+        
+        if (ibanDisplay) ibanDisplay.textContent = savedIban || "Generiere ID...";
+        if (balanceDisplay) balanceDisplay.textContent = `${savedBalance} €`;
+        
+        renderLocalChains();
+    }
+
+    // Fusionierte IBAN-Offenbarung: Länderpräfix + 16 Ziffern
+    window.generateCountryIBAN = (countryCode) => {
+        const prefix = countryCode.toUpperCase();
+        const randomDigits = Math.floor(Math.random() * 10000000000000000).toString().padStart(16, '0');
+        const newIban = `${prefix}76${randomDigits}`;
+        
+        // Historie sichern
+        const currentIban = localStorage.getItem('rfof_active_iban');
+        if (currentIban) {
+            let history = JSON.parse(localStorage.getItem('rfof_history_log') || '[]');
+            history.unshift({id: currentIban, date: new Date().toLocaleString()});
+            localStorage.setItem('rfof_history_log', JSON.stringify(history));
+        }
+
+        localStorage.setItem('rfof_active_iban', newIban);
+        initProfileChains();
+        return newIban;
+    };
+
+    function renderLocalChains() {
+        const histCont = document.getElementById('history-chain');
+        const liveCont = document.getElementById('live-chain');
+        if (!histCont || !liveCont) return;
+
+        const history = JSON.parse(localStorage.getItem('rfof_history_log') || '[]');
+        const live = JSON.parse(localStorage.getItem('rfof_live_log') || '[]');
+
+        histCont.innerHTML = history.slice(0,10).map(h => `<div class="border-b border-gray-900 py-1">ID: ${h.id}</div>`).join('');
+        liveCont.innerHTML = live.slice(0,10).map(l => `<div class="text-green-400 font-bold">${l.name}: ${l.value}</div>`).join('');
+    }
+
+    // --- 3. SICHERHEIT & ZERTIFIZIERUNGS-OFFENBARUNG (settings.html) ---
+    window.downloadSecurityFile = (username, password) => {
+        const user = username || localStorage.getItem('rfof_username') || 'Unbekannt';
+        const pass = password || localStorage.getItem('rfof_master_pass') || 'KeinPasswort';
+        
+        const certData = {
+            user: user,
+            key: btoa(pass + "RFOF-SECURE-KEY"), // Verschlüsselte Offenbarung
+            timestamp: Date.now(),
+            version: "2.0-PRAI"
+        };
+        const blob = new Blob([JSON.stringify(certData, null, 2)], {type: "application/json"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `RFOF-Auth-${user}.json`;
+        a.click();
+    };
+
+    function initSettingsSecurity() {
+        const state = localStorage.getItem('rfof_state') || 'WARM';
+        const statusLabel = document.getElementById('account-status-label');
+        if (statusLabel) {
+            statusLabel.textContent = state;
+            statusLabel.style.color = state === 'WARM' ? '#10b981' : '#ef4444';
+        }
+    }
 });
