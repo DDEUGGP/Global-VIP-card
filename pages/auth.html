@@ -1,14 +1,16 @@
 <div id="auth-content-wrapper" class="container mx-auto max-w-md p-8 bg-[#161b22] rounded-3xl shadow-2xl border border-[#30363d] text-center relative overflow-hidden">
     
-    <button onclick="executePZQQETAuth('reg')" id="mode-btn-reg" class="absolute top-4 left-4 text-[9px] font-black uppercase tracking-tighter px-3 py-1 bg-green-500/20 border border-green-500/40 rounded-full text-green-400 hover:bg-green-500/60 transition-all z-10">
-        #Neu_Registrieren (Identität im Netz verankern)
-    </button>
-    
-    <button onclick="executePZQQETAuth('login')" id="mode-btn-login" class="absolute top-4 right-4 text-[9px] font-black uppercase tracking-tighter px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-400 hover:bg-blue-500/40 transition-all z-10">
-        #Existierender_Login (im Netz verankerte identität)
-    </button>
+    <div class="flex justify-between mb-10 gap-4">
+        <button onclick="switchAuthMode('reg')" id="mode-btn-reg" class="flex-1 text-[9px] font-black uppercase tracking-tighter px-3 py-2 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 hover:bg-green-500/20 transition-all z-10">
+            #Neu_Registrieren
+        </button>
+        
+        <button onclick="switchAuthMode('login')" id="mode-btn-login" class="flex-1 text-[9px] font-black uppercase tracking-tighter px-3 py-2 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400 hover:bg-blue-500/20 transition-all z-10">
+            #Existierender_Login
+        </button>
+    </div>
 
-    <div id="auth-dynamic-form" class="mt-12">
+    <div id="auth-dynamic-form" class="mt-4">
         <div class="mb-6">
             <div id="auth-icon-container" class="inline-block p-3 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4 transition-all">
                 <svg id="auth-svg" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#58a6ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -16,33 +18,36 @@
                 </svg>
             </div>
             <h2 id="auth-title" class="text-2xl font-bold text-[#58a6ff] tracking-tighter uppercase">Identität wählen</h2>
-            <p id="auth-subtitle" class="text-[10px] text-gray-500 font-mono mt-1">CORE SYSTEM: PZQQET-IDENTITY-LOCK</p>
+            <p id="auth-subtitle" class="text-[10px] text-gray-500 font-mono mt-1">CORE SYSTEM: @DDEUGGP-IDENTITY-LOCK</p>
         </div>
 
         <div class="space-y-4">
             <div>
                 <label class="block text-left text-[9px] text-gray-500 uppercase ml-2 mb-1">Globaler Nutzername</label>
-                <input id="reg-user" type="text" placeholder="z.B. Satoramy_42" 
-                    class="w-full bg-[#0d1117] border border-[#30363d] p-3 rounded-xl text-white text-sm focus:border-blue-500 outline-none transition-all">
+                <input id="reg-user" type="text" placeholder="Nutzerkennung eingeben..." 
+                    class="w-full bg-[#0d1117] border border-[#30363d] p-4 rounded-2xl text-white text-sm focus:border-blue-500 outline-none transition-all">
             </div>
             <div>
                 <label class="block text-left text-[9px] text-gray-500 uppercase ml-2 mb-1">Master-Passwort</label>
                 <input id="reg-pass" type="password" placeholder="••••••••" 
-                    class="w-full bg-[#0d1117] border border-[#30363d] p-3 rounded-xl text-white text-sm focus:border-blue-500 outline-none transition-all">
+                    class="w-full bg-[#0d1117] border border-[#30363d] p-4 rounded-2xl text-white text-sm focus:border-blue-500 outline-none transition-all">
             </div>
         </div>
 
-        <div class="mt-8 pt-6 border-t border-[#30363d]">
+        <div class="mt-8">
+            <button id="main-auth-execute" onclick="executePZQQETAuth()" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl shadow-lg shadow-blue-500/20 transition-all uppercase text-xs tracking-widest">
+                System_Koppeln (Login)
+            </button>
+        </div>
+
+        <div class="mt-10 pt-6 border-t border-[#30363d]">
             <p class="text-[8px] text-gray-600 uppercase font-black tracking-widest mb-4">#Third_Party_Node_Access</p>
-            <div class="flex justify-center gap-6">
-                <button onclick="socialGate('Google')" class="hover:scale-110 transition-all">
-                    <img src="https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png" class="w-8 h-8 grayscale hover:grayscale-0 transition-all">
+            <div class="flex justify-center gap-8">
+                <button onclick="socialGate('Google')" class="hover:scale-110 transition-all opacity-50 hover:opacity-100">
+                    <img src="https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png" class="w-7 h-7 grayscale hover:grayscale-0">
                 </button>
-                <button onclick="socialGate('GitHub')" class="text-gray-500 hover:text-white hover:scale-110 transition-all">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                </button>
-                <button onclick="socialGate('Microsoft')" class="text-gray-500 hover:text-white hover:scale-110 transition-all">
-                    <svg class="w-8 h-8" viewBox="0 0 23 23" fill="currentColor"><path d="M0 0h11v11H0zM12 0h11v11H12zM0 12h11v11H0zM12 12h11v11H12z"/></svg>
+                <button onclick="socialGate('GitHub')" class="text-gray-500 hover:text-white hover:scale-110 transition-all opacity-50 hover:opacity-100">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                 </button>
             </div>
         </div>
@@ -50,30 +55,55 @@
 </div>
 
 <script>
+let currentMode = 'login'; // Standard-Modus
+
 /**
- * PZQQET-Auth Ausführung (Fusionierte Logik)
- * @param {string} mode - 'reg' oder 'login'
+ * Wechselt den Modus und passt den Haupt-Button an
  */
-function executePZQQETAuth(mode) {
+function switchAuthMode(mode) {
+    currentMode = mode;
+    const executeBtn = document.getElementById('main-auth-execute');
+    const btnReg = document.getElementById('mode-btn-reg');
+    const btnLogin = document.getElementById('mode-btn-login');
+
+    if (mode === 'reg') {
+        executeBtn.innerText = "Identität_Verankern (Registrieren)";
+        executeBtn.classList.replace('bg-blue-600', 'bg-green-600');
+        executeBtn.classList.replace('hover:bg-blue-500', 'hover:bg-green-500');
+        
+        btnReg.classList.add('border-green-500', 'bg-green-500/30');
+        btnLogin.classList.remove('border-blue-500', 'bg-blue-500/30');
+    } else {
+        executeBtn.innerText = "System_Koppeln (Login)";
+        executeBtn.classList.replace('bg-green-600', 'bg-blue-600');
+        executeBtn.classList.replace('hover:bg-green-500', 'hover:bg-blue-500');
+        
+        btnLogin.classList.add('border-blue-500', 'bg-blue-500/30');
+        btnReg.classList.remove('border-green-500', 'bg-green-500/30');
+    }
+}
+
+/**
+ * PZQQET-Auth Ausführung
+ */
+function executePZQQETAuth() {
     const user = document.getElementById('reg-user').value.trim();
     const pass = document.getElementById('reg-pass').value.trim();
     
     if(!user || !pass) {
-        alert("PZQQET-Fehler: Bitte Nutzername und Passwort eingeben oder Third-Party Node nutzen.");
+        alert("PZQQET-Fehler: Bitte Daten vervollständigen.");
         return;
     }
 
-    if(mode === 'reg') {
-        // Logik: Identität im Netz verankern
+    if(currentMode === 'reg') {
         localStorage.setItem('rfof_username', user);
         localStorage.setItem('rfof_master_pass', pass);
         localStorage.setItem('rfof_state', 'WARM'); 
         localStorage.setItem('rfof_balance', '50.00');
         const randomIban = "DE" + Math.floor(Math.random() * 10**18).toString().padStart(18, '0');
         localStorage.setItem('rfof_active_iban', randomIban);
-        alert("Identität erfolgreich im PZQQET-Kern verankert.");
+        alert("Identität erfolgreich in @DDEUGGP verankert.");
     } else {
-        // Logik: Im Netz verankerte Identität (Login)
         const storedPass = localStorage.getItem('rfof_master_pass');
         if(storedPass && pass !== storedPass) {
             alert("PZQQET-Fehler: Passwort-Abgleich fehlgeschlagen.");
@@ -88,26 +118,21 @@ function executePZQQETAuth(mode) {
     setTimeout(() => { location.reload(); }, 150);
 }
 
-/**
- * Social Login Bridge (Google/GitHub/Microsoft)
- */
 function socialGate(provider) {
-    if(confirm(`${provider}-Verifizierung für PZQQET-Knoten starten?`)) {
-        // Hier wird die Drittanbieter-ID als Identität genutzt
+    if(confirm(`${provider}-Verifizierung starten?`)) {
         const fakeUser = provider + "_User_" + Math.floor(Math.random()*9999);
         localStorage.setItem('rfof_username', fakeUser);
-        localStorage.setItem('rfof_auth_provider', provider);
         localStorage.setItem('rfof_state', 'WARM');
-        localStorage.setItem('rfof_balance', '100.00'); // Bonus für Node-Access
-        
+        localStorage.setItem('rfof_balance', '100.00');
         alert(`Erfolgreich über ${provider} verankert.`);
         window.location.hash = '#profile';
         setTimeout(() => { location.reload(); }, 150);
     }
 }
 
-// Status-Prüfung bei Initialisierung
-(function checkStatus() {
+// Initialisierung
+(function init() {
+    switchAuthMode('login'); // Starte standardmäßig im Login-Modus
     const active = localStorage.getItem('rfof_username');
     if(active) {
         document.getElementById('auth-dynamic-form').innerHTML = `
@@ -115,7 +140,7 @@ function socialGate(provider) {
                 <p class="text-green-400 font-mono text-sm uppercase tracking-widest animate-pulse">● Knoten Aktiv: ${active}</p>
                 <div class="mt-8">
                     <button onclick="localStorage.removeItem('rfof_username'); location.reload();" 
-                        class="px-6 py-2 border border-red-500/50 text-red-500 text-[10px] uppercase rounded-full hover:bg-red-500/10 transition-all">
+                        class="px-8 py-3 border border-red-500/50 text-red-500 text-[10px] uppercase rounded-2xl hover:bg-red-500/10 transition-all font-black">
                         Identität entkoppeln
                     </button>
                 </div>
