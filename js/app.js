@@ -151,11 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         drawCard();
     }
 
-    // =========================================================================
-    // AB HIER: FUSIONIERTE MASTER INTEGRATIONEN (PZQQET VIRTUELLE BRÜCKE)
-    // =========================================================================
-
-    // --- 1. EBENEN-RENDERING & BRÜCKEN-ENTITÄT ---
+    // --- 3. EBENEN-RENDERING & BRÜCKEN-ENTITÄT ---
     async function initHomeLayers() {
         const welcomeContainer = document.getElementById('welcome-layer-target');
         if (welcomeContainer) {
@@ -203,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof updateGlobalRanking === "function") updateGlobalRanking();
     }
 
-    // --- 2. MULTI-CURRENCY MOTOR ---
+    // --- 4. MULTI-CURRENCY MOTOR ---
     window.initCurrencySystem = () => {
         const federations = [
             { code: 'USD', name: 'Amerikanische Föderation (USA)' },
@@ -264,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- 3. QR-BANKING ---
+    // --- 5. QR-BANKING ---
     window.requestFunds = () => {
         const amount = prompt("Betrag in Euro zum Anfordern:", "50.00");
         if (!amount || isNaN(amount)) return;
@@ -295,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 8000);
     };
 
-    // --- 4. PROFILE & SECURITY ---
+    // --- 6. PROFILE & SECURITY ---
     function initProfileChains() {
         const ibanDisplay = document.getElementById('active-iban');
         const balanceDisplay = document.getElementById('balance-display');
