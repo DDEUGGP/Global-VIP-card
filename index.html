@@ -3,59 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global VIP Card - RFOF-NETWORK</title>
+    <title>PZQQET CORE - RFOF-NETWORK</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #0d1117; color: #c9d1d9; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@500&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0d1117; color: #c9d1d9; overflow-x: hidden; }
         
-        /* PZQQET SMOOTH TRANSITION */
-        #app-container { transition: opacity 0.3s ease-in-out; }
-        .glass-nav { background: rgba(22, 27, 34, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid #30363d; }
+        /* SMOOTH PAGE INJECTION FX */
+        #app-container { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); min-height: 75vh; }
+        .glass-nav { background: rgba(13, 17, 23, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid #30363d; }
+        
+        /* NAVIGATION STYLES */
+        .nav-tool { font-family: 'JetBrains Mono', monospace; letter-spacing: -0.5px; transition: all 0.2s; }
+        .nav-tool:hover { transform: translateY(-1px); filter: brightness(1.2); }
+        
+        /* DROPDOWN OPTIMIZATION */
+        #eu-dropdown-menu { 
+            max-height: 450px; 
+            overflow-y: auto; 
+            scrollbar-width: thin; 
+            scrollbar-color: #3b82f6 transparent; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        #eu-dropdown-menu::-webkit-scrollbar { width: 3px; }
+        #eu-dropdown-menu::-webkit-scrollbar-thumb { background: #1f6feb; border-radius: 10px; }
     </style>
 </head>
-<body class="flex flex-col min-h-screen items-center">
+<body class="flex flex-col min-h-screen">
 
-    <header class="w-full glass-nav sticky top-0 z-50 flex justify-between items-center p-4">
-        <nav class="flex items-center space-x-4">
-            <a href="#settings" class="text-[#58a6ff] hover:text-[#79c0ff] transition-colors text-xs uppercase font-bold tracking-tighter">Einstellungen</a>
-        </nav>
+    <header class="w-full glass-nav sticky top-0 z-[100] flex justify-between items-center p-4 px-6">
+        
+        <div class="flex items-center">
+            <a href="#settings" class="nav-tool text-[#58a6ff] text-[10px] uppercase font-black border border-blue-900/40 px-4 py-2 rounded-xl bg-blue-900/10 flex items-center gap-2">
+                <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span> #Settings
+            </a>
+        </div>
 
         <div class="flex-grow text-center">
-            <a href="#auth" id="main-auth-btn" class="inline-block bg-[#1f6feb] hover:bg-[#388bfd] text-white font-bold py-2 px-6 rounded-full transition-all text-xs uppercase shadow-lg shadow-blue-500/20">
-                Profil / Anmelden
+            <a href="#auth" id="main-auth-btn" class="auth-trigger inline-block bg-[#1f6feb] hover:bg-[#388bfd] text-white font-black py-2.5 px-10 rounded-full transition-all text-[10px] uppercase shadow-lg shadow-blue-500/10 tracking-[0.2em]">
+                System_Koppeln
             </a>
         </div>
         
         <div class="relative">
-            <button id="eu-dropdown-button" class="bg-[#238636] hover:bg-[#2ea043] text-white font-bold py-2 px-4 rounded-full transition-all text-xs uppercase shadow-lg shadow-green-500/20">
-                EU-Karten
+            <button id="eu-dropdown-button" class="nav-tool bg-[#238636] hover:bg-[#2ea043] text-white font-black py-2.5 px-6 rounded-xl transition-all text-[10px] uppercase shadow-lg shadow-green-500/10 flex items-center gap-3">
+                EU-Karten <span class="text-green-900">▼</span>
             </button>
-            <div id="eu-dropdown-menu" class="absolute right-0 mt-2 w-48 bg-[#161b22] border border-[#30363d] rounded-md shadow-lg hidden z-[100]">
+            <div id="eu-dropdown-menu" class="absolute right-0 mt-4 w-60 bg-[#161b22] border border-[#30363d] rounded-2xl hidden z-[110] py-3 animate-in fade-in slide-in-from-top-2 duration-200">
                 </div>
         </div>
     </header>
 
-    <main id="app-container" class="w-full max-w-4xl mt-8 px-4">
-        <div class="flex flex-col items-center justify-center py-20 animate-pulse">
-            <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-            <span class="font-mono text-[10px] uppercase tracking-widest text-gray-500">PZQQET_BOOT_SEQUENCE...</span>
+    <main id="app-container" class="w-full max-w-6xl mx-auto mt-8 px-6">
+        <div class="flex flex-col items-center justify-center py-40">
+            <div class="relative w-20 h-20">
+                <div class="absolute inset-0 border-[3px] border-blue-500/10 rounded-full"></div>
+                <div class="absolute inset-0 border-[3px] border-t-blue-500 rounded-full animate-spin"></div>
+            </div>
+            <div class="mt-8 flex flex-col items-center gap-2">
+                <span class="font-mono text-[10px] uppercase tracking-[0.5em] text-blue-500/50">Establishing_Core_Parity</span>
+                <span class="font-mono text-[8px] uppercase tracking-[0.2em] text-gray-700">PZQQET_V5_STABLE</span>
+            </div>
         </div>
     </main>
 
-    <footer class="mt-auto py-8 text-[10px] text-[#8b949e] font-mono tracking-widest uppercase opacity-50 text-center">
-        &copy; 2026 RFOF-NETWORK // PZQQET CORE SYSTEM // V5-STABLE
+    <footer class="mt-auto py-12 border-t border-[#30363d]/30 text-[9px] text-[#484f58] font-mono tracking-[0.5em] uppercase text-center">
+        RFOF-NETWORK // <span class="text-blue-800">Satoria_2029_Protocol</span> // PRAI-AXIOM
     </footer>
     
     <script src="js/components.js"></script>
     <script src="js/app.js"></script>
 
     <script>
-        // EU-Dropdown Logik (Erhalten & Verstärkt)
+        // EU-DROPDOWN-LOGIK: 27 LÄNDER PARITÄT
         const euCountries = [
             { code: 'at', name: 'Österreich' }, { code: 'be', name: 'Belgien' },
             { code: 'bg', name: 'Bulgarien' }, { code: 'hr', name: 'Kroatien' },
-            { code: 'cy', name: 'Zypern' }, { code: 'cz', name: 'Tschechische Republik' },
+            { code: 'cy', name: 'Zypern' }, { code: 'cz', name: 'Tschechien' },
             { code: 'dk', name: 'Dänemark' }, { code: 'ee', name: 'Estland' },
             { code: 'fi', name: 'Finnland' }, { code: 'fr', name: 'Frankreich' },
             { code: 'de', name: 'Deutschland' }, { code: 'gr', name: 'Griechenland' },
@@ -69,25 +93,25 @@
             { code: 'se', name: 'Schweden' }
         ];
 
-        const dropdownButton = document.getElementById('eu-dropdown-button');
-        const dropdownMenu = document.getElementById('eu-dropdown-menu');
+        const dropdownBtn = document.getElementById('eu-dropdown-button');
+        const dropdownCtx = document.getElementById('eu-dropdown-menu');
 
-        if (dropdownMenu) {
-            euCountries.forEach(country => {
-                const link = document.createElement('a');
-                link.href = `#card-generator?country=${country.code}`;
-                link.className = 'block px-4 py-2 text-sm text-[#c9d1d9] hover:bg-[#2d333b] transition-all hover:pl-6';
-                link.textContent = country.name;
-                dropdownMenu.appendChild(link);
+        if (dropdownCtx) {
+            euCountries.forEach(c => {
+                const a = document.createElement('a');
+                a.href = `#card-generator?country=${c.code}`;
+                a.className = 'block px-6 py-3 text-[10px] text-[#8b949e] hover:text-white hover:bg-[#1f6feb]/10 transition-all border-l-2 border-transparent hover:border-blue-500 font-mono uppercase tracking-tighter';
+                a.innerHTML = `<span class="opacity-30 mr-2">${c.code.toUpperCase()}</span> ${c.name}`;
+                dropdownCtx.appendChild(a);
             });
         }
 
-        dropdownButton?.addEventListener('click', (e) => {
+        dropdownBtn?.addEventListener('click', (e) => {
             e.stopPropagation();
-            dropdownMenu.classList.toggle('hidden');
+            dropdownCtx.classList.toggle('hidden');
         });
 
-        window.addEventListener('click', () => dropdownMenu?.classList.add('hidden'));
+        window.addEventListener('click', () => dropdownCtx?.classList.add('hidden'));
     </script>
 </body>
 </html>

@@ -1,12 +1,12 @@
 <div class="main-content p-6 flex flex-col items-center">
-    <h2 class="main-heading text-2xl font-bold mb-4 text-white">Einstellungen</h2>
-    <p class="text-center text-[#8b949e] mb-6 text-sm">Systemkonfiguration & Identitäts-Sicherheit</p>
+    <h2 class="main-heading text-2xl font-bold mb-2 text-white">Einstellungen</h2>
+    <p class="text-center text-[#8b949e] mb-6 text-xs italic">Systemkonfiguration & Identitäts-Sicherheit (Schicht 09)</p>
     
     <div class="w-full max-w-lg space-y-4">
-        <div class="p-5 bg-[#0d1117] rounded-2xl border border-blue-900/30 space-y-4">
+        <div class="p-5 bg-[#0d1117] rounded-2xl border border-blue-900/30 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center">
                 <label class="text-[10px] text-blue-400 font-black uppercase tracking-widest">#Identity_Security</label>
-                <div class="text-[9px] text-gray-500 font-mono">KEY_TYPE: AES-PZQQET</div>
+                <div class="text-[9px] text-gray-500 font-mono">ENCRYPTION: AES-256-PZQQET</div>
             </div>
             
             <div class="flex items-center justify-between p-3 bg-[#161b22] rounded-xl border border-[#30363d]">
@@ -14,7 +14,7 @@
                     <span class="text-[#c9d1d9] text-xs font-bold">Passwort einsehen</span>
                     <span class="text-[8px] text-gray-500">Master-Key Offenbarung</span>
                 </div>
-                <button onclick="alert('Master-Key: ' + (localStorage.getItem('rfof_master_pass') || 'Nicht gesetzt'))" 
+                <button onclick="const p = localStorage.getItem('rfof_password'); alert(p ? 'Master-Key: ' + p : 'Kein Passwort gesetzt.');" 
                         class="bg-gray-800 hover:bg-gray-700 text-white text-[9px] px-3 py-1.5 rounded-lg font-bold transition-all uppercase">Einsehen</button>
             </div>
 
@@ -23,36 +23,25 @@
                     <span class="text-[#c9d1d9] text-xs font-bold">Passwort ändern</span>
                     <span class="text-[8px] text-gray-500">System-Reset Schutz</span>
                 </div>
-                <button onclick="const p = prompt('Neues Passwort:'); if(p) { localStorage.setItem('rfof_master_pass', p); alert('Passwort aktualisiert!'); }" 
+                <button onclick="const newP = prompt('Neues Master-Passwort:'); if(newP) { localStorage.setItem('rfof_password', newP); alert('Zentralschlüssel aktualisiert!'); }" 
                         class="bg-blue-900 hover:bg-blue-800 text-white text-[9px] px-3 py-1.5 rounded-lg font-bold transition-all uppercase">Ändern</button>
             </div>
         </div>
 
-        <div class="flex items-center justify-between p-4 bg-[#0d1117] rounded-xl border border-[#30363d]">
-            <span class="text-[#c9d1d9] text-sm font-medium">Dark Mode aktivieren</span>
-            <label class="switch">
-                <input type="checkbox" checked disabled>
-                <span class="slider round opacity-50"></span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-between p-4 bg-[#0d1117] rounded-xl border border-[#30363d]">
-            <span class="text-[#c9d1d9] text-sm font-medium">Sprache wählen</span>
-            <select class="bg-[#161b22] text-[#c9d1d9] text-xs p-2 rounded border border-[#30363d] outline-none">
-                <option value="de">Deutsch</option>
-                <option value="en">Englisch</option>
-            </select>
-        </div>
-
-        <div class="p-6 bg-black rounded-2xl border-2 border-red-900/20 shadow-2xl space-y-4">
+        <div class="p-6 bg-black rounded-3xl border-2 border-gray-800 shadow-2xl space-y-4 relative overflow-hidden">
             <div class="flex justify-between items-center">
                 <label class="text-[10px] text-gray-500 font-black uppercase tracking-widest">#System_Security_Status</label>
-                <div id="status-indicator" class="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_10px_rgba(16,185,129,0.5)] animate-pulse"></div>
+                <div id="status-indicator" class="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] animate-pulse"></div>
             </div>
             
-            <div class="flex items-baseline gap-2">
-                <span id="account-status-label" class="text-3xl font-mono font-bold text-green-500">WARM</span>
-                <span class="text-[9px] text-gray-600 font-mono">STABILITY: 100%</span>
+            <div class="flex flex-col">
+                <div id="account-status-label" class="text-3xl font-mono font-bold text-blue-400 italic">
+                    LADE STATUS...
+                </div>
+                <div class="flex gap-4 mt-4">
+                    <button onclick="togglePZQQETState('WARM', true)" class="flex-1 bg-yellow-600/20 hover:bg-yellow-600/40 text-yellow-500 text-[8px] font-black py-2 rounded-lg border border-yellow-600/30 transition-all uppercase">Warm-Start (Aktiv)</button>
+                    <button onclick="togglePZQQETState('COLD', false)" class="flex-1 bg-blue-900/20 hover:bg-blue-900/40 text-blue-400 text-[8px] font-black py-2 rounded-lg border border-blue-900/30 transition-all uppercase">Cold-Lock (Inaktiv)</button>
+                </div>
             </div>
         </div>
 
@@ -63,21 +52,27 @@
             </button>
         </div>
 
-        <button onclick="if(confirm('Identität vom Netz lösen?')){localStorage.clear(); location.hash='home'; location.reload();}" class="w-full text-[9px] text-gray-600 hover:text-red-500 uppercase font-black transition-all">
+        <button onclick="if(confirm('WARNUNG: Dies löscht alle lokalen PZQQET-Daten permanent!')){localStorage.clear(); location.hash='home'; location.reload();}" class="w-full text-[9px] text-gray-700 hover:text-red-500 uppercase font-black transition-all pt-4">
             Identität entkoppeln & Daten löschen
         </button>
-
     </div>
 </div>
 
 <script>
     function downloadSecurityFile() {
-        const data = `PZQQET CERTIFICATE\nUser: ${localStorage.getItem('rfof_username')}\nStatus: WARM\nTime: ${new Date().toISOString()}`;
+        const user = localStorage.getItem('rfof_username') || 'Unbekannt';
+        const state = localStorage.getItem('rfof_state') || 'COLD';
+        const data = `PZQQET_SECURITY_CERTIFICATE\nUSER: ${user}\nSTATUS: ${state}\nTIMESTAMP: ${new Date().toISOString()}\nAXIOM_VERIFIED: TRUE`;
         const blob = new Blob([data], { type: 'text/plain' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'PZQQET-Security-Cert.txt';
+        a.download = `CERTIFICATE_${user}.txt`;
         a.click();
+    }
+
+    // Sofortiger Abgleich mit app.js Logic
+    if(typeof initSettingsSecurity === "function") {
+        initSettingsSecurity();
     }
 </script>
