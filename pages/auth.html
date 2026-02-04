@@ -22,91 +22,65 @@
                     class="w-full bg-[#0d1117] border border-[#30363d] p-3 rounded-xl text-white text-sm focus:border-blue-500 outline-none transition-all">
             </div>
             
-            <button onclick="finalizeIdentity()" 
+            <button id="finalize-btn" 
                 class="w-full bg-[#238636] hover:bg-[#2ea043] text-white font-bold py-4 rounded-2xl transition-all transform hover:scale-[1.02] shadow-lg text-xs uppercase tracking-widest mt-4">
                 Identität im Netz verankern
             </button>
         </div>
-
-        <p class="mt-6 text-[9px] text-gray-600 italic">
-            Hinweis: Diese Daten werden lokal in deinem PZQQET-Knoten verschlüsselt und bilden die Basis für deine Global VIP Card.
-        </p>
     </div>
 </div>
 
 <script>
-/**
- * Initialisiert die Logik für die Auth-Seite.
- * Prüft, ob bereits eine PZQQET-Identität verankert ist.
- */
-function initAuthLogic() {
+// Wir nutzen einen EventListener statt "onclick" im HTML, um Kollisionen zu vermeiden
+document.getElementById('finalize-btn')?.addEventListener('click', () => {
+    const user = document.getElementById('reg-user').value.trim();
+    const pass = document.getElementById('reg-pass').value.trim();
+    
+    if(!user || !pass) {
+        alert("PZQQET-Fehler: Name und Passwort erforderlich.");
+        return;
+    }
+
+    // 1. Daten-Injektion in den LocalStorage
+    localStorage.setItem('rfof_username', user);
+    localStorage.setItem('rfof_password', pass);
+    localStorage.setItem('rfof_state', 'WARM'); 
+    localStorage.setItem('rfof_balance', '50.00'); // Startbonus für System-Parity
+    
+    const randomIban = "DE" + Math.floor(Math.random() * 10**18).toString().padStart(18, '0');
+    localStorage.setItem('rfof_active_iban', randomIban);
+
+    // 2. Transaktion protokollieren (damit das Log nicht leer ist)
+    const initialLog = [{ name: 'SYSTEM_INIT', value: '50.00 €', time: new Date().toLocaleTimeString() }];
+    localStorage.setItem('rfof_live_log', JSON.stringify(initialLog));
+
+    alert("Identität verankert. Weiterleitung zum Profil...");
+
+    // 3. Sicherer Redirect
+    window.location.hash = '#profile';
+    
+    // Kleiner Delay, damit der Hash-Wechsel vom Browser verarbeitet wird, bevor der Reload alles killt
+    setTimeout(() => {
+        location.reload();
+    }, 150);
+});
+
+// Die Prüf-Logik muss sofort laufen
+(function initAuth() {
     const currentUser = localStorage.getItem('rfof_username');
     const wrapper = document.getElementById('auth-content-wrapper');
-    
-    if (currentUser) {
-        // ZUSTAND: BEREITS VERANKERT -> Zeige Status-Dashboard statt Formular
+    if (currentUser && wrapper) {
         wrapper.innerHTML = `
             <div class="mb-6">
                 <div class="inline-block p-4 rounded-full bg-green-500/10 border border-green-500/30 mb-4">
                     <span class="text-3xl">🛡️</span>
                 </div>
                 <h2 class="text-2xl font-bold text-green-400 tracking-tighter uppercase">Identität Aktiv</h2>
-                <p class="text-[10px] text-gray-500 font-mono mt-1">Status: VERANKERT IM RFOF-NETWORK</p>
+                <p class="text-[10px] text-gray-500 font-mono mt-1">Verankert als: ${currentUser}</p>
             </div>
-            
-            <div class="bg-[#0d1117] border border-[#30363d] p-4 rounded-2xl mb-6 text-left">
-                <span class="text-[9px] text-gray-500 uppercase block mb-1">Aktueller Knoten:</span>
-                <span class="text-white font-mono font-bold">${currentUser}</span>
-            </div>
-
-            <div class="space-y-3">
-                <a href="#profile" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition-all text-xs uppercase tracking-widest">
-                    Zum Profil
-                </a>
-                <button onclick="logoutPZQQET()" class="w-full bg-transparent border border-red-500/30 text-red-500/70 hover:text-red-500 hover:bg-red-500/10 py-3 rounded-xl text-[9px] uppercase transition-all">
-                    Identität vom Netz lösen (Logout)
-                </button>
-            </div>
+            <button onclick="localStorage.removeItem('rfof_username'); location.reload();" class="w-full bg-red-600/20 text-red-500 py-3 rounded-xl text-xs uppercase font-bold border border-red-500/30">Identität lösen</button>
+            <a href="#profile" class="block mt-4 text-blue-400 text-xs underline">Zurück zum Profil</a>
         `;
     }
-}
-
-/**
- * Erstellt eine neue Identität und verankert sie im LocalStorage.
- */
-function finalizeIdentity() {
-    const user = document.getElementById('reg-user').value.trim();
-    const pass = document.getElementById('reg-pass').value.trim();
-    
-    if(!user || !pass) {
-        alert("Fehler: Name und Passwort erforderlich für System-Parity.");
-        return;
-    }
-
-    localStorage.setItem('rfof_username', user);
-    localStorage.setItem('rfof_password', pass);
-    localStorage.setItem('rfof_state', 'WARM'); 
-    localStorage.setItem('rfof_balance', '0.00'); 
-    
-    const randomIban = "DE" + Math.floor(Math.random() * 10**18).toString().padStart(18, '0');
-    localStorage.setItem('rfof_active_iban', randomIban);
-
-    alert("Identität erfolgreich verankert. Willkommen im RFOF-NETWORK.");
-    window.location.hash = '#profile';
-    location.reload(); // Wichtig, um die app.js Header-Buttons zu aktualisieren
-}
-
-/**
- * Löscht die aktive Session-Identität.
- */
-window.logoutPZQQET = () => {
-    if(confirm("Möchtest du die Identität lösen? Dein Zugriff auf Profil & Banking wird gesperrt.")) {
-        localStorage.removeItem('rfof_username');
-        window.location.hash = '#home';
-        location.reload();
-    }
-};
-
-// Autostart der Prüfung
-initAuthLogic();
+})();
 </script>
