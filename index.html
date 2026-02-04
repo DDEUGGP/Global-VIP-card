@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,72 +7,51 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0d1117; color: #c9d1d9; }
         
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0d1117;
-            color: #c9d1d9;
-        }
-
-        .container {
-            max-width: 800px;
-        }
-
-        /* PZQQET BRÜCKEN-LOGIK: Versteckt Rahmen wenn injeziert */
-        #root-layer-target:not(:empty) {
-            border: none;
-            background: transparent;
-            padding: 0;
-        }
-
-        /* Verhindert doppelte Scrollbars bei Injektion */
-        main.container {
-            transition: all 0.3s ease-in-out;
-        }
+        /* PZQQET SMOOTH TRANSITION */
+        #app-container { transition: opacity 0.3s ease-in-out; }
+        .glass-nav { background: rgba(22, 27, 34, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid #30363d; }
     </style>
 </head>
-<body class="flex flex-col min-h-screen items-center p-4">
+<body class="flex flex-col min-h-screen items-center">
 
-    <header class="w-full flex justify-between items-center p-4 mb-8">
+    <header class="w-full glass-nav sticky top-0 z-50 flex justify-between items-center p-4">
         <nav class="flex items-center space-x-4">
-            <a href="./global-vip-card.html#settings" class="text-[#58a6ff] hover:text-[#79c0ff] transition-colors duration-200 text-xs uppercase font-bold tracking-tighter">Einstellungen</a>
+            <a href="#settings" class="text-[#58a6ff] hover:text-[#79c0ff] transition-colors text-xs uppercase font-bold tracking-tighter">Einstellungen</a>
         </nav>
 
         <div class="flex-grow text-center">
-            <a href="./global-vip-card.html#profile" class="inline-block bg-[#1f6feb] hover:bg-[#388bfd] text-white font-bold py-2 px-4 rounded-full transition-colors duration-200 text-xs uppercase shadow-lg shadow-blue-500/20">
+            <a href="#auth" id="main-auth-btn" class="inline-block bg-[#1f6feb] hover:bg-[#388bfd] text-white font-bold py-2 px-6 rounded-full transition-all text-xs uppercase shadow-lg shadow-blue-500/20">
                 Profil / Anmelden
             </a>
         </div>
         
         <div class="relative">
-            <button id="eu-dropdown-button" class="bg-[#238636] hover:bg-[#2ea043] text-white font-bold py-2 px-4 rounded-full transition-colors duration-200 text-xs uppercase shadow-lg shadow-green-500/20">
+            <button id="eu-dropdown-button" class="bg-[#238636] hover:bg-[#2ea043] text-white font-bold py-2 px-4 rounded-full transition-all text-xs uppercase shadow-lg shadow-green-500/20">
                 EU-Karten
             </button>
-            <div id="eu-dropdown-menu" class="absolute right-0 mt-2 w-48 bg-[#161b22] border border-[#30363d] rounded-md shadow-lg hidden z-10">
+            <div id="eu-dropdown-menu" class="absolute right-0 mt-2 w-48 bg-[#161b22] border border-[#30363d] rounded-md shadow-lg hidden z-[100]">
                 </div>
         </div>
     </header>
 
-    <main class="container mx-auto text-center p-8 bg-[#161b22] rounded-3xl shadow-2xl border border-[#30363d]">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#58a6ff] tracking-tighter">Global VIP Card</h1>
-        <p class="text-lg md:text-xl text-[#8b949e] mb-8 font-light">Eine Vision für revolutionäre Existenzmodelle.</p>
-        
-        <div class="text-left leading-relaxed text-[#c9d1d9] mb-8">
-            <p class="mb-4">
-                Die Global VIP Card ist mehr als nur eine digitale Identität. Sie ist das Tor zu einem umfassenden Ökosystem, das Abonnementdienste, Identifikationsfunktionen und vieles mehr integriert. Als Teil des InterBOxSpider@Web.NET-Frameworks ermöglicht sie eine nahtlose Interoperabilität in einer digitalisierten Welt.
-            </p>
-            <p>
-                Diese Plattform, entwickelt unter der **PZQQET-Axiometix**, nutzt Yggdrasil, die Codesprache aller Codesprachen, um eine sichere, effiziente und zukunftsfähige Infrastruktur zu schaffen.
-            </p>
+    <main id="app-container" class="w-full max-w-4xl mt-8 px-4">
+        <div class="flex flex-col items-center justify-center py-20 animate-pulse">
+            <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <span class="font-mono text-[10px] uppercase tracking-widest text-gray-500">PZQQET_BOOT_SEQUENCE...</span>
         </div>
+    </main>
 
-        </main>
-
-    <footer class="mt-8 text-[10px] text-[#8b949e] font-mono tracking-widest uppercase opacity-50">
-        &copy; 2025 RFOF-NETWORK // PZQQET CORE SYSTEM
+    <footer class="mt-auto py-8 text-[10px] text-[#8b949e] font-mono tracking-widest uppercase opacity-50 text-center">
+        &copy; 2026 RFOF-NETWORK // PZQQET CORE SYSTEM // V5-STABLE
     </footer>
     
+    <script src="js/components.js"></script>
+    <script src="js/app.js"></script>
+
     <script>
+        // EU-Dropdown Logik (Erhalten & Verstärkt)
         const euCountries = [
             { code: 'at', name: 'Österreich' }, { code: 'be', name: 'Belgien' },
             { code: 'bg', name: 'Bulgarien' }, { code: 'hr', name: 'Kroatien' },
@@ -96,8 +75,8 @@
         if (dropdownMenu) {
             euCountries.forEach(country => {
                 const link = document.createElement('a');
-                link.href = `./global-vip-card.html#card-generator?country=${country.code}`;
-                link.className = 'block px-4 py-2 text-sm text-[#c9d1d9] hover:bg-[#2d333b] transition-all';
+                link.href = `#card-generator?country=${country.code}`;
+                link.className = 'block px-4 py-2 text-sm text-[#c9d1d9] hover:bg-[#2d333b] transition-all hover:pl-6';
                 link.textContent = country.name;
                 dropdownMenu.appendChild(link);
             });
@@ -108,9 +87,7 @@
             dropdownMenu.classList.toggle('hidden');
         });
 
-        window.addEventListener('click', () => {
-            dropdownMenu?.classList.add('hidden');
-        });
+        window.addEventListener('click', () => dropdownMenu?.classList.add('hidden'));
     </script>
 </body>
 </html>
