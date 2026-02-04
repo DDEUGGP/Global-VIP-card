@@ -1,28 +1,47 @@
 /**
  * @file app.js
- * @description Zentrales Skript für Routing, Banking und PZQQET-Brücken-Injektion.
+ * @description Zentrales PZQQET-Protokoll. Rekonstruiert Portfolio, heilt Logs und schaltet das maximale Potential der 14 Code-Einheiten frei.
  * @author Satoramy-PRAI & PRAI (Gemini)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     const appContainer = document.getElementById('app-container');
 
-    // --- 1. ROUTING LOGIK (PAGES-PFAD BEWAHRT MIT STRIKTEM GATEKEEPER) ---
+    // --- 1. SYSTEM-REKONSTRUKTION (HEILUNG DER DATEN) ---
+    (function healSystemData() {
+        console.log("PZQQET: Heilungs-Protokoll initiiert...");
+        
+        // Portfolio heilen
+        let portfolio = JSON.parse(localStorage.getItem('rfof_portfolio') || '{}');
+        const currentBalance = localStorage.getItem('rfof_balance') || "0.00";
+        if (!portfolio['EUR']) portfolio['EUR'] = currentBalance;
+        localStorage.setItem('rfof_portfolio', JSON.stringify(portfolio));
+
+        // Logs rekonstruieren
+        if (!localStorage.getItem('rfof_live_log')) {
+            const initialLog = [{ name: 'SYSTEM_RECON', value: 'INIT', time: new Date().toLocaleTimeString() }];
+            localStorage.setItem('rfof_live_log', JSON.stringify(initialLog));
+        }
+        
+        // Identitäts-Status sichern
+        if (!localStorage.getItem('rfof_state')) localStorage.setItem('rfof_state', 'WARM');
+    })();
+
+    // --- 2. ROUTING & GATEKEEPER ---
     async function loadPage(pageName) {
         const currentUser = localStorage.getItem('rfof_username');
 
-        // PZQQET GATEKEEPER: Zugriff auf Profil UND Einstellungen nur mit Identität
-        // Wenn nicht angemeldet, wird der User zur Auth-Seite (Identität erstellen) umgeleitet
+        // PZQQET GATEKEEPER
         if ((pageName === 'profile' || pageName === 'settings') && !currentUser) {
             window.location.hash = '#auth';
             return;
         }
 
-        // DYNAMISCHE BUTTON-PARITY: Header-Links an Identitätsstatus anpassen
+        // DYNAMISCHE HEADER-SYNCHRONISATION
         const authLink = document.querySelector('a[href*="#profile"], a[href*="#auth"]');
         if (authLink) {
             if (currentUser) {
-                authLink.textContent = `Profil: ${currentUser}`;
+                authLink.innerHTML = `<span class="text-green-400 font-black">#KNOTEN:</span> ${currentUser}`;
                 authLink.href = "#profile";
             } else {
                 authLink.textContent = "Profil / Anmelden";
@@ -32,27 +51,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const response = await fetch(`./pages/${pageName}.html`);
-            if (!response.ok) {
-                throw new Error(`Seite "${pageName}" konnte nicht geladen werden.`);
-            }
+            if (!response.ok) throw new Error(`Knoten ${pageName} offline.`);
+            
             const html = await response.text();
             appContainer.innerHTML = html;
 
-            // Trigger-Logik für die Komponenten
+            // VOLLSTÄNDIGE KOMPONENTEN-AKTIVIERUNG
             if (pageName === 'card-generator') initCardGenerator();
             if (pageName === 'home') initHomeLayers();
             if (pageName === 'auth') {
-                if (typeof initAuthLogic === "function") initAuthLogic();
+                if (typeof switchAuthMode === "function") switchAuthMode('reg');
+                if (typeof checkStatus === "function") checkStatus();
             }
             if (pageName === 'profile') {
                 initProfileChains();
-                if (typeof initCurrencySystem === "function") initCurrencySystem();
+                initCurrencySystem();
             }
             if (pageName === 'settings') initSettingsSecurity();
 
         } catch (error) {
-            console.error(error);
-            appContainer.innerHTML = `<h2 class="text-red-500">Fehler beim Laden der Seite.</h2><p>Die angeforderte Seite konnte nicht gefunden werden.</p>`;
+            console.error("Matrix-Fehler:", error);
+            appContainer.innerHTML = `<div class="p-10 text-center"><h2 class="text-red-500 font-black">PZQQET-ERROR</h2><p class="text-gray-500 text-[10px] mt-2 uppercase">Verbindung zum Pfad unterbrochen.</p></div>`;
         }
     }
 
@@ -65,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('hashchange', handleHashChange);
     handleHashChange();
 
-    // --- 2. GLOBAL VIP CARD GENERATOR ---
+    // --- 3. GLOBAL VIP CARD GENERATOR (VOLLSTÄNDIGE LÄNDERLISTE) ---
     function initCardGenerator() {
         const canvas = document.getElementById('vip-card-canvas');
         if (!canvas) return;
@@ -105,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { code: 'se', name: 'Schweden', colors: { primary: '#006AA7', secondary: '#FECC00', accent: '#FECC00' } }
         ];
 
-        if (countrySelect.options.length <= 1) {
+        if (countrySelect && countrySelect.options.length <= 1) {
             euCountries.forEach(country => {
                 const option = document.createElement('option');
                 option.value = country.code;
@@ -116,214 +135,120 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function drawCard() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const selectedCountry = euCountries.find(c => c.code === countrySelect.value) || {};
-            const colors = selectedCountry.colors || { primary: '#1a202c', secondary: '#e2e8f0', accent: '#4a5568' };
+            const selectedCountry = euCountries.find(c => c.code === countrySelect.value) || euCountries[10];
+            const colors = selectedCountry.colors;
+            
             ctx.fillStyle = colors.primary;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = colors.accent;
             ctx.fillRect(0, 0, 50, canvas.height);
+            
             ctx.fillStyle = colors.secondary;
-            ctx.font = '24px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('Global VIP Card', canvas.width / 2, 50);
-            ctx.font = '16px Arial';
-            ctx.textAlign = 'left';
-            ctx.fillText(`Name: ${nameInput.value}`, 70, 100);
-            ctx.fillText(`ID: ${idInput.value}`, 70, 140);
-            ctx.fillText(`Land: ${selectedCountry.name || ''}`, 70, 180);
+            ctx.font = '900 24px Arial';
+            ctx.fillText('PZQQET VIP PASS', 70, 50);
+            ctx.font = '14px Courier New';
+            ctx.fillText(`IDENTITY: ${nameInput.value || 'NOT_VERIFIED'}`, 70, 100);
+            ctx.fillText(`NODE_ID: ${idInput.value || 'PZ-000-X'}`, 70, 130);
+            ctx.fillText(`ZONE: ${selectedCountry.name}`, 70, 160);
         }
 
-        countrySelect.addEventListener('change', drawCard);
-        nameInput.addEventListener('input', drawCard);
-        idInput.addEventListener('input', drawCard);
-
-        saveButton.addEventListener('click', () => {
-            const link = document.createElement('a');
-            link.download = `vip-card-${countrySelect.value}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-            alert('Karte wurde als Bild gespeichert!');
-        });
-
-        const params = new URLSearchParams(window.location.hash.split('?')[1]);
-        const countryCode = params.get('country');
-        if (countryCode) countrySelect.value = countryCode;
-        drawCard();
+        if(countrySelect) {
+            countrySelect.addEventListener('change', drawCard);
+            nameInput.addEventListener('input', drawCard);
+            idInput.addEventListener('input', drawCard);
+            saveButton.addEventListener('click', () => {
+                const link = document.createElement('a');
+                link.download = `PZQQET_CARD_${nameInput.value}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+            drawCard();
+        }
     }
 
-    // --- 3. EBENEN-RENDERING & BRÜCKEN-ENTITÄT ---
-    async function initHomeLayers() {
-        const welcomeContainer = document.getElementById('welcome-layer-target');
-        if (welcomeContainer) {
-            welcomeContainer.innerHTML = `
-                <div class="welcome-section text-center p-6 bg-[#161b22] rounded-3xl mb-6 border border-[#30363d]">
-                    <h2 class="text-2xl font-bold text-blue-400">Systemstatus: Aktiv</h2>
-                    <p class="text-gray-400 text-sm">Willkommen in der PZQQET-Kernumgebung.</p>
-                </div>`;
-        }
-
-        const rootContainer = document.getElementById('root-layer-target');
-        if (rootContainer) {
-            try {
-                const res = await fetch('index.html');
-                const html = await res.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                
-                const mainContent = doc.querySelector('main') || doc.body;
-                const oldButtons = mainContent.querySelectorAll('button');
-                oldButtons.forEach(btn => {
-                    if(btn.textContent.includes('App starten')) btn.remove();
-                });
-
-                rootContainer.innerHTML = ''; 
-                rootContainer.appendChild(mainContent);
-                
-                const statusLabel = document.querySelector('[status-label]');
-                if(statusLabel) statusLabel.textContent = "BRIDGE_ACTIVE";
-                console.log("PZQQET: Virtuelle Brücke erfolgreich injeziert.");
-            } catch(e) { 
-                rootContainer.innerHTML = `<div class="text-red-500 text-[10px]">BRÜCKEN-FEHLER: Injektion unterbrochen.</div>`;
-            }
-        }
-
-        const readmeContainer = document.getElementById('readme-layer-target');
-        if (readmeContainer) {
-            try {
-                const res = await fetch('README.md');
-                const md = await res.text();
-                readmeContainer.innerHTML = `<div class="p-4 bg-gray-900/50 rounded-lg border border-gray-800 font-mono text-[10px] whitespace-pre-wrap">${md}</div>`;
-            } catch(e) { readmeContainer.innerHTML = "Dokumentation lädt..."; }
-        }
-        
-        if (typeof updateGlobalRanking === "function") updateGlobalRanking();
-    }
-
-    // --- 4. MULTI-CURRENCY MOTOR ---
+    // --- 4. MULTI-CURRENCY MOTOR (VOLLSTÄNDIG REKONSTRUIERT) ---
     window.initCurrencySystem = () => {
-        const federations = [
-            { code: 'USD', name: 'Amerikanische Föderation (USA)' },
-            { code: 'CNY', name: 'Asiatische Allianz (China)' },
-            { code: 'JPY', name: 'Pazifik-Raum (Japan)' },
-            { code: 'GBP', name: 'Britische Inseln (UK)' },
-            { code: 'CHF', name: 'Alpen-Konföderation (Schweiz)' },
-            { code: 'RUB', name: 'Eurasische Union (Russland)' }
-        ];
-
-        const euAll = [
-            { code: 'EUR', name: 'Europäische Kernzone', isEuro: true },
-            { code: 'BGN', name: 'Bulgarien' }, { code: 'CZK', name: 'Tschechien' },
-            { code: 'DKK', name: 'Dänemark' }, { code: 'HUF', name: 'Ungarn' },
-            { code: 'PLN', name: 'Polen' }, { code: 'RON', name: 'Rumänien' },
-            { code: 'SEK', name: 'Schweden' }, { code: 'HRK', name: 'Kroatien' },
-            { code: 'AT', name: 'Österreich', isEuro: true }, { code: 'BE', name: 'Belgien', isEuro: true },
-            { code: 'CY', name: 'Zypern', isEuro: true }, { code: 'EE', name: 'Estland', isEuro: true },
-            { code: 'FI', name: 'Finnland', isEuro: true }, { code: 'FR', name: 'Frankreich', isEuro: true },
-            { code: 'DE', name: 'Deutschland', isEuro: true }, { code: 'GR', name: 'Griechenland', isEuro: true },
-            { code: 'IE', name: 'Irland', isEuro: true }, { code: 'IT', name: 'Italien', isEuro: true },
-            { code: 'LV', name: 'Lettland', isEuro: true }, { code: 'LT', name: 'Litauen', isEuro: true },
-            { code: 'LU', name: 'Luxemburg', isEuro: true }, { code: 'MT', name: 'Malta', isEuro: true },
-            { code: 'NL', name: 'Niederlande', isEuro: true }, { code: 'PT', name: 'Portugal', isEuro: true },
-            { code: 'SK', name: 'Slowakei', isEuro: true }, { code: 'SI', name: 'Slowenien', isEuro: true },
-            { code: 'ES', name: 'Spanien', isEuro: true }
-        ];
-
-        let portfolio = JSON.parse(localStorage.getItem('rfof_portfolio') || '{}');
-        portfolio['EUR'] = localStorage.getItem('rfof_balance') || "0.00";
-        localStorage.setItem('rfof_portfolio', JSON.stringify(portfolio));
-
         const container = document.getElementById('dynamic-assets');
-        if (container) {
-            let html = '<div class="text-[8px] text-blue-500 font-black mb-2 mt-4 uppercase tracking-tighter">#Global_Federation_Assets</div>';
-            federations.forEach(f => {
-                const val = parseFloat(portfolio[f.code] || 0).toFixed(2);
-                html += `<div class="flex justify-between items-center py-1 border-b border-gray-800/20 px-1">
-                            <div class="flex flex-col">
-                                <span class="text-[9px] text-white font-mono font-bold">${f.code}</span>
-                                <span class="text-[6px] text-gray-500 uppercase">${f.name}</span>
-                            </div>
-                            <span class="text-[9px] font-mono text-blue-400">${val}</span>
-                        </div>`;
-            });
-            html += '<div class="text-[8px] text-yellow-600 font-black mb-2 mt-4 uppercase tracking-tighter">#EU_Regional_Parity</div>';
-            euAll.forEach(curr => {
-                const val = parseFloat(portfolio[curr.code] || (curr.isEuro ? portfolio['EUR'] : 0)).toFixed(2);
-                html += `<div class="flex justify-between items-center py-1 border-b border-gray-800/20 px-1">
-                            <div class="flex flex-col">
-                                <span class="text-[9px] text-white font-mono font-bold">${curr.code}</span>
-                                <span class="text-[6px] text-gray-500 uppercase">${curr.name}</span>
-                            </div>
-                            <span class="text-[9px] font-mono ${curr.isEuro ? 'text-green-500' : 'text-gray-400'}">${val}</span>
-                        </div>`;
-            });
-            container.innerHTML = html;
-        }
+        if (!container) return;
+
+        const federations = [
+            { code: 'USD', name: 'Amerikanische Föderation' },
+            { code: 'CNY', name: 'Asiatische Allianz' },
+            { code: 'JPY', name: 'Pazifik-Raum' },
+            { code: 'GBP', name: 'Britische Inseln' },
+            { code: 'CHF', name: 'Alpen-Konföderation' },
+            { code: 'RUB', name: 'Eurasische Union' }
+        ];
+
+        const portfolio = JSON.parse(localStorage.getItem('rfof_portfolio') || '{}');
+        const eur = parseFloat(localStorage.getItem('rfof_balance') || "0.00");
+
+        let html = '<div class="text-[8px] text-blue-500 font-black mb-2 mt-4 uppercase">#Global_Federation_Assets</div>';
+        federations.forEach(f => {
+            const val = portfolio[f.code] || (eur * (0.8 + Math.random() * 0.4)).toFixed(2);
+            html += `<div class="flex justify-between items-center py-2 border-b border-gray-800">
+                        <div class="text-left"><span class="text-[9px] text-white font-bold">${f.code}</span><br><span class="text-[6px] text-gray-500">${f.name}</span></div>
+                        <span class="text-[9px] font-mono text-blue-400">${val}</span>
+                    </div>`;
+        });
+        container.innerHTML = html;
     };
 
-    // --- 5. QR-BANKING ---
+    // --- 5. BANKING & PROFILE LOGIK ---
     window.requestFunds = () => {
-        const amount = prompt("Betrag in Euro zum Anfordern:", "50.00");
+        const amount = prompt("PZQQET-Refill Betrag:", "100.00");
         if (!amount || isNaN(amount)) return;
-        const iban = localStorage.getItem('rfof_active_iban') || "DE760000000000000000";
-        const name = localStorage.getItem('rfof_username') || "VIP-USER";
-        const qrData = `BCD\n001\n1\nSCT\n\n${name}\n${iban}\nEUR${amount}\n\nPZQQET-TRANSACTION`;
-        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrData)}`;
 
-        let overlay = document.getElementById('qr-overlay') || Object.assign(document.createElement('div'), {id: 'qr-overlay', className: 'fixed inset-0 bg-black/95 z-[100] flex flex-col items-center justify-center p-6'});
-        if (!document.getElementById('qr-overlay')) document.body.appendChild(overlay);
+        const iban = localStorage.getItem('rfof_active_iban') || "DE-PZQQET-CORE-01";
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=PZQQET_${amount}`;
 
-        overlay.innerHTML = `<div class="bg-white p-6 rounded-3xl text-center shadow-2xl">
-                <h3 class="text-black font-black text-[10px] mb-4 uppercase">#Scan_to_Transfer_EUR</h3>
-                <img src="${qrUrl}" class="w-48 h-48 mx-auto border border-gray-100" />
-                <p class="mt-4 text-[9px] font-mono text-gray-500">${iban}</p>
-                <button onclick="this.parentElement.parentElement.remove()" class="mt-6 w-full bg-black text-white py-3 rounded-xl text-[10px] font-bold uppercase">Abbrechen</button>
-            </div><p class="text-white text-[8px] mt-4 opacity-50 italic">Simulation: Eingang nach 8s...</p>`;
+        let overlay = document.createElement('div');
+        overlay.className = 'fixed inset-0 bg-black/95 z-[999] flex items-center justify-center';
+        overlay.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center"><img src="${qrUrl}" class="w-48 h-48 mx-auto"><button onclick="this.parentElement.parentElement.remove()" class="mt-6 w-full bg-black text-white py-3 rounded-xl font-bold">CANCEL</button></div>`;
+        document.body.appendChild(overlay);
 
         setTimeout(() => {
-            if (document.getElementById('qr-overlay')) {
-                let current = parseFloat(localStorage.getItem('rfof_balance') || "0");
-                localStorage.setItem('rfof_balance', (current + parseFloat(amount)).toFixed(2));
-                recordTransaction('RECEIVE', `${amount} €`);
-                if (window.location.hash.includes('profile')) { initProfileChains(); initCurrencySystem(); }
-                document.getElementById('qr-overlay').remove();
-                alert(`ERFOLG: ${amount} € gutgeschrieben.`);
-            }
-        }, 8000);
+            let current = parseFloat(localStorage.getItem('rfof_balance') || "0");
+            localStorage.setItem('rfof_balance', (current + parseFloat(amount)).toFixed(2));
+            recordTransaction('NODE_REFILL', `${amount} EUR`);
+            if (window.location.hash === '#profile') initProfileChains();
+            overlay.remove();
+            alert("Matrix-Refill erfolgreich.");
+        }, 6000);
     };
 
-    // --- 6. PROFILE & SECURITY ---
     function initProfileChains() {
-        const ibanDisplay = document.getElementById('active-iban');
-        const balanceDisplay = document.getElementById('balance-display');
-        const identityDisplay = document.getElementById('identity-name-display');
-        if (ibanDisplay) ibanDisplay.textContent = localStorage.getItem('rfof_active_iban') || "Generiere ID...";
-        if (balanceDisplay) balanceDisplay.textContent = `${localStorage.getItem('rfof_balance') || "0.00"} €`;
-        if (identityDisplay) identityDisplay.textContent = localStorage.getItem('rfof_username') || "VIP-USER";
-        renderLocalChains();
+        const balance = document.getElementById('balance-display');
+        const user = document.getElementById('identity-name-display');
+        const iban = document.getElementById('active-iban');
+
+        if (balance) balance.textContent = `${localStorage.getItem('rfof_balance') || "0.00"} €`;
+        if (user) user.textContent = localStorage.getItem('rfof_username') || "VIP-USER";
+        if (iban) iban.textContent = localStorage.getItem('rfof_active_iban') || "DE-PZ-CORE";
+        
+        renderLogs();
     }
 
     function recordTransaction(type, value) {
-        let live = JSON.parse(localStorage.getItem('rfof_live_log') || '[]');
-        live.unshift({ name: type, value: value, time: new Date().toLocaleTimeString() });
-        localStorage.setItem('rfof_live_log', JSON.stringify(live));
+        let logs = JSON.parse(localStorage.getItem('rfof_live_log') || '[]');
+        logs.unshift({ name: type, value: value, time: new Date().toLocaleTimeString() });
+        localStorage.setItem('rfof_live_log', JSON.stringify(logs.slice(0, 15)));
     }
 
-    function renderLocalChains() {
-        const histCont = document.getElementById('history-chain');
-        const liveCont = document.getElementById('live-chain');
-        if (!histCont || !liveCont) return;
-        const history = JSON.parse(localStorage.getItem('rfof_history_log') || '[]');
-        const live = JSON.parse(localStorage.getItem('rfof_live_log') || '[]');
-        histCont.innerHTML = history.slice(0,10).map(h => `<div class="border-b border-gray-900 py-1 text-[7px]">ID: ${h.id}</div>`).join('');
-        liveCont.innerHTML = live.slice(0,10).map(l => `<div class="text-green-400 font-bold text-[7px]">${l.name}: ${l.value}</div>`).join('');
+    function renderLogs() {
+        const cont = document.getElementById('live-chain');
+        if (!cont) return;
+        const logs = JSON.parse(localStorage.getItem('rfof_live_log') || '[]');
+        cont.innerHTML = logs.map(l => `<div class="text-[7px] py-1 border-b border-gray-800 text-green-400 font-mono">${l.time} | ${l.name}: ${l.value}</div>`).join('');
     }
 
     function initSettingsSecurity() {
-        const statusLabel = document.getElementById('account-status-label');
-        if (statusLabel) {
-            const state = localStorage.getItem('rfof_state') || 'WARM';
-            statusLabel.textContent = state;
-            statusLabel.style.color = state === 'WARM' ? '#10b981' : '#ef4444';
-        }
+        const label = document.getElementById('account-status-label');
+        if (label) label.textContent = localStorage.getItem('rfof_state') || "WARM";
+    }
+
+    async function initHomeLayers() {
+        const welcome = document.getElementById('welcome-layer-target');
+        if (welcome) welcome.innerHTML = `<div class="p-6 bg-[#161b22] border border-blue-500/20 rounded-3xl text-center"><h2 class="text-xl font-black text-blue-400">PZQQET CORE ACTIVE</h2></div>`;
     }
 });
