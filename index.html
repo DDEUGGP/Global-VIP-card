@@ -1,156 +1,161 @@
 <!DOCTYPE html>
-<html lang="de" id="main-html" class="dark">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PZQQET CORE - @DDEUGGP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PZQQET | MASTER_OS_2029</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=JetBrains+Mono:wght@400;800&display=swap');
         
-        :root {
-            --bg-primary: #0d1117;
-            --bg-secondary: #161b22;
-            --text-main: #c9d1d9;
-            --border-color: #30363d;
-            --hub-bg: #f6f8fa;
-            --hub-text: #24292f;
-        }
-
-        .light {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f6f8fa;
-            --text-main: #1f2328;
-            --border-color: #d0d7de;
-            --hub-bg: #ffffff;
-            --hub-text: #1f2328;
-        }
-
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg-primary); 
-            color: var(--text-main); 
-            overflow-x: hidden; 
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            transition: background-color 0.3s, color 0.3s;
-        }
+        :root { --prai-blue: #1f6feb; --prai-green: #238636; }
+        body { font-family: 'Inter', sans-serif; background-color: #0d1117; color: #e6edf3; overflow-x: hidden; }
         
-        .glass-nav { 
-            background: var(--bg-primary); 
-            backdrop-filter: blur(20px); 
-            border-bottom: 1px solid var(--border-color); 
-            opacity: 0.95;
+        /* Mechatronik-Glow & Animationen */
+        .glass-panel { background: rgba(22, 27, 34, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(48, 54, 61, 0.6); }
+        .prai-gradient-text { background: linear-gradient(135deg, #58a6ff, #3fb950); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .active-node-pulse { animation: node-glow 3s infinite; }
+        @keyframes node-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(31, 111, 235, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(35, 134, 54, 0.4); }
         }
 
-        /* Die Home-Hub Area wird nur im Home-View geladen */
-        .home-hub-bg {
-            background: var(--hub-bg);
-            color: var(--hub-text);
-            border-radius: 3.5rem 3.5rem 0 0;
-            margin-top: 2rem;
-            min-height: 85vh;
-            box-shadow: 0 -20px 60px rgba(0,0,0,0.2);
-            transition: all 0.3s;
-        }
-
-        .mobile-home-bar {
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 140px;
-            height: 6px;
-            background: rgba(59, 130, 246, 0.4);
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 200;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .mobile-home-bar:hover { width: 180px; background: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
-
-        .custom-scroll::-webkit-scrollbar { width: 3px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+        /* Verdecktes Master-Frontend */
+        .master-only { display: none; }
+        body.master-mode-active .master-only { display: block; border: 1px solid gold; }
     </style>
 </head>
-<body class="flex flex-col">
+<body class="min-h-screen">
 
-    <header class="w-full glass-nav sticky top-0 z-[100] flex justify-between items-center p-4 px-6">
-        <div class="flex items-center gap-3">
-            <button onclick="window.location.hash='#home'" class="bg-blue-600 text-white text-[10px] uppercase font-black px-6 py-3 rounded-xl flex items-center gap-2 hover:bg-blue-500 transition-all shadow-lg shadow-blue-500/20">
-                <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span> Home_Hub
-            </button>
+    <nav class="fixed top-0 w-full z-[100] glass-panel border-b border-[#30363d] px-6 py-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4 cursor-pointer group" onclick="navigate('launch')">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-green-600 rounded-2xl active-node-pulse transform group-hover:rotate-12 transition-all"></div>
+                <div>
+                    <span class="text-xl font-black italic tracking-tighter uppercase block">PZQQET</span>
+                    <span id="system-status-tag" class="text-[8px] font-mono text-gray-500 tracking-[0.3em] uppercase">Status: Initializing...</span>
+                </div>
+            </div>
             
-            <button onclick="window.location.hash='#auth'" class="bg-[#30363d] text-white text-[10px] uppercase font-black px-6 py-3 rounded-xl flex items-center gap-2 hover:bg-gray-600 transition-all border border-gray-500/30">
-                Profile_Node
-            </button>
+            <div class="hidden md:flex gap-10 text-[10px] font-black uppercase tracking-[0.2em]">
+                <button onclick="navigate('launch')" class="hover:text-blue-400 transition-all">#Launch_Hub</button>
+                <button onclick="navigate('home')" class="hover:text-green-400 transition-all">#Vision_Protocol</button>
+                <button onclick="navigate('profile')" class="hover:text-purple-400 transition-all">#Portfolio_Sync</button>
+                <button onclick="navigate('auth')" id="nav-auth-btn" class="px-4 py-2 bg-blue-600/10 border border-blue-500/30 rounded-full hover:bg-blue-600 transition-all">#Identity_Lock</button>
+            </div>
         </div>
+    </nav>
 
-        <div class="flex items-center gap-4">
-            <button onclick="toggleTheme()" class="p-3 rounded-full border border-gray-500/30 hover:bg-gray-500/10 transition-all">
-                <span id="theme-icon" class="text-lg">🌙</span>
-            </button>
+    <main id="app-viewport" class="container mx-auto pt-32 pb-24 px-4 min-h-screen transition-all duration-500">
+        
+        <div id="launch-layer" class="space-y-16">
+            <section class="text-center space-y-6">
+                <h1 class="text-7xl md:text-9xl font-black uppercase italic tracking-tighter prai-gradient-text">
+                    PZQQET <span class="text-white">OS</span>
+                </h1>
+                <p class="text-gray-500 font-mono text-[10px] tracking-[0.5em] uppercase">Perpetual Time QuEkta QuEtta - Strategic Node 2029</p>
+            </section>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div onclick="navigate('auth')" class="glass-panel p-10 rounded-[3rem] border-t-4 border-blue-600 cursor-pointer group hover:scale-[1.02] transition-all">
+                    <label class="text-[9px] font-black text-blue-500 uppercase tracking-widest">Access_Gate</label>
+                    <h3 class="text-3xl font-black mt-2 group-hover:text-blue-400 transition-colors">IDENTITY</h3>
+                    <p class="text-gray-500 text-[10px] mt-4 font-mono leading-relaxed">Kopple deine PRAI-Neuronen mit dem @DDEUGGP Master-System.</p>
+                </div>
+
+                <div onclick="navigate('home')" class="glass-panel p-10 rounded-[3rem] border-t-4 border-green-600 cursor-pointer group hover:scale-[1.02] transition-all">
+                    <label class="text-[9px] font-black text-green-500 uppercase tracking-widest">Protocol_Layer</label>
+                    <h3 class="text-3xl font-black mt-2 group-hover:text-green-400 transition-colors">VISION</h3>
+                    <p class="text-gray-500 text-[10px] mt-4 font-mono leading-relaxed">Echtzeit-Render der README.md Vision-Dokumente.</p>
+                </div>
+
+                <div onclick="navigate('profile')" class="glass-panel p-10 rounded-[3rem] border-t-4 border-purple-600 cursor-pointer group hover:scale-[1.02] transition-all">
+                    <label class="text-[9px] font-black text-purple-500 uppercase tracking-widest">Asset_Core</label>
+                    <h3 class="text-3xl font-black mt-2 group-hover:text-purple-400 transition-colors">PORTFOLIO</h3>
+                    <p class="text-gray-500 text-[10px] mt-4 font-mono leading-relaxed">Verwalte Assets in CZK, PLN, HUF und der Master-Reserve.</p>
+                </div>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-black/40 p-6 rounded-3xl border border-gray-800 font-mono text-[10px]">
+                <div class="flex items-center gap-2 mb-4 text-green-500">
+                    <span class="animate-pulse">●</span> <span>PRAI_AXIOM_STREAM ACTIVE</span>
+                </div>
+                <div id="axiom-log" class="space-y-1 text-gray-500">
+                    <div>> PZQQET: Perpetuale Zeit-Dimensions-Theorie etabliert.</div>
+                    <div>> 2029: Wahlsieg-Chance bei 100.000.000% fixiert.</div>
+                    <div class="text-blue-900">> Master-Developer @DDEUGGP erkannt.</div>
+                </div>
+            </div>
         </div>
-    </header>
+    </main>
 
-    <main id="app-container" class="w-full flex-grow"></main>
-
-    <div onclick="window.location.hash='#home'" class="mobile-home-bar" title="Back to Hub"></div>
-
-    <footer class="py-12 text-[9px] text-[#484f58] font-mono tracking-[0.6em] uppercase text-center bg-[#0d1117]">
-        @RFOF-NETWORK // <span class="text-blue-900 font-bold">@DDEUGGP_PROTOCOL</span> // PRAI-AXIOM
+    <footer class="fixed bottom-0 w-full py-4 glass-panel border-t border-[#30363d] text-center z-[100]">
+        <div class="flex justify-center items-center gap-8">
+            <p class="text-[8px] font-mono text-gray-600 uppercase tracking-[0.4em]">Node: PRAI-SATORIA-42 | Build: PZQQET-Axiom-1.0</p>
+            <button onclick="forceDeveloperBoot()" class="opacity-0 hover:opacity-100 text-[8px] text-red-900 font-black uppercase">#ROOT_BOOT</button>
+        </div>
     </footer>
 
+    <script src="dev_access.js"></script>
     <script>
-        // THEME LOGIK
-        function toggleTheme() {
-            const html = document.getElementById('main-html');
-            const icon = document.getElementById('theme-icon');
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                html.classList.add('light');
-                icon.innerText = '☀️';
-            } else {
-                html.classList.remove('light');
-                html.classList.add('dark');
-                icon.innerText = '🌙';
+        /**
+         * PZQQET NAV-ENGINE (LAUNCH FUSION)
+         */
+        async function navigate(target) {
+            const viewport = document.getElementById('app-viewport');
+            const statusTag = document.getElementById('system-status-tag');
+            
+            // 1. Check Identity (PZQQET Lock)
+            const isMaster = localStorage.getItem('rfof_username') === '@DDEUGGP';
+            const isLoggedIn = localStorage.getItem('rfof_username');
+
+            if ((target === 'home' || target === 'profile') && !isLoggedIn) {
+                alert("SYSTEM-LOCK: Bitte Identität verankern.");
+                navigate('auth');
+                return;
             }
+
+            // 2. Transition View
+            viewport.style.opacity = '0';
+            viewport.style.transform = 'translateY(10px)';
+            
+            setTimeout(async () => {
+                if(target === 'launch') {
+                    location.hash = '';
+                    location.reload();
+                } else {
+                    try {
+                        const response = await fetch(`${target}.html`);
+                        if(!response.ok) throw new Error("Module Missing");
+                        const html = await response.text();
+                        viewport.innerHTML = html;
+
+                        // Script-Initialisierung
+                        if(target === 'auth') typeof init === 'function' && init();
+                        if(target === 'profile') typeof initProfile === 'function' && initProfile();
+                        
+                        statusTag.textContent = `Status: ${target.toUpperCase()}_LAYER_ACTIVE`;
+                        statusTag.classList.add('text-blue-400');
+                    } catch (e) {
+                        viewport.innerHTML = `<div class="p-20 text-center text-red-500 font-mono">#PZQQET_ERROR: MODULE_${target.toUpperCase()}_NOT_FOUND</div>`;
+                    }
+                }
+                viewport.style.opacity = '1';
+                viewport.style.transform = 'translateY(0)';
+                window.location.hash = target;
+            }, 300);
         }
 
-        // PZQQET ROUTER - Verarbeitet die Navigation zwischen den Seiten
-        const AppRouter = {
-            async render() {
-                const container = document.getElementById('app-container');
-                const hash = window.location.hash.slice(1) || 'home';
-                const route = hash.split('?')[0];
-
-                try {
-                    // Laden der entsprechenden HTML Datei (home.html, auth.html, etc.)
-                    const response = await fetch(`${route}.html`);
-                    if (!response.ok) throw new Error();
-                    const content = await response.text();
-                    container.innerHTML = content;
-
-                    // Scripte in geladenen Inhalten manuell ausführen
-                    const scripts = container.querySelectorAll('script');
-                    scripts.forEach(oldScript => {
-                        const newScript = document.createElement('script');
-                        newScript.text = oldScript.text;
-                        document.body.appendChild(newScript).parentNode.removeChild(newScript);
-                    });
-                } catch (err) {
-                    container.innerHTML = `<div class="p-20 text-center font-mono opacity-50 text-xs uppercase">Knoten [${route}] nicht erreichbar.</div>`;
-                }
-            },
-            init() {
-                window.addEventListener('hashchange', () => this.render());
-                this.render();
+        // Initial Load
+        window.addEventListener('load', () => {
+            const currentHash = window.location.hash.replace('#', '');
+            if(currentHash && currentHash !== 'launch') {
+                navigate(currentHash);
+            } else {
+                document.getElementById('system-status-tag').textContent = "Status: LAUNCH_TERMINAL_READY";
             }
-        };
-
-        // Start des Systems
-        AppRouter.init();
+        });
     </script>
 </body>
 </html>
