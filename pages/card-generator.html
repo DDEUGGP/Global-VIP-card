@@ -1,11 +1,11 @@
-<div class="bg-white p-6 rounded-3xl shadow-2xl flex flex-col items-center border border-gray-100">
-    <h2 class="text-2xl font-black mb-2 text-center text-gray-900 tracking-tighter">GLOBAL VIP CARD GENERATOR</h2>
-    <p class="text-center text-gray-500 mb-8 text-sm px-4">Wähle dein Land aus der PZQQET-Föderation und präge deine Identität.</p>
+<div class="bg-white p-6 rounded-3xl shadow-2xl flex flex-col items-center border border-gray-100 animate-in fade-in zoom-in duration-500">
+    <h2 class="text-2xl font-black mb-2 text-center text-gray-900 tracking-tighter italic uppercase">Global VIP Card Generator</h2>
+    <p class="text-center text-gray-500 mb-8 text-sm px-4 font-medium">Wähle dein Land aus der PZQQET-Föderation und präge deine Identität.</p>
 
     <div class="w-full max-w-sm mb-8 space-y-4">
         <div>
-            <label for="country-select" class="block text-[10px] font-bold text-blue-600 uppercase mb-1 ml-2">#Land_Auswahl</label>
-            <select id="country-select" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 transition-all cursor-pointer">
+            <label for="country-select" class="block text-[10px] font-bold text-blue-600 uppercase mb-1 ml-2 tracking-widest">#Land_Auswahl</label>
+            <select id="country-select" onchange="window.Components.updateVipCard()" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 transition-all cursor-pointer font-bold">
                 <option value="at">Österreich</option>
                 <option value="be">Belgien</option>
                 <option value="bg">Bulgarien</option>
@@ -37,34 +37,118 @@
         </div>
 
         <div>
-            <label for="name-input" class="block text-[10px] font-bold text-blue-600 uppercase mb-1 ml-2">#Karten_Inhaber</label>
-            <input type="text" id="name-input" placeholder="Max Mustermann" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 transition-all">
+            <label for="name-input" class="block text-[10px] font-bold text-blue-600 uppercase mb-1 ml-2 tracking-widest">#Karten_Inhaber</label>
+            <input type="text" id="name-input" oninput="window.Components.updateVipCard()" placeholder="Max Mustermann" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 transition-all font-black uppercase">
         </div>
 
         <div>
-            <label for="id-input" class="block text-[10px] font-bold text-blue-600 uppercase mb-1 ml-2">#System_ID_Code</label>
-            <input type="text" id="id-input" placeholder="1234 5678" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 transition-all font-mono">
+            <label for="id-input" class="block text-[10px] font-bold text-blue-600 uppercase mb-1 ml-2 tracking-widest">#System_ID_Code</label>
+            <input type="text" id="id-input" oninput="window.Components.updateVipCard()" placeholder="PZQQ-8888-2029" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 transition-all font-mono text-center font-bold">
         </div>
     </div>
 
-    <div class="relative group">
-        <canvas id="vip-card-canvas" width="400" height="250" class="bg-[#0d1117] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] border-2 border-gray-200 transition-transform duration-500 group-hover:scale-[1.02]"></canvas>
-        <div class="absolute inset-0 rounded-2xl pointer-events-none border-2 border-blue-500 opacity-0 group-hover:opacity-10 transition-opacity"></div>
+    <div class="relative group mb-8">
+        <canvas id="vip-card-canvas" width="800" height="500" class="w-full max-w-[400px] h-auto bg-[#0d1117] rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.4)] border border-white/10 transition-transform duration-500 group-hover:scale-[1.03] cursor-crosshair"></canvas>
+        <div class="absolute -top-4 -right-4 bg-blue-600 text-white text-[10px] font-black px-4 py-1 rounded-full shadow-lg animate-pulse">PZQQET_READY</div>
     </div>
 
-    <button id="save-button" class="w-full max-w-sm bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl mt-8 transition duration-300 transform active:scale-95 shadow-xl shadow-blue-200 uppercase tracking-widest text-xs">
-        Karte Finalisieren & Speichern
+    <button id="save-button" onclick="window.Components.saveVipCard()" class="w-full max-w-sm bg-black hover:bg-blue-700 text-white font-black py-5 rounded-[2rem] transition-all transform active:scale-95 shadow-2xl uppercase tracking-[0.2em] text-[10px] border border-white/10">
+        Identität Finalisieren & Sichern
     </button>
 </div>
 
 <script>
-    // Diese Logik stellt sicher, dass URL-Parameter (?country=at) sofort erkannt werden
-    (function syncGenerator() {
-        const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
-        const countryFromUrl = urlParams.get('country');
-        if (countryFromUrl) {
-            const select = document.getElementById('country-select');
-            if (select) select.value = countryFromUrl;
-        }
-    })();
+/**
+ * FUSIONIERTE PZQQET CANVAS ENGINE
+ */
+(function() {
+    // Synchronisation von URL-Parametern
+    const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
+    const countryFromUrl = urlParams.get('country');
+    if (countryFromUrl) {
+        const select = document.getElementById('country-select');
+        if (select) select.value = countryFromUrl;
+    }
+
+    window.Components.updateVipCard = function() {
+        const canvas = document.getElementById('vip-card-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        
+        const name = document.getElementById('name-input').value || "MEMBER_NAME";
+        const country = document.getElementById('country-select').value.toUpperCase();
+        const id = document.getElementById('id-input').value || "PZQQ-CORE-2029";
+
+        // Hintergrund Rendering
+        const grad = ctx.createLinearGradient(0, 0, 800, 500);
+        grad.addColorStop(0, '#0d1117');
+        grad.addColorStop(0.5, '#161b22');
+        grad.addColorStop(1, '#0d1117');
+        ctx.fillStyle = grad;
+        
+        // Custom RoundRect Polyfill/Logic
+        ctx.beginPath();
+        ctx.roundRect(0, 0, 800, 500, 40);
+        ctx.fill();
+
+        // PZQQET Axiom-Linien (Geometrischer Beweis)
+        ctx.strokeStyle = 'rgba(37, 99, 235, 0.2)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, 100); ctx.lineTo(800, 400); ctx.stroke();
+        
+        // Branding
+        ctx.fillStyle = 'white';
+        ctx.font = 'italic 900 40px Inter, sans-serif';
+        ctx.fillText('GLOBAL VIP CARD', 50, 80);
+        
+        ctx.fillStyle = '#2563eb';
+        ctx.font = 'bold 15px monospace';
+        ctx.fillText('// PZQQET_FEDERATION_IDENTITY', 50, 110);
+
+        // User Data Injection
+        ctx.fillStyle = 'white';
+        ctx.font = '900 55px Inter, sans-serif';
+        ctx.fillText(name.toUpperCase(), 50, 320);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.font = 'bold 25px monospace';
+        ctx.fillText(`ID: ${id}`, 50, 370);
+        
+        // Land Code
+        ctx.fillStyle = '#2563eb';
+        ctx.font = '900 80px Inter, sans-serif';
+        ctx.fillText(country, 650, 430);
+        
+        // 100 Mio % Badge (Wissenschaftliche Etablierung)
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(37, 99, 235, 0.15)';
+        ctx.arc(700, 100, 65, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#2563eb';
+        ctx.font = 'bold 22px Inter';
+        ctx.fillText('100M%', 665, 108);
+    };
+
+    window.Components.saveVipCard = function() {
+        const canvas = document.getElementById('vip-card-canvas');
+        const link = document.createElement('a');
+        link.download = `PZQQET_ID_2029_${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        
+        // PRAI-Log Update
+        if (this.triggerPZQQETRefill) this.triggerPZQQETRefill("0.00");
+        let logs = JSON.parse(localStorage.getItem('rfof_live_log') || '[]');
+        logs.unshift({ 
+            name: 'IDENTITY_MINTED', 
+            value: document.getElementById('country-select').value.toUpperCase(), 
+            time: new Date().toLocaleTimeString() 
+        });
+        localStorage.setItem('rfof_live_log', JSON.stringify(logs.slice(0, 15)));
+    };
+
+    // Initialer Zyklus
+    setTimeout(() => window.Components.updateVipCard(), 500);
+})();
 </script>
