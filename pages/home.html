@@ -1,55 +1,58 @@
-<div class="bg-white p-6 rounded-lg shadow-lg">
-  <h2 class="text-2xl font-bold mb-4">Startseite</h2>
-  <p>Willkommen in der App. Hier findest du eine Übersicht über deine Global VIP Card.</p>
+<div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-blue-500">
+  <h2 class="text-2xl font-bold mb-2">Startseite</h2>
+  <p class="text-gray-600 text-sm">Willkommen in der App. Hier findest du eine Übersicht über deine Global VIP Card und das PZQQET-Netzwerk.</p>
 </div>
 
-<div id="main-view" class="vip-frame"></div>
-
-<script>
-  window.addEventListener('hashchange', () => {
-    const route = location.hash.slice(1); // z. B. #rf-web → "rf-web"
-    if (route === 'rf-web') {
-      fetch('https://network.github.io') // Holt die HTML-Seite
-        .then(res => res.text())         // Wandelt sie in Text um
-        .then(html => {
-          document.getElementById('main-view').innerHTML = html; // Zeigt sie im Container
-        });
-    }
-  });
-</script>
+<div id="main-view" class="vip-frame mt-6 min-h-[50px]"></div>
 
 <div class="prai-integration-area mt-12 space-y-10">
 
   <section class="border-t-2 border-gray-100 pt-6">
-    <h3 class="text-xs font-black text-gray-400 uppercase tracking-tighter mb-4">#Root_Layer_Mapping</h3>
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xs font-black text-gray-400 uppercase tracking-tighter">#Root_Layer_Mapping</h3>
+      <span class="text-[8px] bg-gray-100 px-2 py-0.5 rounded text-gray-500 font-mono">STATUS: SYNC_READY</span>
+    </div>
     <div id="root-layer-target" class="bg-[#f8f9fa] rounded-2xl border-2 border-dashed border-gray-200 min-h-[150px] flex items-center justify-center p-4">
-      <span class="text-[10px] font-mono text-gray-400">Warte auf PZQQET-Root-Injektion...</span>
+      <div class="text-center">
+        <div class="animate-spin h-5 w-5 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-2"></div>
+        <span class="text-[10px] font-mono text-gray-400 uppercase">Warte auf PZQQET-Root-Injektion...</span>
+      </div>
     </div>
   </section>
 
-  <section class="bg-black text-white p-6 rounded-3xl shadow-xl">
-    <h3 class="text-xs font-bold text-blue-400 uppercase mb-4">#Vision_Protocol_Layer</h3>
-    <div id="readme-layer-target" class="overflow-x-auto">
+  <section class="bg-[#0d1117] text-white p-6 rounded-3xl shadow-xl border border-gray-800">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xs font-bold text-blue-400 uppercase tracking-widest">#Vision_Protocol_Layer</h3>
+      <div class="flex space-x-1">
+        <div class="w-1.5 h-1.5 rounded-full bg-red-500"></div>
+        <div class="w-1.5 h-1.5 rounded-full bg-yellow-500"></div>
+        <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+      </div>
+    </div>
+    <div id="readme-layer-target" class="overflow-x-auto custom-scrollbar max-h-80 text-green-400 font-mono text-[10px] leading-relaxed">
       </div>
   </section>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     
-    <div class="bg-white border-4 border-yellow-500/20 rounded-3xl p-5 shadow-sm">
-      <div class="flex justify-between items-center border-b pb-2 mb-4">
-        <h4 class="text-xs font-bold uppercase text-yellow-700">#Global_Ranking</h4>
-        <div class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+    <div class="bg-white border-4 border-yellow-500/10 rounded-3xl p-5 shadow-sm hover:border-yellow-500/30 transition-all">
+      <div class="flex justify-between items-center border-b border-gray-100 pb-2 mb-4">
+        <h4 class="text-xs font-bold uppercase text-yellow-700 tracking-tighter">#Global_Ranking</h4>
+        <div class="flex items-center space-x-2">
+           <span class="text-[8px] text-yellow-600 font-bold">LIVE</span>
+           <div class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+        </div>
       </div>
-      <div id="global-ranking-list" class="space-y-2 max-h-60 overflow-y-auto font-mono text-[11px]">
+      <div id="global-ranking-list" class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar font-mono text-[11px]">
         </div>
     </div>
 
-    <div class="bg-white border-4 border-green-500/20 rounded-3xl p-5 shadow-sm">
-      <div class="flex justify-between items-center border-b pb-2 mb-4">
-        <h4 class="text-xs font-bold uppercase text-green-700">#Banking_Realtime_Log</h4>
+    <div class="bg-white border-4 border-green-500/10 rounded-3xl p-5 shadow-sm hover:border-green-500/30 transition-all">
+      <div class="flex justify-between items-center border-b border-gray-100 pb-2 mb-4">
+        <h4 class="text-xs font-bold uppercase text-green-700 tracking-tighter">#Banking_Realtime_Log</h4>
         <span class="text-[9px] font-mono text-gray-400">€_CURRENCY_MODE</span>
       </div>
-      <div id="live-chain" class="space-y-2 max-h-60 overflow-y-auto font-mono text-[10px] text-green-600">
+      <div id="live-chain" class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar font-mono text-[10px] text-green-600">
         </div>
     </div>
 
@@ -57,15 +60,48 @@
 
 </div>
 
+<script>
+  // Externe Fetch-Logik für rf-web
+  (function() {
+    const handleWebRoute = () => {
+      const route = location.hash.slice(1);
+      if (route.startsWith('rf-web')) {
+        const view = document.getElementById('main-view');
+        view.innerHTML = '<p class="text-[10px] animate-pulse text-gray-400 uppercase">Verbinde mit Network-Hub...</p>';
+        
+        fetch('https://network.github.io')
+          .then(res => res.text())
+          .then(html => {
+             view.innerHTML = `<div class="border-2 border-blue-500/20 rounded-xl p-2 bg-gray-50">${html}</div>`;
+          })
+          .catch(err => {
+             view.innerHTML = '<p class="text-red-500 text-[10px]">Verbindung fehlgeschlagen.</p>';
+          });
+      }
+    };
+
+    window.addEventListener('hashchange', handleWebRoute);
+    handleWebRoute(); // Initial-Check
+  })();
+</script>
+
 <style>
   .prai-integration-area {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+  #readme-layer-target {
+    scrollbar-width: thin;
+    scrollbar-color: #30363d transparent;
   }
   #readme-layer-target pre {
     background: transparent !important;
     color: #4ade80 !important;
     padding: 0;
+    margin: 0;
   }
-  .custom-scrollbar::-webkit-scrollbar { width: 3px; }
-  .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+  .vip-frame {
+    transition: all 0.3s ease;
+  }
 </style>
