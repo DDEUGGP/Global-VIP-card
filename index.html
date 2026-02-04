@@ -2,37 +2,71 @@
 <html lang="de" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PZQQET CORE - RFOF-NETWORK</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@500&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #0d1117; color: #c9d1d9; overflow-x: hidden; }
         
-        /* SMOOTH PAGE INJECTION FX */
-        #app-container { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); min-height: 75vh; }
-        .glass-nav { background: rgba(13, 17, 23, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid #30363d; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0d1117; 
+            color: #c9d1d9; 
+            overflow-x: hidden; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
         
-        /* NAVIGATION STYLES */
+        /* HEADER & NAV */
+        .glass-nav { 
+            background: rgba(13, 17, 23, 0.85); 
+            backdrop-filter: blur(20px); 
+            border-bottom: 1px solid #30363d; 
+        }
         .nav-tool { font-family: 'JetBrains Mono', monospace; letter-spacing: -0.5px; transition: all 0.2s; }
-        .nav-tool:hover { transform: translateY(-1px); filter: brightness(1.2); }
         
-        /* DROPDOWN OPTIMIZATION */
+        /* APP CONTAINER FLOW */
+        #app-container { transition: all 0.4s ease; flex: 1; }
+
+        /* HOME WRAPPER INTEGRATION (LIGHT STYLE ON DARK CORE) */
+        .home-hub-bg {
+            background: #f6f8fa; /* Der helle Hub-Hintergrund */
+            color: #24292f;
+            border-radius: 3rem 3rem 0 0;
+            margin-top: 2rem;
+            min-height: 80vh;
+        }
+
+        /* HANDY HOME BUTTON (MITTE UNTEN) */
+        .mobile-home-bar {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 5px;
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 200;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+            transition: width 0.3s;
+        }
+        .mobile-home-bar:hover { width: 150px; background: #3b82f6; }
+
+        /* DROPDOWN CUSTOM */
         #eu-dropdown-menu { 
             max-height: 450px; 
             overflow-y: auto; 
             scrollbar-width: thin; 
-            scrollbar-color: #3b82f6 transparent; 
             box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
-        #eu-dropdown-menu::-webkit-scrollbar { width: 3px; }
-        #eu-dropdown-menu::-webkit-scrollbar-thumb { background: #1f6feb; border-radius: 10px; }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="flex flex-col">
 
     <header class="w-full glass-nav sticky top-0 z-[100] flex justify-between items-center p-4 px-6">
-        
         <div class="flex items-center">
             <a href="#settings" class="nav-tool text-[#58a6ff] text-[10px] uppercase font-black border border-blue-900/40 px-4 py-2 rounded-xl bg-blue-900/10 flex items-center gap-2">
                 <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span> #Settings
@@ -47,71 +81,108 @@
         
         <div class="relative">
             <button id="eu-dropdown-button" class="nav-tool bg-[#238636] hover:bg-[#2ea043] text-white font-black py-2.5 px-6 rounded-xl transition-all text-[10px] uppercase shadow-lg shadow-green-500/10 flex items-center gap-3">
-                EU-Karten <span class="text-green-900">▼</span>
+                EU-Karten <span class="text-green-900 text-[8px]">▼</span>
             </button>
-            <div id="eu-dropdown-menu" class="absolute right-0 mt-4 w-60 bg-[#161b22] border border-[#30363d] rounded-2xl hidden z-[110] py-3 animate-in fade-in slide-in-from-top-2 duration-200">
+            <div id="eu-dropdown-menu" class="absolute right-0 mt-4 w-64 bg-[#161b22] border border-[#30363d] rounded-2xl hidden z-[110] py-3">
                 </div>
         </div>
     </header>
 
-    <main id="app-container" class="w-full max-w-6xl mx-auto mt-8 px-6">
-        <div class="flex flex-col items-center justify-center py-40">
-            <div class="relative w-20 h-20">
-                <div class="absolute inset-0 border-[3px] border-blue-500/10 rounded-full"></div>
-                <div class="absolute inset-0 border-[3px] border-t-blue-500 rounded-full animate-spin"></div>
-            </div>
-            <div class="mt-8 flex flex-col items-center gap-2">
-                <span class="font-mono text-[10px] uppercase tracking-[0.5em] text-blue-500/50">Establishing_Core_Parity</span>
-                <span class="font-mono text-[8px] uppercase tracking-[0.2em] text-gray-700">PZQQET_V5_STABLE</span>
+    <main id="app-container" class="w-full">
+        <div id="home-wrapper" class="home-hub-bg p-8 shadow-[0_-20px_50px_rgba(0,0,0,0.3)]">
+            
+            <div class="max-w-5xl mx-auto mt-8">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl font-black text-[#1f2328] tracking-tight mb-2">PZQQET NETWORK HUB</h1>
+                    <p class="text-xs font-mono text-blue-600 uppercase tracking-[0.3em]">Status: Global Parity Active</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                    <div class="space-y-2">
+                        <h3 class="text-[10px] font-bold text-gray-400 uppercase mb-3 border-b border-gray-200 pb-1">Region Nord/West</h3>
+                        <div id="group-nw" class="flex flex-col gap-2"></div>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-[10px] font-bold text-gray-400 uppercase mb-3 border-b border-gray-200 pb-1">Region Süd</h3>
+                        <div id="group-s" class="flex flex-col gap-2"></div>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-[10px] font-bold text-gray-400 uppercase mb-3 border-b border-gray-200 pb-1">Region Ost</h3>
+                        <div id="group-o" class="flex flex-col gap-2"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-[#d0d7de] rounded-[2.5rem] p-8 shadow-sm mb-20">
+                    <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.435 9.797 8.209 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        PRAI-Axiom // Repository Documentation
+                    </h2>
+                    <div id="readme-container" class="max-h-[300px] overflow-y-auto border-t border-gray-100 pt-6 text-sm text-gray-600 leading-relaxed font-mono">
+                        <p class="text-blue-600 font-bold"># PZQQET-System-Verankerung</p>
+                        <p>Status: Initialisiert / Satoria_2029_Ready</p>
+                        <p class="mt-4">Das PZQQET (Perpetuale Zeiten QuEkta QuEtta Edloseenddimensionsanfang) System ist nun als Root-Layer in das RFOF-NETWORK integriert.</p>
+                        <p class="mt-2">---</p>
+                        <p>Struktur: PRAI-Neuronen stabil bei 100M%.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
-    <footer class="mt-auto py-12 border-t border-[#30363d]/30 text-[9px] text-[#484f58] font-mono tracking-[0.5em] uppercase text-center">
+    <div onclick="window.location.hash='#home'" class="mobile-home-bar" title="Home Hub"></div>
+
+    <footer class="py-12 border-t border-[#30363d]/30 text-[9px] text-[#484f58] font-mono tracking-[0.5em] uppercase text-center bg-[#0d1117]">
         RFOF-NETWORK // <span class="text-blue-800">Satoria_2029_Protocol</span> // PRAI-AXIOM
     </footer>
-    
-    <script src="js/components.js"></script>
-    <script src="js/app.js"></script>
 
     <script>
-        // EU-DROPDOWN-LOGIK: 27 LÄNDER PARITÄT
         const euCountries = [
-            { code: 'at', name: 'Österreich' }, { code: 'be', name: 'Belgien' },
-            { code: 'bg', name: 'Bulgarien' }, { code: 'hr', name: 'Kroatien' },
-            { code: 'cy', name: 'Zypern' }, { code: 'cz', name: 'Tschechien' },
-            { code: 'dk', name: 'Dänemark' }, { code: 'ee', name: 'Estland' },
-            { code: 'fi', name: 'Finnland' }, { code: 'fr', name: 'Frankreich' },
-            { code: 'de', name: 'Deutschland' }, { code: 'gr', name: 'Griechenland' },
-            { code: 'hu', name: 'Ungarn' }, { code: 'ie', name: 'Irland' },
-            { code: 'it', name: 'Italien' }, { code: 'lv', name: 'Lettland' },
-            { code: 'lt', name: 'Litauen' }, { code: 'lu', name: 'Luxemburg' },
-            { code: 'mt', name: 'Malta' }, { code: 'nl', name: 'Niederlande' },
-            { code: 'pl', name: 'Polen' }, { code: 'pt', name: 'Portugal' },
-            { code: 'ro', name: 'Rumänien' }, { code: 'sk', name: 'Slowakei' },
-            { code: 'si', name: 'Slowenien' }, { code: 'es', name: 'Spanien' },
-            { code: 'se', name: 'Schweden' }
+            { code: 'at', name: 'Österreich', region: 's' }, { code: 'be', name: 'Belgien', region: 'nw' },
+            { code: 'bg', name: 'Bulgarien', region: 'o' }, { code: 'hr', name: 'Kroatien', region: 's' },
+            { code: 'cy', name: 'Zypern', region: 's' }, { code: 'cz', name: 'Tschechien', region: 'o' },
+            { code: 'dk', name: 'Dänemark', region: 'nw' }, { code: 'ee', name: 'Estland', region: 'nw' },
+            { code: 'fi', name: 'Finnland', region: 'nw' }, { code: 'fr', name: 'Frankreich', region: 'nw' },
+            { code: 'de', name: 'Deutschland', region: 'nw' }, { code: 'gr', name: 'Griechenland', region: 's' },
+            { code: 'hu', name: 'Ungarn', region: 'o' }, { code: 'ie', name: 'Irland', region: 'nw' },
+            { code: 'it', name: 'Italien', region: 's' }, { code: 'lv', name: 'Lettland', region: 'o' },
+            { code: 'lt', name: 'Litauen', region: 'o' }, { code: 'lu', name: 'Luxemburg', region: 'nw' },
+            { code: 'mt', name: 'Malta', region: 's' }, { code: 'nl', name: 'Niederlande', region: 'nw' },
+            { code: 'pl', name: 'Polen', region: 'o' }, { code: 'pt', name: 'Portugal', region: 's' },
+            { code: 'ro', name: 'Rumänien', region: 'o' }, { code: 'sk', name: 'Slowakei', region: 'o' },
+            { code: 'si', name: 'Slowenien', region: 's' }, { code: 'es', name: 'Spanien', region: 's' },
+            { code: 'se', name: 'Schweden', region: 'o' }
         ];
 
-        const dropdownBtn = document.getElementById('eu-dropdown-button');
-        const dropdownCtx = document.getElementById('eu-dropdown-menu');
+        const dropdownMenu = document.getElementById('eu-dropdown-menu');
+        const nwGrid = document.getElementById('group-nw');
+        const sGrid = document.getElementById('group-s');
+        const oGrid = document.getElementById('group-o');
 
-        if (dropdownCtx) {
-            euCountries.forEach(c => {
-                const a = document.createElement('a');
-                a.href = `#card-generator?country=${c.code}`;
-                a.className = 'block px-6 py-3 text-[10px] text-[#8b949e] hover:text-white hover:bg-[#1f6feb]/10 transition-all border-l-2 border-transparent hover:border-blue-500 font-mono uppercase tracking-tighter';
-                a.innerHTML = `<span class="opacity-30 mr-2">${c.code.toUpperCase()}</span> ${c.name}`;
-                dropdownCtx.appendChild(a);
-            });
-        }
+        euCountries.forEach(c => {
+            // Dropdown Items
+            const dropA = document.createElement('a');
+            dropA.href = `#card-generator?country=${c.code}`;
+            dropA.className = 'block px-6 py-3 text-[10px] text-[#8b949e] hover:text-white hover:bg-[#1f6feb]/10 transition-all border-l-2 border-transparent hover:border-blue-500 font-mono uppercase';
+            dropA.innerHTML = `<span class="opacity-30 mr-2">${c.code.toUpperCase()}</span> ${c.name}`;
+            dropdownMenu.appendChild(dropA);
 
-        dropdownBtn?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dropdownCtx.classList.toggle('hidden');
+            // Hub Grid Items
+            const hubBtn = document.createElement('button');
+            hubBtn.onclick = () => window.location.hash = `#card-generator?country=${c.code}`;
+            hubBtn.className = 'w-full text-left p-3 bg-white border border-[#d0d7de] rounded-xl hover:border-blue-500 hover:shadow-md transition-all text-sm font-medium';
+            hubBtn.innerHTML = `<span class="text-blue-500 font-mono text-[10px] mr-2">${c.code.toUpperCase()}</span> ${c.name}`;
+            
+            if(c.region === 'nw') nwGrid.appendChild(hubBtn);
+            else if(c.region === 's') sGrid.appendChild(hubBtn);
+            else oGrid.appendChild(hubBtn);
         });
 
-        window.addEventListener('click', () => dropdownCtx?.classList.add('hidden'));
+        document.getElementById('eu-dropdown-button').addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        window.addEventListener('click', () => dropdownMenu.classList.add('hidden'));
     </script>
 </body>
 </html>

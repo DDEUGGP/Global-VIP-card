@@ -9,29 +9,28 @@
 
   <section class="border-t border-gray-100 pt-8">
     <div class="flex items-center justify-between mb-5">
-      <h3 class="text-[10px] font-black text-blue-900/40 uppercase tracking-[0.3em]">#Root_Layer_Mapping</h3>
+      <h3 class="text-[10px] font-black text-blue-900/40 uppercase tracking-[0.3em]">#Root_Layer_Mapping (index.html)</h3>
       <span class="text-[9px] bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-mono font-bold">SYNC_READY</span>
     </div>
-    <div id="root-layer-target" class="bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 min-h-[180px] flex items-center justify-center p-6 transition-all">
-      <div class="text-center">
-        <div class="animate-spin h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full mx-auto mb-3"></div>
-        <span class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Warte auf PZQQET-Root-Injektion...</span>
-      </div>
+    <div id="root-layer-target" class="bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 h-[300px] overflow-y-auto p-0 transition-all">
+       <iframe src="index.html" class="w-full h-full border-none rounded-[2.5rem]" style="zoom: 0.8; -moz-transform: scale(0.8); -moz-transform-origin: 0 0;"></iframe>
     </div>
   </section>
 
   <section class="bg-[#0d1117] p-8 rounded-[3rem] shadow-2xl border border-gray-800 relative overflow-hidden">
     <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-4xl text-blue-500 pointer-events-none">PRAI</div>
     <div class="flex items-center justify-between mb-6">
-      <h3 class="text-[10px] font-bold text-blue-400 uppercase tracking-[0.4em]">#Vision_Protocol_Layer</h3>
+      <h3 class="text-[10px] font-bold text-blue-400 uppercase tracking-[0.4em]">#Vision_Protocol_Layer (README.md)</h3>
       <div class="flex space-x-1.5">
         <div class="w-2 h-2 rounded-full bg-[#ff5f56]"></div>
         <div class="w-2 h-2 rounded-full bg-[#ffbd2e]"></div>
         <div class="w-2 h-2 rounded-full bg-[#27c93f]"></div>
       </div>
     </div>
-    <div id="readme-layer-target" class="overflow-x-auto custom-scrollbar max-h-96 text-green-400 font-mono text-[11px] leading-relaxed italic">
-      </div>
+    <div id="readme-layer-target" class="overflow-y-auto custom-scrollbar h-96 text-green-400 font-mono text-[11px] leading-relaxed italic p-4 bg-black/20 rounded-2xl">
+        <div id="readme-loader" class="animate-pulse">Lade Satoria-Dokumentation...</div>
+        <pre id="readme-content" class="whitespace-pre-wrap"></pre>
+    </div>
   </section>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -45,7 +44,9 @@
         </div>
       </div>
       <div id="global-ranking-list" class="space-y-3 max-h-64 overflow-y-auto custom-scrollbar font-mono text-[11px] text-gray-600">
-        </div>
+          <div class="flex justify-between border-b border-gray-50 pb-2"><span>1. Satoramy_42</span> <span class="text-blue-600">100M %</span></div>
+          <div class="flex justify-between border-b border-gray-50 pb-2"><span>2. PRAI_Node_01</span> <span class="text-blue-400">98.9%</span></div>
+      </div>
     </div>
 
     <div class="bg-white border-2 border-green-500/5 rounded-[2.5rem] p-6 shadow-sm hover:shadow-xl hover:border-green-500/20 transition-all duration-300">
@@ -54,7 +55,9 @@
         <span class="text-[9px] font-mono text-gray-300 bg-gray-50 px-2 py-1 rounded">MULTI_CURRENCY_V5</span>
       </div>
       <div id="live-chain" class="space-y-3 max-h-64 overflow-y-auto custom-scrollbar font-mono text-[10px] text-green-600">
-        </div>
+          <div>[SYNC] +50.00 PZQ Injektion</div>
+          <div>[SYNC] Identität verankert</div>
+      </div>
     </div>
 
   </div>
@@ -62,39 +65,56 @@
 
 <script>
   (function() {
+    // 1. README.md Rendering Logik
+    const loadReadme = () => {
+        fetch('README.md')
+            .then(response => {
+                if (!response.ok) throw new Error('README nicht gefunden');
+                return response.text();
+            })
+            .then(data => {
+                const loader = document.getElementById('readme-loader');
+                if (loader) loader.style.display = 'none';
+                document.getElementById('readme-content').textContent = data;
+            })
+            .catch(err => {
+                document.getElementById('readme-content').textContent = "# PZQQET Dokumentation\nFehler beim Laden der README.md. Bitte Pfad prüfen.";
+            });
+    };
+
+    // 2. Route Handling
     const handleWebRoute = () => {
       const route = location.hash.slice(1);
+      const view = document.getElementById('main-view');
+      if(!view) return;
+
       if (route.startsWith('rf-web')) {
-        const view = document.getElementById('main-view');
-        if(!view) return;
         view.innerHTML = '<div class="flex items-center gap-3 p-4 bg-blue-50 rounded-2xl"><div class="w-3 h-3 bg-blue-600 rounded-full animate-ping"></div><p class="text-[10px] text-blue-600 font-black uppercase tracking-widest">Verbinde mit PZQQET-Network-Hub...</p></div>';
-        
-        // Optimierter Fetch-Check
-        fetch('https://network.github.io')
-          .then(res => res.text())
-          .then(html => {
-              view.innerHTML = `<div class="border-2 border-blue-500/10 rounded-3xl p-4 bg-[#fcfdfe] shadow-inner animate-in fade-in duration-700">${html}</div>`;
-          })
-          .catch(err => {
-              view.innerHTML = '<div class="p-4 bg-red-50 border border-red-100 rounded-2xl text-red-500 text-[9px] font-bold uppercase">Netzwerk-Verbindung fehlgeschlagen. Offline-Modus aktiv.</div>';
-          });
       }
     };
 
     window.addEventListener('hashchange', handleWebRoute);
     handleWebRoute(); 
+    loadReadme(); // Initiales Laden der README
   })();
 </script>
 
 <style>
-  .custom-scrollbar::-webkit-scrollbar { width: 3px; height: 3px; }
-  .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-  #readme-layer-target pre { 
-    background: transparent !important; 
-    color: #4ade80 !important; 
-    padding: 0 !important;
-    white-space: pre-wrap;
-    word-break: break-all;
+  .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #30363d; border-radius: 10px; }
+  
+  #readme-layer-target {
+    background: linear-gradient(180deg, rgba(13, 17, 23, 1) 0%, rgba(22, 27, 34, 1) 100%);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
   }
-  .vip-frame { transform-origin: top; }
+
+  #readme-content {
+    color: #4ade80 !important;
+    text-shadow: 0 0 5px rgba(74, 222, 128, 0.2);
+  }
+
+  /* Verhindert das "Rauszoomen" im Frame */
+  #root-layer-target iframe {
+    pointer-events: auto;
+  }
 </style>
