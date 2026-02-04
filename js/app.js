@@ -26,11 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 initCardGenerator();
             }
 
-            // --- NEU: TRIGGER FÜR WEITERE SEITEN ---
+            // --- TRIGGER FÜR WEITERE SEITEN ---
             if (pageName === 'home') initHomeLayers();
             if (pageName === 'profile') initProfileChains();
             if (pageName === 'settings') initSettingsSecurity();
-            // --- ENDE NEU ---
+            // --- ENDE TRIGGER ---
 
         } catch (error) {
             console.error(error);
@@ -77,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
             { code: 'se', name: 'Schweden', colors: { primary: '#006AA7', secondary: '#FECC00', accent: '#FECC00' } }
         ];
 
-        // Fülle das Dropdown-Menü der Karte dynamisch
         euCountries.forEach(country => {
             const option = document.createElement('option');
             option.value = country.code;
@@ -85,27 +84,18 @@ document.addEventListener('DOMContentLoaded', () => {
             countrySelect.appendChild(option);
         });
 
-        // Funktion zum Zeichnen der Karte
         function drawCard() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
             const selectedCountry = euCountries.find(c => c.code === countrySelect.value) || {};
             const colors = selectedCountry.colors || { primary: '#1a202c', secondary: '#e2e8f0', accent: '#4a5568' };
-
-            // Zeichne den Hintergrund
             ctx.fillStyle = colors.primary;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Zeichne den Akzentstreifen
             ctx.fillStyle = colors.accent;
             ctx.fillRect(0, 0, 50, canvas.height);
-
-            // Zeichne den Text
             ctx.fillStyle = colors.secondary;
             ctx.font = '24px Arial';
             ctx.textAlign = 'center';
             ctx.fillText('Global VIP Card', canvas.width / 2, 50);
-
             ctx.font = '16px Arial';
             ctx.textAlign = 'left';
             ctx.fillText(`Name: ${nameInput.value}`, 70, 100);
@@ -124,8 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             link.click();
             alert('Karte wurde als Bild gespeichert!');
         });
-        
-        // Initialisiere die Karte beim Laden der Seite basierend auf dem URL-Parameter
+
         const params = new URLSearchParams(window.location.hash.split('?')[1]);
         const countryCode = params.get('country');
         if (countryCode) {
@@ -133,18 +122,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         drawCard();
     }
-    
-    // Funktion zum Verarbeiten des URL-Hash
+
     function handleHashChange() {
         const hash = window.location.hash.slice(1);
         const pageName = hash.split('?')[0] || 'home';
         loadPage(pageName);
     }
 
-    // Listener für URL-Hash-Änderungen
     window.addEventListener('hashchange', handleHashChange);
-
-    // Lade die erste Seite beim Initialisieren
     handleHashChange();
 
     // =========================================================================
@@ -153,7 +138,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. EBENEN-RENDERING (3-2-1 Logik für home.html) ---
     async function initHomeLayers() {
-        // Ebene 3: Root-Fläche (index.html Injektion)
+        // NEU: Willkommens-Bereich Injektion
+        const welcomeContainer = document.getElementById('welcome-layer-target');
+        if (welcomeContainer) {
+            welcomeContainer.innerHTML = `
+                <div class="welcome-section text-center p-6 bg-[#161b22] rounded-3xl mb-6 border border-[#30363d]">
+                    <h2 class="text-2xl font-bold text-blue-400">Systemstatus: Aktiv</h2>
+                    <p class="text-gray-400 text-sm">Willkommen in der PZQQET-Kernumgebung.</p>
+                </div>
+            `;
+        }
+
+        // Ebene 3: Root-Fläche (index.html Injektion - KORRIGIERT: Wird nun korrekt eingebunden)
         const rootContainer = document.getElementById('root-layer-target');
         if (rootContainer) {
             try {
@@ -161,7 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const html = await res.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
-                rootContainer.innerHTML = (doc.querySelector('main') || doc.body).innerHTML;
+                // Nur den Hauptinhalt extrahieren, um doppelte Navigation zu vermeiden
+                const mainContent = doc.querySelector('main');
+                rootContainer.innerHTML = mainContent ? mainContent.innerHTML : html;
             } catch(e) { console.warn("Root Layer konnte nicht geladen werden."); }
         }
 
@@ -183,14 +181,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function initProfileChains() {
         const ibanDisplay = document.getElementById('active-iban');
         const balanceDisplay = document.getElementById('balance-display');
+        // NEU: Identitäts-Name Anzeige
+        const identityDisplay = document.getElementById('identity-name-display');
         
         const savedIban = localStorage.getItem('rfof_active_iban');
         const savedBalance = localStorage.getItem('rfof_balance') || "0.00";
+        const savedUser = localStorage.getItem('rfof_username');
         
         if (ibanDisplay) ibanDisplay.textContent = savedIban || "Generiere ID...";
         if (balanceDisplay) balanceDisplay.textContent = `${savedBalance} €`;
+        if (identityDisplay && savedUser) identityDisplay.textContent = savedUser;
         
         renderLocalChains();
+        // NEU: Start der Multi-Currency API Überwachung
+        if (typeof initCurrencySystem === "function") initCurrencySystem();
     }
 
     // Fusionierte IBAN-Offenbarung: Länderpräfix + 16 Ziffern
@@ -199,7 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const randomDigits = Math.floor(Math.random() * 10000000000000000).toString().padStart(16, '0');
         const newIban = `${prefix}76${randomDigits}`;
         
-        // Historie sichern
         const currentIban = localStorage.getItem('rfof_active_iban');
         if (currentIban) {
             let history = JSON.parse(localStorage.getItem('rfof_history_log') || '[]');
@@ -231,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const certData = {
             user: user,
-            key: btoa(pass + "RFOF-SECURE-KEY"), // Verschlüsselte Offenbarung
+            key: btoa(pass + "RFOF-SECURE-KEY"),
             timestamp: Date.now(),
             version: "2.0-PRAI"
         };
