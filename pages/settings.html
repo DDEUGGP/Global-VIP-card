@@ -3,7 +3,6 @@
     <p class="text-center text-[#8b949e] mb-6 text-sm">Systemkonfiguration & Identitäts-Sicherheit</p>
     
     <div class="w-full max-w-lg space-y-4">
-        
         <div class="p-5 bg-[#0d1117] rounded-2xl border border-blue-900/30 space-y-4">
             <div class="flex justify-between items-center">
                 <label class="text-[10px] text-blue-400 font-black uppercase tracking-widest">#Identity_Security</label>
@@ -15,7 +14,7 @@
                     <span class="text-[#c9d1d9] text-xs font-bold">Passwort einsehen</span>
                     <span class="text-[8px] text-gray-500">Master-Key Offenbarung</span>
                 </div>
-                <button onclick="alert('Passwort: ' + (localStorage.getItem('rfof_master_pass') || 'Nicht gesetzt'))" 
+                <button onclick="alert('Master-Key: ' + (localStorage.getItem('rfof_master_pass') || 'Nicht gesetzt'))" 
                         class="bg-gray-800 hover:bg-gray-700 text-white text-[9px] px-3 py-1.5 rounded-lg font-bold transition-all uppercase">Einsehen</button>
             </div>
 
@@ -24,7 +23,7 @@
                     <span class="text-[#c9d1d9] text-xs font-bold">Passwort ändern</span>
                     <span class="text-[8px] text-gray-500">System-Reset Schutz</span>
                 </div>
-                <button onclick="const p = prompt('Neues Passwort:'); if(p) localStorage.setItem('rfof_master_pass', p);" 
+                <button onclick="const p = prompt('Neues Passwort:'); if(p) { localStorage.setItem('rfof_master_pass', p); alert('Passwort aktualisiert!'); }" 
                         class="bg-blue-900 hover:bg-blue-800 text-white text-[9px] px-3 py-1.5 rounded-lg font-bold transition-all uppercase">Ändern</button>
             </div>
         </div>
@@ -32,8 +31,8 @@
         <div class="flex items-center justify-between p-4 bg-[#0d1117] rounded-xl border border-[#30363d]">
             <span class="text-[#c9d1d9] text-sm font-medium">Dark Mode aktivieren</span>
             <label class="switch">
-                <input type="checkbox" checked>
-                <span class="slider round"></span>
+                <input type="checkbox" checked disabled>
+                <span class="slider round opacity-50"></span>
             </label>
         </div>
 
@@ -64,5 +63,21 @@
             </button>
         </div>
 
+        <button onclick="if(confirm('Identität vom Netz lösen?')){localStorage.clear(); location.hash='home'; location.reload();}" class="w-full text-[9px] text-gray-600 hover:text-red-500 uppercase font-black transition-all">
+            Identität entkoppeln & Daten löschen
+        </button>
+
     </div>
 </div>
+
+<script>
+    function downloadSecurityFile() {
+        const data = `PZQQET CERTIFICATE\nUser: ${localStorage.getItem('rfof_username')}\nStatus: WARM\nTime: ${new Date().toISOString()}`;
+        const blob = new Blob([data], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'PZQQET-Security-Cert.txt';
+        a.click();
+    }
+</script>
