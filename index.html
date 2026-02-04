@@ -7,28 +7,36 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@500&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #0d1117; color: #c9d1d9; overflow-x: hidden; margin: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #0d1117; color: #c9d1d9; overflow-x: hidden; }
+        
+        /* SMOOTH PAGE INJECTION FX */
         #app-container { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); min-height: 75vh; }
         .glass-nav { background: rgba(13, 17, 23, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid #30363d; }
-        .nav-tool { font-family: 'JetBrains Mono', monospace; letter-spacing: -0.5px; transition: all 0.2s; cursor: pointer; }
+        
+        /* NAVIGATION STYLES */
+        .nav-tool { font-family: 'JetBrains Mono', monospace; letter-spacing: -0.5px; transition: all 0.2s; }
         .nav-tool:hover { transform: translateY(-1px); filter: brightness(1.2); }
-        #eu-dropdown-menu { max-height: 450px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #3b82f6 transparent; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        
+        /* DROPDOWN OPTIMIZATION */
+        #eu-dropdown-menu { 
+            max-height: 450px; 
+            overflow-y: auto; 
+            scrollbar-width: thin; 
+            scrollbar-color: #3b82f6 transparent; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
         #eu-dropdown-menu::-webkit-scrollbar { width: 3px; }
         #eu-dropdown-menu::-webkit-scrollbar-thumb { background: #1f6feb; border-radius: 10px; }
-        .animate-spin-fast { animation: spin 0.8s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
     <header class="w-full glass-nav sticky top-0 z-[100] flex justify-between items-center p-4 px-6">
-        <div class="flex items-center gap-4">
+        
+        <div class="flex items-center">
             <a href="#settings" class="nav-tool text-[#58a6ff] text-[10px] uppercase font-black border border-blue-900/40 px-4 py-2 rounded-xl bg-blue-900/10 flex items-center gap-2">
                 <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span> #Settings
             </a>
-            <button onclick="window.location.href='home.html'" class="nav-tool text-[#238636] text-[10px] uppercase font-black border border-green-900/40 px-4 py-2 rounded-xl bg-green-900/10 flex items-center gap-2">
-                <span class="w-2 h-2 bg-green-500 rounded-full"></span> Home
-            </button>
         </div>
 
         <div class="flex-grow text-center">
@@ -47,7 +55,7 @@
     </header>
 
     <main id="app-container" class="w-full max-w-6xl mx-auto mt-8 px-6">
-        <div id="render-target" class="flex flex-col items-center justify-center py-40">
+        <div class="flex flex-col items-center justify-center py-40">
             <div class="relative w-20 h-20">
                 <div class="absolute inset-0 border-[3px] border-blue-500/10 rounded-full"></div>
                 <div class="absolute inset-0 border-[3px] border-t-blue-500 rounded-full animate-spin"></div>
@@ -61,21 +69,28 @@
 
     <footer class="mt-auto py-12 border-t border-[#30363d]/30 text-[9px] text-[#484f58] font-mono tracking-[0.5em] uppercase text-center">
         RFOF-NETWORK // <span class="text-blue-800">Satoria_2029_Protocol</span> // PRAI-AXIOM
-        <div class="mt-2 text-[7px] opacity-30">© 2025 RFOF-NETWORK. Alle Rechte vorbehalten.</div>
     </footer>
+    
+    <script src="js/components.js"></script>
+    <script src="js/app.js"></script>
 
     <script>
-        // EU-DROPDOWN-LOGIK
+        // EU-DROPDOWN-LOGIK: 27 LÄNDER PARITÄT
         const euCountries = [
-            { code: 'at', name: 'Österreich' }, { code: 'be', name: 'Belgien' }, { code: 'bg', name: 'Bulgarien' },
-            { code: 'hr', name: 'Kroatien' }, { code: 'cy', name: 'Zypern' }, { code: 'cz', name: 'Tschechien' },
-            { code: 'dk', name: 'Dänemark' }, { code: 'ee', name: 'Estland' }, { code: 'fi', name: 'Finnland' },
-            { code: 'fr', name: 'Frankreich' }, { code: 'de', name: 'Deutschland' }, { code: 'gr', name: 'Griechenland' },
-            { code: 'hu', name: 'Ungarn' }, { code: 'ie', name: 'Irland' }, { code: 'it', name: 'Italien' },
-            { code: 'lv', name: 'Lettland' }, { code: 'lt', name: 'Litauen' }, { code: 'lu', name: 'Luxemburg' },
-            { code: 'mt', name: 'Malta' }, { code: 'nl', name: 'Niederlande' }, { code: 'pl', name: 'Polen' },
-            { code: 'pt', name: 'Portugal' }, { code: 'ro', name: 'Rumänien' }, { code: 'sk', name: 'Slowakei' },
-            { code: 'si', name: 'Slowenien' }, { code: 'es', name: 'Spanien' }, { code: 'se', name: 'Schweden' }
+            { code: 'at', name: 'Österreich' }, { code: 'be', name: 'Belgien' },
+            { code: 'bg', name: 'Bulgarien' }, { code: 'hr', name: 'Kroatien' },
+            { code: 'cy', name: 'Zypern' }, { code: 'cz', name: 'Tschechien' },
+            { code: 'dk', name: 'Dänemark' }, { code: 'ee', name: 'Estland' },
+            { code: 'fi', name: 'Finnland' }, { code: 'fr', name: 'Frankreich' },
+            { code: 'de', name: 'Deutschland' }, { code: 'gr', name: 'Griechenland' },
+            { code: 'hu', name: 'Ungarn' }, { code: 'ie', name: 'Irland' },
+            { code: 'it', name: 'Italien' }, { code: 'lv', name: 'Lettland' },
+            { code: 'lt', name: 'Litauen' }, { code: 'lu', name: 'Luxemburg' },
+            { code: 'mt', name: 'Malta' }, { code: 'nl', name: 'Niederlande' },
+            { code: 'pl', name: 'Polen' }, { code: 'pt', name: 'Portugal' },
+            { code: 'ro', name: 'Rumänien' }, { code: 'sk', name: 'Slowakei' },
+            { code: 'si', name: 'Slowenien' }, { code: 'es', name: 'Spanien' },
+            { code: 'se', name: 'Schweden' }
         ];
 
         const dropdownBtn = document.getElementById('eu-dropdown-button');
