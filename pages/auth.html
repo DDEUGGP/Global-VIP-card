@@ -1,13 +1,22 @@
-<div id="auth-content-wrapper" class="container mx-auto max-w-md p-8 bg-[#161b22] rounded-3xl shadow-2xl border border-[#30363d] text-center">
-    <div id="auth-form-ui">
+<div id="auth-content-wrapper" class="container mx-auto max-w-md p-8 bg-[#161b22] rounded-3xl shadow-2xl border border-[#30363d] text-center relative">
+    
+    <button onclick="switchAuthMode('reg')" class="absolute top-4 left-4 text-[9px] font-black uppercase tracking-tighter px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 hover:bg-blue-500/30 transition-all">
+        #Neu_Registrieren
+    </button>
+    
+    <button onclick="switchAuthMode('login')" class="absolute top-4 right-4 text-[9px] font-black uppercase tracking-tighter px-3 py-1 bg-gray-800 border border-gray-700 rounded-full text-gray-400 hover:bg-gray-700 transition-all">
+        #Existierender_Login
+    </button>
+
+    <div id="auth-dynamic-form" class="mt-6">
         <div class="mb-6">
             <div class="inline-block p-3 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#58a6ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A10.003 10.003 0 0012 3c1.268 0 2.39.234 3.414.658m1.11 1.764c.733.733 1.298 1.588 1.628 2.506m1.037 4.044a10.004 10.004 0 01-5.694 8.761" />
                 </svg>
             </div>
-            <h2 class="text-2xl font-bold text-[#58a6ff] tracking-tighter uppercase">Identität Erstellen</h2>
-            <p class="text-[10px] text-gray-500 font-mono mt-1">CORE SYSTEM: PZQQET-IDENTITY-LOCK</p>
+            <h2 id="auth-title" class="text-2xl font-bold text-[#58a6ff] tracking-tighter uppercase">Identität Erstellen</h2>
+            <p id="auth-subtitle" class="text-[10px] text-gray-500 font-mono mt-1">CORE SYSTEM: PZQQET-IDENTITY-LOCK</p>
         </div>
 
         <div class="space-y-4">
@@ -22,7 +31,7 @@
                     class="w-full bg-[#0d1117] border border-[#30363d] p-3 rounded-xl text-white text-sm focus:border-blue-500 outline-none transition-all">
             </div>
             
-            <button id="finalize-btn" 
+            <button id="auth-main-btn" onclick="executePZQQETAuth()"
                 class="w-full bg-[#238636] hover:bg-[#2ea043] text-white font-bold py-4 rounded-2xl transition-all transform hover:scale-[1.02] shadow-lg text-xs uppercase tracking-widest mt-4">
                 Identität im Netz verankern
             </button>
@@ -31,55 +40,77 @@
 </div>
 
 <script>
-// Funktion zum Verankern der Identität
-function finalizePZQQETIdentity() {
+let currentMode = 'reg';
+
+function switchAuthMode(mode) {
+    currentMode = mode;
+    const title = document.getElementById('auth-title');
+    const subtitle = document.getElementById('auth-subtitle');
+    const btn = document.getElementById('auth-main-btn');
+    const userInp = document.getElementById('reg-user');
+
+    if(mode === 'login') {
+        title.textContent = "System Login";
+        title.className = "text-2xl font-bold text-green-400 tracking-tighter uppercase";
+        subtitle.textContent = "ACCESS GRANTED BY PZQQET-AXIOMS";
+        btn.textContent = "Verbindung Herstellen";
+        btn.className = "w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl transition-all shadow-lg text-xs uppercase tracking-widest mt-4";
+        userInp.placeholder = "Dein verankerter Name";
+    } else {
+        title.textContent = "Identität Erstellen";
+        title.className = "text-2xl font-bold text-[#58a6ff] tracking-tighter uppercase";
+        subtitle.textContent = "CORE SYSTEM: PZQQET-IDENTITY-LOCK";
+        btn.textContent = "Identität im Netz verankern";
+        btn.className = "w-full bg-[#238636] hover:bg-[#2ea043] text-white font-bold py-4 rounded-2xl transition-all shadow-lg text-xs uppercase tracking-widest mt-4";
+        userInp.placeholder = "z.B. Satoramy_42";
+    }
+}
+
+function executePZQQETAuth() {
     const user = document.getElementById('reg-user').value.trim();
     const pass = document.getElementById('reg-pass').value.trim();
     
     if(!user || !pass) {
-        alert("PZQQET-Fehler: Name und Passwort erforderlich.");
+        alert("PZQQET-Fehler: Eingabe erforderlich.");
         return;
     }
 
-    // 1. Daten-Injektion
-    localStorage.setItem('rfof_username', user);
-    localStorage.setItem('rfof_master_pass', pass); // Konsistent mit settings.html
-    localStorage.setItem('rfof_state', 'WARM'); 
-    localStorage.setItem('rfof_balance', '50.00');
-    
-    const randomIban = "DE" + Math.floor(Math.random() * 10**18).toString().padStart(18, '0');
-    localStorage.setItem('rfof_active_iban', randomIban);
+    if(currentMode === 'reg') {
+        // Registrierungs-Logik
+        localStorage.setItem('rfof_username', user);
+        localStorage.setItem('rfof_master_pass', pass);
+        localStorage.setItem('rfof_state', 'WARM'); 
+        localStorage.setItem('rfof_balance', '50.00');
+        const randomIban = "DE" + Math.floor(Math.random() * 10**18).toString().padStart(18, '0');
+        localStorage.setItem('rfof_active_iban', randomIban);
+        const initialLog = [{ name: 'SYSTEM_INIT', value: '50.00 €', time: new Date().toLocaleTimeString() }];
+        localStorage.setItem('rfof_live_log', JSON.stringify(initialLog));
+        alert("Identität neu verankert.");
+    } else {
+        // Login-Logik (einfache Prüfung gegen gespeicherte Daten oder Simulation)
+        const storedPass = localStorage.getItem('rfof_master_pass');
+        if(storedPass && pass !== storedPass) {
+            alert("PZQQET-Fehler: Passwort nicht korrekt.");
+            return;
+        }
+        localStorage.setItem('rfof_username', user);
+        localStorage.setItem('rfof_state', 'WARM');
+        alert("Verbindung zum Knoten hergestellt.");
+    }
 
-    // Initiales Log
-    const initialLog = [{ name: 'SYSTEM_INIT', value: '50.00 €', time: new Date().toLocaleTimeString() }];
-    localStorage.setItem('rfof_live_log', JSON.stringify(initialLog));
-
-    alert("Identität verankert.");
-
-    // 2. Umleitung und HARTER RELOAD
-    // Der Reload ist nötig, damit app.js den localStorage neu liest und den Header ändert.
     window.location.hash = '#profile';
-    window.location.reload(); 
+    setTimeout(() => { location.reload(); }, 100);
 }
 
-// Event Listener binden
-document.getElementById('finalize-btn')?.addEventListener('click', finalizePZQQETIdentity);
-
-// Prüf-Logik für bereits angemeldete User
-(function initAuthUI() {
-    const currentUser = localStorage.getItem('rfof_username');
-    const wrapper = document.getElementById('auth-content-wrapper');
-    if (currentUser && wrapper) {
-        wrapper.innerHTML = `
-            <div class="mb-6">
-                <div class="inline-block p-4 rounded-full bg-green-500/10 border border-green-500/30 mb-4">
-                    <span class="text-3xl">🛡️</span>
-                </div>
-                <h2 class="text-2xl font-bold text-green-400 tracking-tighter uppercase">Identität Aktiv</h2>
-                <p class="text-[10px] text-gray-500 font-mono mt-1">Verankert als: ${currentUser}</p>
+// Check ob bereits eingeloggt
+(function checkStatus() {
+    const active = localStorage.getItem('rfof_username');
+    if(active) {
+        document.getElementById('auth-dynamic-form').innerHTML = `
+            <div class="py-8">
+                <p class="text-green-400 font-mono text-sm uppercase">Knoten Aktiv: ${active}</p>
+                <button onclick="localStorage.removeItem('rfof_username'); location.reload();" class="mt-6 text-[9px] text-red-500 underline uppercase">Identität entkoppeln</button>
             </div>
-            <button onclick="localStorage.removeItem('rfof_username'); location.reload();" class="w-full bg-red-600/20 text-red-500 py-3 rounded-xl text-xs uppercase font-bold border border-red-500/30">Identität lösen</button>
-            <a href="#profile" class="block mt-4 text-blue-400 text-xs underline">Zurück zum Profil</a>
         `;
     }
 })();
