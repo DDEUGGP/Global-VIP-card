@@ -13,30 +13,36 @@ The consistent emphasis that every new development aims to innovatively address 
 Öffnen Sie die index.html in Ihrem Browser.Autoren@Satoramy-PRAI@RFOF-NETWORK
 
 ```
-Global-VIP-Karte/
-├── .gitignore
-├── LICENSE.rfof
-├── README.md
-├── build.gradle.kts
-├── global-vip-card.html
-├── google-services.json
-├── index.html
-├── index.zip
-├── yarn.lock
-├── CSS/
-│   └── styles.css
-├── App-Modul/
-│   └── build.gradle.kts
-├── Assets/
-│   └── Bilder/
-│       └── Symbole/
-├── js/
-│   ├── app.js
-│   └── components.js
-├── Seiten/
-│   ├── card-generator.html
-│   ├── home.html
-│   ├── profile.html
-│   └── settings.html
+# Repository-Struktur: Global-VIP-card
 
+Der Aufbau folgt dem Prinzip der funktionalen Trennung für das InterBOXSpiderWeb.NET System.
+
+📂 Global-VIP-card (root)
+├── 📂 .github/                # Workflows & GitHub-Konfiguration
+├── 📂 CSS/                    # Design-Definitionen
+│   └── 📄 styles.css          # Basis-Styling der VIP-Interface-Komponenten
+├── 📂 app-module/             # App-spezifische Logik & Build-Konfiguration
+│   └── 📄 build.gradle.kts    # Kotlin DSL Build-Script für das Modul
+├── 📂 assets/
+│   └── 📂 images/
+│       └── 📄 icons           # Visuelle Identifikatoren für die Card
+├── 📂 js/                     # Logikschicht (JavaScript)
+│   ├── 📄 app.js              # Hauptanwendungslogik
+│   ├── 📄 auth-bridge.js      # Identitäts-Schnittstelle & Axiom-Erfolgs-Validierung
+│   └── 📄 components.js       # Modulare UI-Komponenten Beschreibungen
+├── 📂 pages/                  # Struktur der Web-Ansichten (HTML)
+│   ├── 📄 auth.html           # Authentifizierungs-Interface
+│   ├── 📄 card-generator.html # Kern-Funktion zur Generierung der VIP-Card
+│   ├── 📄 home.html           # Zentraler Einstiegspunkt
+│   ├── 📄 profile.html        # Benutzer- & Identitäts-Profil
+│   └── 📄 settings.html       # System- & Klarheits-Konfiguration
+├── 📄 .gitignore              # Ausschlusskriterien für Versionskontrolle
+├── 📄 LICENSE.rfof            # Spezifische RFOF-Lizenzierung
+├── 📄 README.md               # Satoramys Vision & Projektbeschreibung
+├── 📄 build.gradle.kts        # Root Build-Konfiguration
+├── 📄 global-vip-card.html    # Zentrales Dokument der Card
+├── 📄 google-services.json    # Cloud-Integrations-Metadaten
+├── 📄 index.html              # Startseite / Einstieg
+├── 📄 index.zip               # Archivierte Bereitstellungsversion
+└── 📄 yarn.lock               # Deterministische Abhängigkeits-Sperre
 ```
