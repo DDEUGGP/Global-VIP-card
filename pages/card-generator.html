@@ -1,37 +1,70 @@
-<!-- Inhalt für die Seite zum Erstellen der Global VIP Card.
-     Dieser Code wird in das Haupt-Div in global-vip-card.html geladen.
-     Es enthält ein Canvas-Element zum Zeichnen der Karte und ein Formular für die Eingabe. -->
+<div class="bg-white p-6 rounded-3xl shadow-2xl flex flex-col items-center border border-gray-100">
+    <h2 class="text-2xl font-black mb-2 text-center text-gray-900 tracking-tighter">GLOBAL VIP CARD GENERATOR</h2>
+    <p class="text-center text-gray-500 mb-8 text-sm px-4">Wähle dein Land aus der PZQQET-Föderation und präge deine Identität.</p>
 
-<div class="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
-    <h2 class="text-2xl font-bold mb-4 text-center">Global VIP Card Generator</h2>
-    <p class="text-center text-gray-600 mb-6">Wähle dein Land und gib deine Daten ein, um deine digitale VIP Card zu erstellen.</p>
+    <div class="w-full max-w-sm mb-8 space-y-4">
+        <div>
+            <label for="country-select" class="block text-[10px] font-bold text-blue-600 uppercase mb-1 ml-2">#Land_Auswahl</label>
+            <select id="country-select" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 transition-all cursor-pointer">
+                <option value="at">Österreich</option>
+                <option value="be">Belgien</option>
+                <option value="bg">Bulgarien</option>
+                <option value="hr">Kroatien</option>
+                <option value="cy">Zypern</option>
+                <option value="cz">Tschechische Republik</option>
+                <option value="dk">Dänemark</option>
+                <option value="ee">Estland</option>
+                <option value="fi">Finnland</option>
+                <option value="fr">Frankreich</option>
+                <option value="de" selected>Deutschland</option>
+                <option value="gr">Griechenland</option>
+                <option value="hu">Ungarn</option>
+                <option value="ie">Irland</option>
+                <option value="it">Italien</option>
+                <option value="lv">Lettland</option>
+                <option value="lt">Litauen</option>
+                <option value="lu">Luxemburg</option>
+                <option value="mt">Malta</option>
+                <option value="nl">Niederlande</option>
+                <option value="pl">Polen</option>
+                <option value="pt">Portugal</option>
+                <option value="ro">Rumänien</option>
+                <option value="sk">Slowakei</option>
+                <option value="si">Slowenien</option>
+                <option value="es">Spanien</option>
+                <option value="se">Schweden</option>
+            </select>
+        </div>
 
-    <!-- Eingabeformular -->
-    <div class="w-full max-w-sm mb-6">
-        <label for="country-select" class="block text-gray-700 font-bold mb-2">Land auswählen:</label>
-        <select id="country-select" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4">
-            <option value="de">Deutschland</option>
-            <option value="at">Österreich</option>
-            <option value="ch">Schweiz</option>
-            <option value="fr">Frankreich</option>
-            <option value="es">Spanien</option>
-            <option value="it">Italien</option>
-            <option value="pl">Polen</option>
-        </select>
+        <div>
+            <label for="name-input" class="block text-[10px] font-bold text-blue-600 uppercase mb-1 ml-2">#Karten_Inhaber</label>
+            <input type="text" id="name-input" placeholder="Max Mustermann" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 transition-all">
+        </div>
 
-        <label for="name-input" class="block text-gray-700 font-bold mb-2">Name:</label>
-        <input type="text" id="name-input" placeholder="Max Mustermann" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4">
-
-        <label for="id-input" class="block text-gray-700 font-bold mb-2">ID-Nummer:</label>
-        <input type="text" id="id-input" placeholder="1234 5678" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-6">
+        <div>
+            <label for="id-input" class="block text-[10px] font-bold text-blue-600 uppercase mb-1 ml-2">#System_ID_Code</label>
+            <input type="text" id="id-input" placeholder="1234 5678" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 transition-all font-mono">
+        </div>
     </div>
 
-    <!-- Canvas zum Zeichnen der Karte -->
-    <canvas id="vip-card-canvas" width="400" height="250" class="bg-gray-200 rounded-xl shadow-xl border-4 border-gray-300"></canvas>
+    <div class="relative group">
+        <canvas id="vip-card-canvas" width="400" height="250" class="bg-[#0d1117] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] border-2 border-gray-200 transition-transform duration-500 group-hover:scale-[1.02]"></canvas>
+        <div class="absolute inset-0 rounded-2xl pointer-events-none border-2 border-blue-500 opacity-0 group-hover:opacity-10 transition-opacity"></div>
+    </div>
 
-    <!-- Button zum Speichern -->
-    <button id="save-button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg mt-6 transition duration-300">
-        Karte speichern
+    <button id="save-button" class="w-full max-w-sm bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl mt-8 transition duration-300 transform active:scale-95 shadow-xl shadow-blue-200 uppercase tracking-widest text-xs">
+        Karte Finalisieren & Speichern
     </button>
 </div>
 
+<script>
+    // Diese Logik stellt sicher, dass URL-Parameter (?country=at) sofort erkannt werden
+    (function syncGenerator() {
+        const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
+        const countryFromUrl = urlParams.get('country');
+        if (countryFromUrl) {
+            const select = document.getElementById('country-select');
+            if (select) select.value = countryFromUrl;
+        }
+    })();
+</script>
