@@ -124,18 +124,25 @@ const loadReadme = () => {
     const loader = document.getElementById('readme-loader');
     const githubUrl = 'https://raw.githubusercontent.com/DDEUGGP/Global-VIP-card/main/README.md';
 
-    fetch(githubUrl)
-        .then(response => response.text())
-        .then(data => {
-            if(loader) loader.style.display = 'none';
-            display.classList.remove('hidden');
-            display.innerHTML = marked.parse(data);
-        })
-        .catch(() => {
-            if(loader) loader.style.display = 'none';
-            display.classList.remove('hidden');
-            display.innerHTML = marked.parse("# PZQQET-System-Verankerung\n\nFallback geladen.");
-        });
+    // Timeout erzwingen (3 Sekunden)
+    const timeout = new Promise((_, reject) =>
+        setTimeout(() => reject("TIMEOUT"), 3000)
+    );
+
+    Promise.race([
+        fetch(githubUrl).then(r => r.text()),
+        timeout
+    ])
+    .then(data => {
+        if(loader) loader.style.display = 'none';
+        display.classList.remove('hidden');
+        display.textContent = data; // RAW, deterministisch
+    })
+    .catch(() => {
+        if(loader) loader.style.display = 'none';
+        display.classList.remove('hidden');
+        display.textContent = "# PZQQET-System-Verankerung\n\nFallback geladen.";
+    });
 };
 
 loadReadme();
