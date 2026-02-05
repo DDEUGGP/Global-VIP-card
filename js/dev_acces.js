@@ -5,7 +5,7 @@
 
 const MASTER_CONFIG = {
     developer: "@DDEUGGP",
-    github_node: "https://github.com/DDEUGGP", // Dein Repository-Link
+    github_node: "https://github.com/DDEUGGP/Global-VIP-card", // Der Repository-Link
     access_level: "PZQQET_ROOT_ADMIN"
 };
 
