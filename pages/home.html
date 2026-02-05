@@ -119,26 +119,26 @@
     }
 
     // 2. README.md Fetching
-    const loadReadme = () => {
-        const display = document.getElementById('readme-content');
-        const loader = document.getElementById('readme-loader');
-        const githubUrl = 'https://raw.githubusercontent.com/DDEUGGP/Global-VIP-card/main/README.md';
+const loadReadme = () => {
+    const display = document.getElementById('readme-content');
+    const loader = document.getElementById('readme-loader');
+    const githubUrl = 'https://raw.githubusercontent.com/DDEUGGP/Global-VIP-card/main/README.md';
 
-        fetch(githubUrl)
-            .then(response => response.text())
-            .then(data => {
-                if(loader) loader.style.display = 'none';
-                display.classList.remove('hidden');
-                display.textContent = data;
-            })
-            .catch(() => {
-                if(loader) loader.style.display = 'none';
-                display.classList.remove('hidden');
-                display.textContent = "# PZQQET-System-Verankerung\n\nFallback geladen.";
-            });
-    };
+    fetch(githubUrl)
+        .then(response => response.text())
+        .then(data => {
+            if(loader) loader.style.display = 'none';
+            display.classList.remove('hidden');
+            display.innerHTML = marked.parse(data);
+        })
+        .catch(() => {
+            if(loader) loader.style.display = 'none';
+            display.classList.remove('hidden');
+            display.innerHTML = marked.parse("# PZQQET-System-Verankerung\n\nFallback geladen.");
+        });
+};
 
-    loadReadme();
+loadReadme();
   })();
 </script>
 
