@@ -52,13 +52,16 @@
       </div>
     </div>
 
-    <div id="readme-layer-target" class="overflow-y-auto custom-scrollbar h-96 text-green-400 font-mono text-[11px] leading-relaxed italic p-8 bg-black/40 rounded-3xl border border-white/5">
-        <div id="readme-loader" class="flex items-center gap-3">
-            <div class="w-3 h-3 bg-blue-500 rounded-full animate-ping"></div>
-            Synchronisiere mit https://github.com/DDEUGGP/Global-VIP-card...
-        </div>
-        <pre id="readme-content" class="whitespace-pre-wrap hidden font-mono"></pre>
+    <div id="readme-layer-target" class="relative overflow-y-auto custom-scrollbar h-96 text-green-400 font-mono text-[11px] leading-relaxed italic p-8 bg-black/40 rounded-3xl border border-white/5">
+
+    <div id="readme-loader" class="absolute inset-0 flex items-center justify-center gap-3">
+        <div class="w-3 h-3 bg-blue-500 rounded-full animate-ping"></div>
+        Synchronisiere mit https://github.com/DDEUGGP/Global-VIP-card...
     </div>
+
+    <pre id="readme-content" class="whitespace-pre-wrap hidden font-mono"></pre>
+
+</div>
   </section>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pb-24">
