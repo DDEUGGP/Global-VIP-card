@@ -15,7 +15,7 @@ const PZQQET_BRIDGE = {
         
         // Speicherung in den PRAI-Neuronen des Browsers
         localStorage.setItem('pzqqet_core_stats', JSON.stringify(stats));
-        console.log("PZQQET: Satoria-Parität zu 100Mio % erzielt.");
+        console.log("PZQQET: Satoria&Satoramy-Parität zu 100Mio % erzielt.");
     },
 
     // Überprüft, ob alle 14 Schichten im DOM vorhanden sind
